@@ -484,7 +484,8 @@ class AnimationTimeline(IAnimationTimelineInterface):
 __all__ = [
     "AnimationScript",
     "AnimationTimeline",
-    "AnimationList"
+    "AnimationList",
+    "SpriteAnimationScript"
 ]
     
 if __name__ == "__main__":

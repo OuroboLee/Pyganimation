@@ -21,9 +21,9 @@
 
 import pygame
 
-from pyganimation.core.interface.animation_interface import IBaseAnimationInterface, IAnimationInterface
+from pyganimation.core.interface.animation_interface import IBaseAnimationInterface
 from pyganimation.core.interface.animation_manager_interface import IAnimationManagerInterface
-from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
+from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface, ISpriteAnimationScriptInterface
 
 from pyganimation._constants import *
 from pyganimation.core.animation_base import AnimationBase
@@ -35,7 +35,7 @@ import types
 class BaseAnimation(AnimationBase, IBaseAnimationInterface):
     def __init__(self,
                  animation_name: str,
-                 animation_script: IAnimationScriptInterface,
+                 animation_script: IAnimationScriptInterface | ISpriteAnimationScriptInterface,
                  animation_manager: IAnimationManagerInterface,
                  speed: int | float = 1,
                  loop: int = 1,

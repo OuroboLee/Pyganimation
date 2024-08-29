@@ -138,12 +138,15 @@ class IAnimationListInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCM
         pass
 
 class ISpriteAnimationScriptInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCMeta):
-    pass
+    @abstractmethod
+    def get_total_frame(self):
+        pass
 
 __all__ = [
     "IAnimationScriptInterface",
     "IAnimationListInterface",
-    "IAnimationTimelineInterface"
+    "IAnimationTimelineInterface",
+    "ISpriteAnimationScriptInterface"
 ]
 
     
