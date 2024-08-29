@@ -1,0 +1,147 @@
+LINE DEFAULT:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: LINE,
+        INFO: None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(necessary): <start_pos value>,
+        END_POS(necessary): <end_pos value>,
+        BORDER_WIDTH(necessary): <border_width value>,
+        COLOR(necessary): <color value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(not necessary, default = See [1]): <start_pos value>,
+        END_POS(not necessary, default = See [1]): <end_pos value>,
+        BORDER_WIDTH(not necessary, default = See [1]): <border_width value>,
+        COLOR(not necessary, default = See [1]): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        START_POS(not necessary, default = LINEAR): <start_pos interpolate function type>,
+        END_POS(not necessary, default = LINEAR): <end_pos interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(not necessary, default = just-before keyframe's value): <start_pos value>,
+        END_POS(not necessary, default = just-before keyframe's value): <end_pos value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        START_POS(not necessary, default = LINEAR): <start_pos interpolate function type>,
+        END_POS(not necessary, default = LINEAR): <end_pos interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+
+----------------------------------------------------------------
+
+LINE MUTENT 1:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: LINE,
+        INFO: None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        CENTER(necessary): <center value>,
+        RADIUS(necessary): <radius value>,
+        ANGLE(necessary): <angle value>,
+        BORDER_WIDTH(necessary): <border_width value>,
+        COLOR(necessary): <color value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        CENTER(not necessary, default = See [1]): <center value>,
+        RADIUS(not necessary, default = See [1]): <radius value>,
+        ANGLE(not necessary, default = See [1]): <angle value>,
+        BORDER_WIDTH(not necessary, default = See [1]): <border_width value>,
+        COLOR(not necessary, default = See [1]): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        CENTER(not necessary, default = LINEAR): <center interpolate function type>,
+        RADIUS(not necessary, default = LINEAR): <radius interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        CENTER(not necessary, default = just-before keyframe's value): <center value>,
+        RADIUS(not necessary, default = just-before keyframe's value): <radius value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        CENTER(not necessary, default = LINEAR): <center interpolate function type>,
+        RADIUS(not necessary, default = LINEAR): <radius interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+
+
+----------------------------------------------------------------
+
+LINE MUTENT 2:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: LINE,
+        INFO: None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(necessary): <start_pos value>,
+        LENGTH(necessary): <length value>,
+        ANGLE(necessary): <angle value>,
+        BORDER_WIDTH(necessary): <border_width value>,
+        COLOR(necessary): <color value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(not necessary, default = See [1]): <start_pos value>,
+        LENGTH(not necessary, default = See [1]): <length value>,
+        ANGLE(not necessary, default = See [1]): <angle value>,
+        BORDER_WIDTH(not necessary, default = See [1]): <border_width value>,
+        COLOR(not necessary, default = See [1]): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        START_POS(not necessary, default = LINEAR): <start_pos interpolate function type>,
+        LENGTH(not necessary, default = LINEAR): <length interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        START_POS(not necessary, default = just-before keyframe's value): <start_pos value>,
+        LENGTH(not necessary, default = just-before keyframe's value): <length value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        START_POS(not necessary, default = LINEAR): <start_pos interpolate function type>,
+        LENGTH(not necessary, default = LINEAR): <length interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>
+    }
+}
+

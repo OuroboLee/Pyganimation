@@ -1,0 +1,19 @@
+ARC DEFAULT:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: ARC,
+        INFO: (<radius value>)
+    },
+    KEYFRAME_NORMAL_INFO: {
+        
+        ANGLE(not necessary, default = 0): <angle value>,
+        START_ANGLE(not necessary, default)
+        POS(necessary): <pos value>,
+        SCALE(not necessary, default = 1): <scale value>,
+
+    }
+}
+
+------------------------------------------------------
+
+ARC MUTENT 1:

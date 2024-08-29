@@ -1,0 +1,10 @@
+Keyframe vector animation style:
+
+Rest frames and Last-frame must have KEYFRAME_NORMAL_INFO for each key 
+which KEYFRAME_INTERPOLATE_INFO has.
+
+[1] 
+
+Values in KEYFRAME_NORMAL_INFO in rest frames are the corresponding frame interpolation value
+between the last value and the first value in subsequent keyframes 
+if the corresponding key is not given.

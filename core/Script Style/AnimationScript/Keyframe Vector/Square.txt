@@ -1,0 +1,124 @@
+SQUARE DEFAULT:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: SQUARE,
+        INFO: <length value>
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        ANGLE(not necessary, default = 0): <angle value>
+        SCALE(not necessary, default = 1): <scale value>,
+        ALPHA(not necessary, default = 255): <alpha value>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>,
+        BORDER_RADIUS(not necessary, default = -1): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = -1): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = -1): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = -1): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = -1): <bottomright_border_radius value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = See upper description): <pos value>,
+        ANGLE(not necessary, default = See upper description): <angle value>,
+        SCALE(not necessary, default = See upper description): <scale value>,
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>,
+        BORDER_RADIUS(not necessary, default = See upper description): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = See upper description): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = See upper description): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <bottomright_border_radius value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        BORDER_RADIUS(not necessary, default = LINEAR): <border_radius interpolate function type>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <topleft_border_radius interpolate function type>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <topright_border_radius interpolate function type>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomleft_border_radius interpolate function type>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomright_border_radius interpolate function type>
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        SCALE(not necessary, default = just-before keyframe's value): <scale value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}
+
+------------------------------------------------------
+
+SQUARE MUTENT 1:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: SQUARE,
+        INFO: <length value> | 0 | None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        ANGLE(not necessary, default = 0): <angle value>
+        LENGTH(not necessary, default = 1): <length value>,
+        ALPHA(not necessary, default = 255): <alpha value>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = See upper description): <pos value>,
+        ANGLE(not necessary, default = See upper description): <angle value>,
+        length(not necessary, default = See upper description): <length value>,
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        length(not necessary, default = LINEAR): <length interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        LENGTH(not necessary, default = just-before keyframe's value): <length value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        LENGTH(not necessary, default = LINEAR): <length interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}

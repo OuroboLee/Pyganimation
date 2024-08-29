@@ -1,0 +1,109 @@
+======================================================
+
+Normal normal animation style:
+
+For all frames: {
+    IMAGE_INFO: {
+        TARGET: <target value>,
+        RECT: <rect value> | 0
+    },
+    POS: <pos value>,
+    ANGLE: <angle value>,
+    SCALE: <scale value>,
+    ALPHA: <alpha value>,
+    SCALE_ANCHOR: <scale anchor type>,
+    ANGLE_ANCHOR: <angle anchor type>
+}
+
+======================================================
+
+Keyframe normal animation style:
+
+Rest frames and Last-frame must have KEYFRAME_NORMAL_INFO for each key 
+which KEYFRAME_INTERPOLATE_INFO has.
+
+Values in KEYFRAME_NORMAL_INFO in rest frames are the corresponding frame interpolation value
+between the last value and the first value in subsequent keyframes 
+if the corresponding key is not given.
+
+Default:
+
+0-frame: {
+    IMAGE_INFO: {
+        TARGET: <target value>,
+        RECT: <rect value> | 0
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        ANGLE(not necessary, default = 0): <angle value>,
+        SCALE(not necessary, default = (1, 1)): <scale value>,
+        ALPHA(not necessary, default = 255): <alpha value>
+    }
+}
+
+
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary default = See upper description): <pos value>,
+        ANGLE(not necessary, default = See upper description): <angle value>,
+        SCALE(not necessary, default = See upper description): <scale value>,
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        SCALE_ANCHOR(not necessary, default = CENTER): <scale anchor type>,
+        ANGLE_ANCHOR(not necessary, default = CENTER): <angle anchor type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        SCALE(not necessary, default = just-before keyframe's value): <scale value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        SCALE_ANCHOR(not necessary, default = CENTER): <scale anchor type>,
+        ANGLE_ANCHOR(not necessary, default = CENTER): <angle anchor type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+    }
+}
+
+
+
+======================================================
+
+Normal vector animation style:
+
+For all frames: {
+    SHAPE_INFO: {
+        TARGET: <target value>,
+        INFO: <info value(depends on target)>
+    },
+    POS: <pos value>,
+    ANGLE: <angle value>,
+    SCALE: <scale value>,
+    ALPHA: <alpha value>,
+    COLOR: <color value>,
+    BORDER_WIDTH: <border_width value>,
+    BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <border_radius value>,
+    TOPLEFT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <topleft_border_radius value>,
+    TOPRIGHT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <topright_border_radius value>,
+    BOTTOMLEFT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <bottomleft_border_radius value>,
+    BOTTOMRIGHT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <bottomright_border_radius value>
+    START_ANGLE(necessary only if target is ARC | PIE): <start_angle value>,
+    END_ANGLE(necessary only if target is ARC | PIE): <end_angle value>,
+    START_POS(necessary only if target is LINE): <start_pos value>,
+    END_POS(necessary only if target is LINE): <end_pos value>,
+    POS_LIST(necessary only if target is LINES): <pos_list value>
+}
+
+======================================================

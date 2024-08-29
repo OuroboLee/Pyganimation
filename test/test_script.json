@@ -1,0 +1,21 @@
+{
+    "0": {
+        "image_information": {
+            "image": "C:\\Users\\edwar\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\pyganimation\\test\\test_img.png",
+            "rect": 0
+        },
+        "keyframe_normal_info": {
+            "pos": [100, 100]
+        }
+    },
+    "40": {
+        "keyframe_normal_info": {
+            "pos": [200, 200],
+            "scale": [1, 2]
+        },
+        "keyframe_interpolate_info": {
+            "scale": "sin_in",
+            "scale_anchor": "topleft"
+        }
+    }
+}   

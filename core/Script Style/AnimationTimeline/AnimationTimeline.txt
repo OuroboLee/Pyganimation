@@ -1,0 +1,31 @@
+
+Default:
+
+{
+    0: {
+        "<animation_name1>": {
+            "animation_info": None | <animation_info value>,
+            "animation_param": None | <animation_param value>
+        }
+    },
+    40: {
+        "<animation_name2>" : {
+            "animation_info": None | <animation_info value>,
+            "animation_param": None | <animation_param value>
+        },
+        "<animation_name3>" : {
+            "animation_info": None | <animation_info value>,
+            "animation_param": None | <animation_param value>
+        },
+        .
+        .
+        .
+    },
+    .
+    .
+    .
+}
+
+Mutant 1:
+
+[<animation_name1>, [<animation_name2>, <animation_name3>], . . . ]

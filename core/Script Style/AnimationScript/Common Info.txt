@@ -1,0 +1,4 @@
+ANIMATION SCRIPT STYLE
+
+- All pos values are for center of target's rect.
+- View the values of all keys in pyganimation._constants.

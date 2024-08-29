@@ -1,0 +1,36 @@
+{
+    "0": {
+        "image_information": {
+            "target": "c:\\Users\\edwar\\AppData\\Local\\Programs\\Python\\Python312\\Lib\\pyganimation\\examples\\images\\anchoring.png",
+            "rect": null
+        }, 
+        "keyframe_normal_info": {
+            "pos": [512.0, 288.0]
+        }
+    }, 
+    "1": {
+        "keyframe_normal_info": {
+            "scale": [1, 1]
+        }
+    }, 
+    "60": {
+        "keyframe_normal_info": {
+            "pos": [562.0, 288.0],
+            "scale": [2, 1]
+        }, 
+        "keyframe_interpolate_info": {
+            "pos": "instant_out",
+            "scale": "back_in_and_out",
+             "scale_anchor": "midleft"
+        }
+    }, 
+    "120": {
+        "keyframe_normal_info": {
+            "scale": [1, 1]
+        }, 
+        "keyframe_interpolate_info": {
+            "scale": "back_in_and_out", 
+            "scale_anchor": "midright"
+        }
+    }
+}

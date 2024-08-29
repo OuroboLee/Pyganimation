@@ -1,0 +1,41 @@
+
+======================================================
+
+Internally-Used Script Form:
+
+All frames for normal animation script:
+{
+    IMAGE_INFO: {
+        TARGET: <target value>,
+        RECT: <rect value> | 0
+    },
+    POS: <pos value>,
+    ANGLE: <angle value>,
+    SCALE: <scale value>,
+    ALPHA: <alpha value>
+}
+
+All frames for vector animation script:
+{
+    SHAPE_INFO: {
+        TARGET: <target value>,
+        INFO: <info value(depends on target)>
+    },
+    POS: <pos value>,
+    ANGLE: <angle value>,
+    SCALE: <scale value>,
+    ALPHA: <alpha value>,
+    COLOR: <color value>,
+    BORDER_WIDTH: <border_width value>,
+    BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <border_radius value>,
+    TOPLEFT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <topleft_border_radius value>,
+    TOPRIGHT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <topright_border_radius value>,
+    BOTTOMLEFT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <bottomleft_border_radius value>,
+    BOTTOMRIGHT_BORDER_RADIUS(necessary only if target is RECTANGLE | SQUARE): <bottomright_border_radius value>
+    START_ANGLE(necessary only if target is ARC | PIE): <start_angle value>,
+    END_ANGLE(necessary only if target is ARC | PIE): <end_angle value>,
+    START_POS(necessary only if target is LINE): <start_pos value>,
+    END_POS(necessary only if target is LINE): <end_pos value>
+}
+
+======================================================

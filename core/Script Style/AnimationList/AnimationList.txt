@@ -1,0 +1,30 @@
+AnimationList Script
+
+Mutant 1:
+
+{
+    "<Animation Name1 string>": {
+        "animation_type": <Animation type>
+        "animation_script": <AnimationScript value>,
+        "animation_param_info": {
+            "start_frame": <start_frame value>,
+            "end_frame: <end_frame value>,
+            "speed": <speed value>,
+            "loop": <loop value>,
+            "is_visible": <is_visible value>,
+            "is_reversed": <is_reversed value>
+        }
+    },
+    "<Animation Name1 string>":{
+        .
+        .
+        .
+    },
+    .
+    .
+    .
+}
+
+Default:
+
+[BaseAnimation | BaseVectorAnimation | Animation Object(s)]

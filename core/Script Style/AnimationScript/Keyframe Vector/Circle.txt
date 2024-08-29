@@ -1,0 +1,99 @@
+CIRCLE DEFAULT:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: CIRCLE,
+        INFO: <radius value>
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        SCALE(not necessary, default = 1): <scale value>,
+        ALPHA(not necessary, default = 255): <alpha value>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = See upper description): <pos value>,
+        SCALE(not necessary, default = See upper description): <scale value>,
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        SCALE(not necessary, default = just-before keyframe's value): <scale value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}
+
+------------------------------------------------------
+
+CIRCLE MUTENT 1:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: CIRCLE,
+        INFO: <radius value> | None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        RADIUS(necessary): <radius value>,
+        ALPHA(not necessary, default = 255): <alpha value>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = See upper description): <pos value>,
+        RADIUS(not necessary, default = See upper description): <radius value>,
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        RADIUS(not necessary, default = LINEAR): <radius interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        RADIUS(not necessary, default = just-before keyframe's value): <radius value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        RADIUS(not necessary, default = LINEAR): <radius interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+    }
+}

@@ -1,0 +1,244 @@
+RECTANGLE DEFAULT:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: RECTANGLE,
+        INFO: (<top>, <left>, <width>, <height>) | (<width>, <height>)
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS(necessary): <pos value>,
+        ANGLE(not necessary, default = 0): <angle value>,
+        SCALE(not necessary, default = (1, 1)): <scale value>,
+        ALPHA(not necessary, default = 255): <alpha>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>,
+        BORDER_RADIUS(not necessary, default = -1): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = -1): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = -1): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = -1): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = -1): <bottomright_border_radius value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = See upper description): <pos value>,
+        ANGLE(not necessary, default = See upper description): <angle value>,
+        SCALE(not necessary, default = See upper description): <scale value>,
+        ALPHA(not necessary, default = See upper description): <alpha>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>,
+        BORDER_RADIUS(not necessary, default = See upper description): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = See upper description): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = See upper description): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <bottomright_border_radius value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        SCALE_ANCHOR(not necessary, default = CENTER): <scale anchor type>,
+        ALPHA(not necessary, default = LINEAR): <angle interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        BORDER_RADIUS(not necessary, default = LINEAR): <border_radius interpolate function type>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <topleft_border_radius interpolate function type>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <topright_border_radius interpolate function type>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomleft_border_radius interpolate function type>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomright_border_radius interpolate function type>
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS(not necessary, default = just-before keyframe's value): <pos value>,
+        ANGLE(not necessary, default = just-before keyframe's value): <angle value>,
+        SCALE(not necessary, default = just-before keyframe's value): <scale value>,
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        BORDER_RADIUS(not necessary, default = just-before keyframe's value): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <bottomright_border_radius value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS(not necessary, default = LINEAR): <pos interpolate function type>,
+        ANGLE(not necessary, default = LINEAR): <angle interpolate function type>,
+        SCALE(not necessary, default = LINEAR): <scale interpolate function type>,
+        SCALE_ANCHOR(not necessary, default = CENTER): <scale anchor type>,
+        ALPHA(not necessary, default = LINEAR): <angle interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        BORDER_RADIUS(not necessary, default = LINEAR): <border_radius interpolate function type>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <topleft_border_radius interpolate function type>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <topright_border_radius interpolate function type>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomleft_border_radius interpolate function type>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomright_border_radius interpolate function type>,
+    }
+}
+
+------------------------------------------------------
+
+RECTANGLE MUTENT 1:
+0-frame: {
+    SHAPE_INFO: {
+        TARGET: RECTANGLE,
+        INFO: (<top>, <left>, <width>, <height>) | (<width>, <height>) | None
+    },
+    KEYFRAME_NORMAL_INFO: {
+        TOP(See below description): <top value>,
+        LEFT(See below description): <left value>,
+        BOTTOM(See below description): <bottom value>,
+        RIGHT(See below description): <right value>,
+        TOPLEFT(See below description): <topleft value>,
+        TOPMID(See below description): <topmid value>,
+        TOPRIGHT(See below description): <topright value>,
+        MIDLEFT(See below description): <midleft value>,
+        CENTER(See below description): <center value>,
+        MIDRIGHT(See below description): <midright value>,
+        BOTTOMLEFT(See below description): <bottomleft value>,
+        BOTTOMMID(See below description): <bottommid value>,
+        BOTTOMRIGHT(See below description): <bottomright value>,
+        WIDTH(See below description): <width value>,
+        HEIGHT(See below description): <height value>,
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        Not all of the keys listed in the top are required, but some must be given, 
+        and you must be able to create a Rect object with the values assigned to the keys given in the script. 
+        Further examples will be added.
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        ALPHA(not necessary, default = 255): <alpha value>,
+        COLOR(necessary): <color value>,
+        BORDER_WIDTH(not necessary, default = 0): <border_width value>,
+        BORDER_RADIUS(not necessary, default = -1): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = -1): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = -1): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = -1): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = -1): <bottomright_border_radius value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        TOP(See below description, default = See upper description): <top value>,
+        LEFT(See below description, default = See upper description): <left value>,
+        BOTTOM(See below description, default = See upper description): <bottom value>,
+        RIGHT(See below description, default = See upper description): <right value>,
+        TOPLEFT(See below description, default = See upper description): <topleft value>,
+        TOPMID(See below description, default = See upper description): <topmid value>,
+        TOPRIGHT(See below description, default = See upper description): <topright value>,
+        MIDLEFT(See below description, default = See upper description): <midleft value>,
+        CENTER(See below description, default = See upper description): <center value>,
+        MIDRIGHT(See below description, default = See upper description): <midright value>,
+        BOTTOMLEFT(See below description, default = See upper description): <bottomleft value>,
+        BOTTOMMID(See below description, default = See upper description): <bottommid value>,
+        BOTTOMRIGHT(See below description, default = See upper description): <bottomright value>,
+        WIDTH(See below description, default = See upper description): <width value>,
+        HEIGHT(See below description, default = See upper description): <height value>,
+        HALF_WIDTH(See below description, default = See upper description): <half_width value>,
+        HALF_HEIGHT(See below description, default = See upper description): <half_height value>,
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        Not all of the keys listed in the top are required, but some must be given, 
+        and you must be able to create a Rect object with the values assigned to the keys given in the script. 
+        Further examples will be added.
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        ALPHA(not necessary, default = See upper description): <alpha value>,
+        COLOR(not necessary, default = See upper description): <color value>,
+        BORDER_WIDTH(not necessary, default = See upper description): <border_width value>,
+        BORDER_RADIUS(not necessary, default = See upper description): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = See upper description): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = See upper description): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = See upper description): <bottomright_border_radius value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        TOP(not necessary, default = LINEAR): <top interpolate function type>,
+        LEFT(not necessary, default = LINEAR): <left interpolate function type>,
+        BOTTOM(not necessary, default = LINEAR): <bottom interpolate function type>,
+        RIGHT(not necessary, default = LINEAR): <right interpolate function type>,
+        TOPLEFT(not necessary, default = LINEAR): <topleft interpolate function type>,
+        TOPMID(not necessary, default = LINEAR): <topmid interpolate function type>,
+        TOPRIGHT(not necessary, default = LINEAR): <topright interpolate function type>,
+        MIDLEFT(not necessary, default = LINEAR): <midleft interpolate function type>,
+        CENTER(not necessary, default = LINEAR): <center interpolate function type>,
+        MIDRIGHT(not necessary, default = LINEAR): <midright interpolate function type>,
+        BOTTOMLEFT(not necessary, default = LINEAR): <bottomleft interpolate function type>,
+        BOTTOMMID(not necessary, default = LINEAR): <bottommid interpolate function type>,
+        BOTTOMRIGHT(not necessary, default = LINEAR): <bottomright interpolate function type>,
+        WIDTH(not necessary, default = LINEAR): <width interpolate function type>,
+        HEIGHT(not necessary, default = LINEAR): <height interpolate function type>,
+        HALF_WIDTH(not necessary, default = LINEAR): <half_width interpolate function type>,
+        HALF_HEIGHT(not necessary, default = LINEAR): <half_height interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        BORDER_RADIUS(not necessary, default = LINEAR): <border_radius interpolate function type>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <topleft_border_radius interpolate function type>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <topright_border_radius interpolate function type>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomleft_border_radius interpolate function type>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomright_border_radius interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        TOP(See below description, default = just-before keyframe's value): <top value>,
+        LEFT(See below description, default = just-before keyframe's value): <left value>,
+        BOTTOM(See below description, default = just-before keyframe's value): <bottom value>,
+        RIGHT(See below description, default = just-before keyframe's value): <right value>,
+        TOPLEFT(See below description, default = just-before keyframe's value): <topleft value>,
+        TOPMID(See below description, default = just-before keyframe's value): <topmid value>,
+        TOPRIGHT(See below description, default = just-before keyframe's value): <topright value>,
+        MIDLEFT(See below description, default = just-before keyframe's value): <midleft value>,
+        CENTER(See below description, default = just-before keyframe's value): <center value>,
+        MIDRIGHT(See below description, default = just-before keyframe's value): <midright value>,
+        BOTTOMLEFT(See below description, default = just-before keyframe's value): <bottomleft value>,
+        BOTTOMMID(See below description, default = just-before keyframe's value): <bottommid value>,
+        BOTTOMRIGHT(See below description, default = just-before keyframe's value): <bottomright value>,
+        WIDTH(See below description, default = just-before keyframe's value): <width value>,
+        HEIGHT(See below description, default = just-before keyframe's value): <height value>,
+        HALF_WIDTH(See below description, default = just-before keyframe's value): <half_width value>,
+        HALF_HEIGHT(See below description, default = just-before keyframe's value): <half_height value>,
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        Not all of the keys listed in the top are required, but some must be given, 
+        and you must be able to create a Rect object with the values assigned to the keys given in the script. 
+        Further examples will be added.
+        . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+        ALPHA(not necessary, default = just-before keyframe's value): <alpha value>,
+        COLOR(not necessary, default = just-before keyframe's value): <color value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        BORDER_RADIUS(not necessary, default = just-before keyframe's value): <border_radius value>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <topleft_border_radius value>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <topright_border_radius value>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <bottomleft_border_radius value>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = just-before keyframe's value): <bottomright_border_radius value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        TOP(not necessary, default = LINEAR): <top interpolate function type>,
+        LEFT(not necessary, default = LINEAR): <left interpolate function type>,
+        BOTTOM(not necessary, default = LINEAR): <bottom interpolate function type>,
+        RIGHT(not necessary, default = LINEAR): <right interpolate function type>,
+        TOPLEFT(not necessary, default = LINEAR): <topleft interpolate function type>,
+        TOPMID(not necessary, default = LINEAR): <topmid interpolate function type>,
+        TOPRIGHT(not necessary, default = LINEAR): <topright interpolate function type>,
+        MIDLEFT(not necessary, default = LINEAR): <midleft interpolate function type>,
+        CENTER(not necessary, default = LINEAR): <center interpolate function type>,
+        MIDRIGHT(not necessary, default = LINEAR): <midright interpolate function type>,
+        BOTTOMLEFT(not necessary, default = LINEAR): <bottomleft interpolate function type>,
+        BOTTOMMID(not necessary, default = LINEAR): <bottommid interpolate function type>,
+        BOTTOMRIGHT(not necessary, default = LINEAR): <bottomright interpolate function type>,
+        WIDTH(not necessary, default = LINEAR): <width interpolate function type>,
+        HEIGHT(not necessary, default = LINEAR): <height interpolate function type>,
+        HALF_WIDTH(not necessary, default = LINEAR): <half_width interpolate function type>,
+        HALF_HEIGHT(not necessary, default = LINEAR): <half_height interpolate function type>,
+        ALPHA(not necessary, default = LINEAR): <alpha interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        BORDER_RADIUS(not necessary, default = LINEAR): <border_radius interpolate function type>,
+        TOPLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <topleft_border_radius interpolate function type>,
+        TOPRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <topright_border_radius interpolate function type>,
+        BOTTOMLEFT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomleft_border_radius interpolate function type>,
+        BOTTOMRIGHT_BORDER_RADIUS(not necessary, default = LINEAR): <bottomright_border_radius interpolate function type>,
+    }
+}

@@ -1,0 +1,55 @@
+LINES DEFAULT: 
+
+0-frame:{
+    SHAPE_INFO: {
+        TARGET: LINES,
+        INFO: None | 0,
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS_LIST(necessary): <pos_list value>,
+        BORDER_WIDTH(necessary): <border_width value>,
+        COLOR(necessary): <color value>
+    }
+}
+
+Rest frames: {
+    KEYFRAME_NORMAL_INFO: {
+        POS_LIST(not necessary, default = See [1]): <pos_list value>,
+        BORDER_WIDTH(not necessary, default = See [1]): <border_width value>,
+        COLOR(not necessary, cefault = See [1]): <color value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS_LIST(not necessary, default = LINEAR): <pos_list interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+    }
+}
+
+Last-frame: {
+    KEYFRAME_NORMAL_INFO: {
+        POS_LIST(not necessary, default = just-before keyframe's value): <pos_list value>,
+        BORDER_WIDTH(not necessary, default = just-before keyframe's value): <border_width value>,
+        COLOR(not necessary, cefault = just-before keyframe's value): <color value>
+    },
+    KEYFRAME_INTERPOLATE_INFO: {
+        POS_LIST(not necessary, default = LINEAR): <pos_list interpolate function type>,
+        BORDER_WIDTH(not necessary, default = LINEAR): <border_width interpolate function type>,
+        COLOR(not necessary, default = LINEAR): <color interpolate function type>,
+    }
+}
+
+------------------------------------------------------------
+
+LINES MUTENT 1:
+
+0-frame:{
+    SHAPE_INFO: {
+        TARGET: LINES,
+        INFO: None | 0,
+    },
+    KEYFRAME_NORMAL_INFO: {
+        POS_LIST(necessary): <pos_list value>,
+        BORDER_WIDTH(necessary): <border_width value>,
+        COLOR(necessary): <color value>
+    }
+}
