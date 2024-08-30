@@ -23,53 +23,14 @@ import pygame
 
 from pygame import Rect
 
-from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface, IAnimationTimelineInterface, IAnimationListInterface, ISpriteAnimationScriptInterface
+from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
+from pyganimation.core.script_validation_check import *
 from pyganimation.core.animation_file_manager import load
 from pyganimation.core.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
 from pyganimation._constants import *
 
 import os, types
 import pprint
-
-JSON = ".json"
-
-##### Check Functions #####
-
-def _pathlike_str_validation_check(script: str) -> None:
-    assert os.path.exists(script), "Invalid path."
-    assert os.path.splitext(script)[1] == JSON, "Target file must be json file."
-
-def _coordinate_validation_check(value: list | tuple, key: str, frame_num: int, is_keyframe: bool) -> None:
-    if is_keyframe:
-        assert type(value) in (list, tuple), f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame."
-        assert len(value) == 2, f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame."
-
-        for i in range(2):
-            assert type(value[i]) in (int, float), f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame."
-            
-    else:
-        assert type(value) in (list, tuple), f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame."
-        assert len(value) == 2, f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame."
-
-        for i in range(2):
-            assert type(value[i]) in (int, float), f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame."
-
-def _color_validation_check(value: list | tuple, frame_num: int, is_keyframe: bool) -> None:
-    if is_keyframe:
-        assert type(value) in (list, tuple), f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame."
-        assert len(value) == 3, f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame."
-
-        for i in range(3):
-            assert type(value[i]) in (int, float), f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame."
-            assert value[i] >= 0 and value[i] < 255, f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame." 
-
-    else:
-        assert type(value) in (list, tuple), f"Invalid color-style object in 'color' in No.{frame_num} frame."
-        assert len(value) == 3, f"Invalid color-style object in 'color' in No.{frame_num} frame."
-
-        for i in range(3):
-            assert type(value[i]) in (int, float), f"Invalid color-style object in 'color' in No.{frame_num} frame."
-            assert value[i] >= 0 and value[i] < 255, f"Invalid color-style object in 'color' in No.{frame_num} frame." 
 
 ##### Vector #####
 
@@ -365,131 +326,14 @@ class AnimationScript(IAnimationScriptInterface):
     def __getitem__(self, key: int) -> dict:
         return self._final_script[key]
     
-class SpriteAnimationScript(ISpriteAnimationScriptInterface):
-    def __init__(self,
-                 script: list | str,
-                 debugging: bool = False
-                 ):
-        self._script_path = None
-        self._primitive_script = None
 
-        self._final_script = dict()
 
-    def __str__(self) -> str:
-        pass
 
-    def __repr__(self) -> str:
-        pass
-
-    def __getitem__(self, key: int) -> dict:
-        pass
-
-class AnimaitionList(IAnimationListInterface):
-    def __init__(self,
-                 script: list | dict | str,
-                 debugging: bool = False):
-        assert type(script) in (list, dict, str), "Script Parameter must be among path-like str that represents json format file, Python dict, or Python list."
-
-        self._primitive_script = None
-        self._script_path = None
-
-        self._debugging = debugging
-
-        self._final_script = list()
-
-        if type(script) == str:
-            _pathlike_str_validation_check(script)
-
-            self._script_path = script
-            self._primitive_script = load(script)
-
-            self._dict_or_list_style_script_process(self._primitive_script)
-
-        else:
-            self._dict_or_list_style_script_process(script)
-
-    def _dict_or_list_style_script_process(self, script: dict | list) -> types.NoneType:
-        if type(script) == list:
-            pass
-
-        elif type(script) == dict:
-            pass
-
-    def get_name_list(self) -> list[str]:
-        result_list = list()
-        for anim in self._final_script:
-            result_list.append(anim.animation_name)
-
-    def __str__(self) -> str:
-        pass
-
-    def __repr__(self) -> str:
-        pass
-
-    def __len__(self) -> int:
-        return len(self._final_script)
- 
-    def __getitem__(self, key: str) -> dict:
-        pass
     
-class AnimationTimeline(IAnimationTimelineInterface):
-    def __init__(self,
-                 script: list | dict | str,
-                 debugging: bool = False
-                ):
-        """
-        """
-        assert type(script) in (list, dict, str), "Script Parameter must be among path-like str that represents json format file, Python dict, or Python list."
 
-        self._primitive_script = None
-        self._script_path = None
-        self._debugging = debugging
-
-        if type(script) == str:
-            _pathlike_str_validation_check(script)
-            
-            self._script_path = script
-            self._primitive_script = load(script)
-        
-        else:
-            pass
-        
-        
-        self._final_script = dict()
-
-
-
-
-
-        self._total_frame = 0
-
-    def get_total_frame(self):
-        return self._total_frame
-    
-    def set_total_frame(self, value: int):
-        if self._total_frame == 0:
-            self._total_frame = value
-
-    def _script_validation_check(self):
-        pass
-
-    def timeline_validation_check(self, animation_list: IAnimationListInterface):
-        pass
-
-    def __str__(self) -> str:
-        return f"<AnimationTimeline Object (Total Frame: {self._total_frame}))>"
-    
-    def __repr__(self) -> str:
-        return pprint.pformat(self._final_script, 4, 300)
-    
-    def __getitem__(self, key: int) -> dict:
-        return self._final_script[key]
     
 __all__ = [
-    "AnimationScript",
-    "AnimationTimeline",
-    "AnimationList",
-    "SpriteAnimationScript"
+    "AnimationScript"
 ]
     
 if __name__ == "__main__":
