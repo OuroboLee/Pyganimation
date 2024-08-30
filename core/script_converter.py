@@ -50,7 +50,7 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
     }
     
     result_script[0] = {
-        IMAGE_INFO: image_info,
+        IMAGE_INFO: None,
         POS: None,
         ANGLE: None,
         ANGLE_ANCHOR: None,
@@ -66,6 +66,8 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
             )
     
     # POS
+
+    image_info_normal_script = None
 
     pos_normal_script = component_keyframe_to_normal(
         convert_component(POS, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, target_script, debugging),
@@ -134,7 +136,11 @@ def keyframe_vector_to_normal_vector(target_script: dict, debugging: bool = Fals
 
 ##### Assistant Functions #####
 
-def get_anchor(current_frame_num: int, target_anchor: str, target_script: dict, debugging: bool = False) -> str:
+def get_anchor(current_frame_num: int, 
+               target_anchor: str, 
+               target_script: dict, 
+               debugging: bool = False) -> str:
+    
     if current_frame_num == 0:
         return get_anchor(1, target_anchor, target_script, debugging)
 
@@ -156,12 +162,41 @@ def get_anchor(current_frame_num: int, target_anchor: str, target_script: dict, 
             else:
                 return get_anchor(target_keyframe_number + 1, target_anchor, target_script, debugging)
         else: return get_anchor(target_keyframe_number+ 1, target_anchor, target_script, debugging)
+
+def get_info(current_frame_num: int, 
+             target_info: str, 
+             target_script: dict,
+             debugging: bool = False) -> dict:
+
+    keyframe_numbers = list(target_script.keys())
+    target_keyframe_number = find_most_close_keyframe_before_frame_number(current_frame_num, keyframe_numbers)
+
+    if target_info in target_script[target_keyframe_number].keys():
+        return target_script[target_keyframe_number][target_info]
+    
+    else:
+        if target_keyframe_number == 0:
+            return target_script[target_keyframe_number][target_info]
+        else:
+            return get_info(target_keyframe_number - 1, target_info, target_script, debugging)
             
 def find_most_close_keyframe_after_frame_number(frame_num: int, target_keyframe_list: list[int]):
     for keyframe_number in target_keyframe_list[1:]:
         if keyframe_number >= frame_num: return keyframe_number
 
-def component_keyframe_to_normal(target_compo_dict: dict, target_compo: str, debugging: bool = False) -> dict:
+def find_most_close_keyframe_before_frame_number(frame_num: int,
+                                                 target_keyframe_list: list[int]):
+    for keyframe_number in target_keyframe_list[::-1]:
+        if keyframe_number <= frame_num: return keyframe_number
+
+def image_or_shape_info_keyframe_to_normal(target_compo_dict: dict, 
+                                           target_compo: str, 
+                                           debugging: bool = False) -> dict:
+    pass
+
+def component_keyframe_to_normal(target_compo_dict: dict, 
+                                 target_compo: str, 
+                                 debugging: bool = False) -> dict:
 
     result_dict = {
         0: {
@@ -269,8 +304,31 @@ def component_interpolate(target_compo: str, start_frame_info: dict, end_frame_i
 
     return result_dict
 
+def convert_image_or_shape_info(target_info: str,
+                                target_script: dict,
+                                debugging: bool = False) -> dict:
+    """
+    :param target_info: Target script info. IMAGE_INFO / SHAPE_INFO
+    :param target_script: Target keyframe script.
+    :param debugging:
+    """
+    result_dict = dict()
+    last_frame_num = list(target_script.keys())[-1]
 
-def convert_component(target_compo: str, script_type: str, target_script: dict, debugging: bool = False) -> dict:
+    for frame_num, frame in target_script.items():
+        new_frame = dict()
+
+        if frame_num == 0:
+            new_frame[target_info] = frame[target_info].copy()
+
+        else:
+            new_frame[target_info] = get_info(frame_num, target_info, target_script, debugging)
+
+
+def convert_component(target_compo: str, 
+                      script_type: str, 
+                      target_script: dict, 
+                      debugging: bool = False) -> dict:
     """
     :param target_compo: Target script component. Ex) POS, ANGLE, . . . 
     :param script_type: Script Type. SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION or SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION
