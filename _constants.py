@@ -190,7 +190,7 @@ HALF_HEIGHT = "half_height"
 # Default
 
 KEYFRAME_NORMAL_ZERO_FRAME_DEFAULT = {
-    POS: None, 
+    POS: (0, 0), 
     ANGLE: 0,
     SCALE: (1, 1),
     ALPHA: 255

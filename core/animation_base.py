@@ -251,8 +251,10 @@ class AnimationBase(IAnimationBaseInterface):
         return self._speed
     
     def _set_speed(self, speed: int | float) -> None:
-        if type(speed) not in (int, float): "Speed must be int | float larger than 0."
-        if speed <= 0: "Speed must be int | float larger than 0."
+        if type(speed) not in (int, float): 
+            raise ValueError("Speed must be int | float larger than 0.")
+        if speed <= 0:
+            raise ValueError("Speed must be int | float larger than 0.")
         self._speed = speed
 
     speed = property(_get_speed, _set_speed)
