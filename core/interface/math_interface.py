@@ -5,4 +5,13 @@ from pyganimation.core.interface.animation_script_interface import IAnimationScr
 from pyganimation._constants import *
 
 class IBezierCurveInterface(metaclass = ABCMeta):
-    pass
+    def __init__(self,
+                 points: list | tuple):
+        
+
+        pass
+
+    def __str__(self) -> str:
+        pass
+
+    
