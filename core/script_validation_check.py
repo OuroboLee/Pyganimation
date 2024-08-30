@@ -1,14 +1,20 @@
-import os
+import os, types
 
 JSON = ".json"
 
 ##### Check Functions #####
 
-def _pathlike_str_validation_check(script: str) -> None:
-    if not os.path.exists(script):
-        raise ValueError("Invalid path.")
-    if os.path.splitext(script)[1] != JSON:
-        raise ValueError("Target file must be json file.")
+def _script_pathlike_str_validation_check(script: str, idx: int | types.NoneType = None) -> None:
+    if idx is not None:
+        if not os.path.exists(script):
+            raise ValueError("Invalid path.")
+        if os.path.splitext(script)[1] != JSON:
+            raise ValueError("Target file must be json file.")
+    else:
+        if not os.path.exists(script):
+            raise ValueError(f"Invalid path in index {idx}.")
+        if os.path.splitext(script)[1] != JSON:
+            raise ValueError(f"Target file must be json file in index {idx}.")
 
 def _coordinate_validation_check(value: list | tuple, key: str, frame_num: int, is_keyframe: bool) -> None:
     if is_keyframe:
@@ -53,7 +59,7 @@ def _color_validation_check(value: list | tuple, frame_num: int, is_keyframe: bo
                 raise ValueError(f"Invalid color-style object in 'color' in No.{frame_num} frame.")
 
 __all__ = [
-    "_pathlike_str_validation_check",
+    "_script_pathlike_str_validation_check",
     "_coordinate_validation_check",
     "_color_validation_check"
 ]

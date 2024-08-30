@@ -20,7 +20,7 @@ class AnimaitionList(IAnimationListInterface):
         self._final_script = list()
 
         if type(script) == str:
-            _pathlike_str_validation_check(script)
+            _script_pathlike_str_validation_check(script)
 
             self._script_path = script
             self._primitive_script = load(script)

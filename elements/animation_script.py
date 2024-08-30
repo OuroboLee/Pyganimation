@@ -43,7 +43,7 @@ class AnimationScript(IAnimationScriptInterface):
     def __init__(self,
                  script: str | dict[dict] | list[dict],
                  debugging: bool = False):
-        assert type(script) in (str, dict, list), "Script Parameter must be among path-like str that represents json format file, Python dict, or Python list."
+        assert type(script) in (str, dict, list), "Script parameter must be among path-like str that represents json format file, Python dict, or Python list."
 
         self.debugging = debugging
 
@@ -53,7 +53,7 @@ class AnimationScript(IAnimationScriptInterface):
         self._final_script = dict()
 
         if type(script) == str:
-            _pathlike_str_validation_check(script)
+            _script_pathlike_str_validation_check(script)
 
             self._script_path = script
             self._primitive_script = load(self._script_path)
