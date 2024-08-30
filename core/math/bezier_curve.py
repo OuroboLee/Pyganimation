@@ -1,6 +1,7 @@
 from pyganimation.core.interface.math_interface import IBezierCurveInterface
 from pyganimation.core.script_validation_check import _coordinate_validation_check
 from itertools import pairwise
+from math import atan, degrees
 
 class BezierCurve(IBezierCurveInterface):
     def __init__(self,
@@ -22,8 +23,9 @@ class BezierCurve(IBezierCurveInterface):
                 
         
         self._points = points
+        self._delta = 0.001
     
-    def _get_final_dot(self, t: float, points: list[tuple]) -> list[tuple] | tuple[float, float]:
+    def _get_final_pos(self, t: float, points: list[tuple]) -> list[tuple] | tuple[float, float]:
         new_points = list()
         for pair in list(pairwise(points)):
             new_points.append(
@@ -32,19 +34,35 @@ class BezierCurve(IBezierCurveInterface):
             )
 
         if len(new_points) > 1:
-            return self._get_final_dot(t, new_points)
+            return self._get_final_pos(t, new_points)
         else:
             return new_points[0]
         
-    def get_dot(self, step: float):
+    def get_pos(self, step: float):
         if type(step) != float:
             raise TypeError("Step must be float type value between 0 and 1.")
         if step < 0 or step > 1:
             raise ValueError("Step must be float type value between 0 and 1.")
         
-        return self._get_final_dot(step, self._points)
+        return self._get_final_pos(step, self._points)
+    
+    def get_angle(self, step: float):
+        if type(step) != float:
+            raise TypeError("Step must be float type value between 0 and 1.")
+        if step < 0 or step > 1:
+            raise ValueError("Step must be float type value between 0 and 1.")
+        
+        pos1 = self._get_final_pos(step - self._delta, self._points)
+        pos2 = self._get_final_pos(step + self._delta, self._points)
+
+        slope = (pos2[1] - pos1[1]) / (pos2[0] - pos1[0])
+
+        return degrees(atan(slope))
+
+
         
 if __name__ == "__main__":
-    bezier = BezierCurve([(0, 0), (10, 10), (20, 20)])
+    bezier = BezierCurve([(0, 0), (10, 10), (30, 20)])
 
-    print(bezier.get_dot(0.5))
+    print(bezier.get_pos(0.5))
+    print(bezier.get_angle(0.3))

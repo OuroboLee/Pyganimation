@@ -36,6 +36,9 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
             self._dict_or_list_style_script_process(script)
 
     def _dict_or_list_style_script_process(self, script: dict | list) -> None:
+        if type(script[-1]) not in (int, list, tuple):
+            raise ValueError("Frame Information is not given.")
+
         middle_script = dict()
 
         if type(script[-1]) == int:  # Mutant 1
@@ -54,10 +57,37 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
 
         elif type(script[-1]) in (list, tuple): # Mutant 2
             frame_length_info = script[-1]
-            pass
+
+            if type(frame_length_info) not in (list, tuple):
+                raise TypeError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positive int values.")
+            if len(frame_length_info) != len(script) - 1:
+                raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positive int values.")
+            for frame_length in frame_length_info:
+                if type(frame_length) != int:
+                    raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positiveint values.")
+                if frame_length <= 0:
+                    raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positiveint values.")
+            
+            middle_script[0] = {
+                IMAGE_INFO: self._image_info_process(script[0], 0)
+            }
+            acc_sum = 0
+
+            for idx, image in enumerate(script[:-1]):
+                middle_script[acc_sum + 1] = {
+                    IMAGE_INFO: self._image_info_process(image, idx)
+                }
+
+                acc_sum += frame_length_info[idx]
+
+            middle_script[acc_sum] = {
+                IMAGE_INFO: self._image_info_process(script[-2], len(script) - 1)
+            }
+
         print(middle_script)
 
         self._final_script = keyframe_normal_to_normal_normal(middle_script, self._debugging)
+        self._total_frame = len(self._final_script)
 
     def _image_info_process(self, image_info: dict | str | pygame.Surface, idx: int) -> dict:
         if type(image_info) not in (dict, str, pygame.Surface):
@@ -110,7 +140,7 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
             }
         
     def get_total_frame(self):
-        pass
+        return self._total_frame
 
     def __str__(self) -> str:
         return str(self._final_script)
@@ -129,6 +159,7 @@ if __name__ == "__main__":
     sprite_animation_script = [
         pygame.Surface((30, 30)),
         pygame.Surface((50, 50)),
-        20
+        (10, 20)
     ]
     final_script = SpriteAnimationScript(sprite_animation_script)
+    print(final_script)

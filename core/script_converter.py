@@ -3,18 +3,89 @@
 # normal-normal / normal-vector dict style script
 # that is used in AnimationScript objects.
 #
+# Converting Process:
+# 
+# Example Keyframe Script:
+# {
+#     0: {
+#         IMAGE_INFO: {
+#             TARGET: example_image,
+#             RECT: None
+#         },
+#         KEYFRAME_NORMAL_INFO: {
+#             POS: (400, 200)
+#         }
+#     },
+#     1: {
+#         KEYFRAME_NORMAL_INFO: {
+#             POS: (400, 200)
+#         }
+#     },
+#     60: {
+#         KEYFRAME_NORMAL_INFO: {
+#             POS: (600, 400)
+#         },
+#         KEYFRAME_INTERPOLATE_INFO: {
+#             POS: SIN_IN_AND_OUT
+#         }
+#     },
+#     120: {
+#         KEYFRAME_NORMAL_INFO: {
+#             POS: (800, 200)
+#         },
+#         KEYFRAME_INTERPOLATE_INFO: {
+#             POS: BACK_IN_AND_OUT
+#         }
+#     },
+#     180: {
+#         KEYFRAME_NORMAL_INFO: {
+#             POS: (400, 200)
+#         },
+#         KEYFRAME_INTERPOLATE_INFO: {
+#             POS: EXPO_IN
+#         }
+#     }
+# }
+#                   |
+#                   V
+# 1. Seperate each components. (Example is only for POS.)
+# If there is a value not given, converter will autometically guess the value.
+# {
+#     0: {
+#         KEYFRAME_NORMAL_INFO: (400, 200)
+#     },
+#     1: {
+#         KEYFRAME_NORMAL_INFO: (400, 200),
+#         KEYFRAME_INTERPOLATE_INFO: LINEAR
+#     },
+#     60: {
+#         KEYFRAME_NORMAL_INFO: (600, 400),
+#         KEYFRAME_INTERPOLATE_INFO: SIN_IN_AND_OUT
+#     },
+#     120: {
+#         KEYFRAME_NORMAL_INFO: (800, 200),
+#         KEYFRAME_INTERPOLATE_INFO: BACK_IN_AND_OUT
+#     },
+#     180: {
+#         KEYFRAME_NORMAL_INFO: (400, 200),
+#         KEYFRAME_INTERPOLATE_INFO: EXPO_IN
+#     }
+# }
+#                   |
+#                   V
+# 2. Perform interpolation work for each component's dict.
+# (Example will be added.)
+#
+# 3. Combine each component's dict into normal-style dict.
+# (Example will be added.)
+#
+#
+#
+#
+#
+#
+#
 # Only for internal use.
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
-#
 #
 # TODO: Making vector script converter
 #
