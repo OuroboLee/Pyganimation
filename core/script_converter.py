@@ -420,14 +420,14 @@ def convert_component(target_compo: str,
     
 def search_most_lately_presented_compo(target_script: dict, script_type: str, target_compo: str, frame_num: int) -> Any:
     if frame_num == 0:
-        if target_compo not in target_script[frame_num][KEYFRAME_NORMAL_INFO]:
+        if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO]:
+            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
+        else:
             if script_type == SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION:
                 return KEYFRAME_NORMAL_ZERO_FRAME_DEFAULT[target_compo]
             
             elif script_type == SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION:
                 return KEYFRAME_VECTOR_ZERO_FRAME_DEFAULT[target_compo]
-        else:
-            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
         
     else:
         if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO].keys():
@@ -446,29 +446,31 @@ if __name__ == "__main__" :
             IMAGE_INFO: {
                 TARGET: pygame.Surface((50, 50)),
                 RECT: 0
-            },
-            KEYFRAME_NORMAL_INFO: {
-                POS: (0, 0),
-                SCALE: (1, 1),
+            }
+        },
+        1: {
+            IMAGE_INFO: {
+                TARGET: pygame.Surface((50, 50)),
+                RECT: 0
             }
         },
         20: {
-            KEYFRAME_NORMAL_INFO: {
-                ALPHA: 128,
-                SCALE: (0.7, 1.3)
-            },
-            KEYFRAME_INTERPOLATE_INFO: {
-                SCALE: SIN_IN,
-                SCALE_ANCHOR: TOPMID
+            IMAGE_INFO: {
+                TARGET: pygame.Surface((40, 40)),
+                RECT: 0
             }
+            
         },
         40: {
-            KEYFRAME_NORMAL_INFO: {
-                SCALE: (1, 1),
-            },
-            KEYFRAME_INTERPOLATE_INFO: {
-                SCALE: SIN_IN,
-                SCALE_ANCHOR: TOPMID
+            IMAGE_INFO: {
+                TARGET: pygame.Surface((30, 30)),
+                RECT: 0
+            }
+        },
+        60: {
+            IMAGE_INFO: {
+                TARGET: pygame.Surface((30, 30)),
+                RECT: 0
             }
         }
     }
