@@ -44,13 +44,14 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
     result_script = dict()
 
     target_image = target_script[0][IMAGE_INFO][TARGET]
+
     image_info = {
         TARGET: target_image if type(target_image) == pygame.Surface else pygame.image.load(target_image),
         RECT: target_script[0][IMAGE_INFO][RECT]
     }
     
     result_script[0] = {
-        IMAGE_INFO: None,
+        IMAGE_INFO: image_info,
         POS: None,
         ANGLE: None,
         ANGLE_ANCHOR: None,
@@ -67,7 +68,12 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
     
     # POS
 
-    image_info_normal_script = None
+    image_info_normal_script = image_or_shape_info_keyframe_to_normal(
+        convert_image_or_shape_info(IMAGE_INFO, target_script, debugging),
+        IMAGE_INFO,
+        debugging
+    )
+    print(image_info_normal_script)
 
     pos_normal_script = component_keyframe_to_normal(
         convert_component(POS, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, target_script, debugging),
@@ -118,7 +124,7 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
 
     for i in range(1, list(target_script.keys())[-1] + 1):
         result_script |= {
-            i : {IMAGE_INFO: image_info,
+            i : {IMAGE_INFO: image_info_normal_script[i][IMAGE_INFO],
                  POS: pos_normal_script[i][POS],
                  ANGLE: angle_normal_script[i][ANGLE],
                  ANGLE_ANCHOR: angle_anchor_normal_script[i],
@@ -189,10 +195,33 @@ def find_most_close_keyframe_before_frame_number(frame_num: int,
     for keyframe_number in target_keyframe_list[::-1]:
         if keyframe_number <= frame_num: return keyframe_number
 
-def image_or_shape_info_keyframe_to_normal(target_compo_dict: dict, 
-                                           target_compo: str, 
+def image_or_shape_info_keyframe_to_normal(target_info_dict: dict, 
+                                           target_info: str, 
                                            debugging: bool = False) -> dict:
-    pass
+    result_dict = dict()
+
+    keyframe_number_pair = list(pairwise(target_info_dict.keys()))
+
+    for pair in keyframe_number_pair:
+        for i in range(pair[0], pair[1] + 1):
+            target = target_info_dict[pair[0]][target_info][TARGET]
+            if target_info == IMAGE_INFO:
+                result_dict[i] = {
+                    target_info: {
+                        TARGET: target if type(target) == pygame.Surface else pygame.image.load(target),
+                        RECT: target_info_dict[pair[0]][target_info][RECT]
+                    }   
+                }
+
+            elif target_info == SHAPE_INFO:
+                result_dict[i] = {
+                    target_info: {
+                        TARGET: target,
+                        INFO: target_info_dict[pair[0]][target_info][INFO]
+                    }
+                }
+
+    return result_dict
 
 def component_keyframe_to_normal(target_compo_dict: dict, 
                                  target_compo: str, 
@@ -313,16 +342,22 @@ def convert_image_or_shape_info(target_info: str,
     :param debugging:
     """
     result_dict = dict()
-    last_frame_num = list(target_script.keys())[-1]
 
     for frame_num, frame in target_script.items():
         new_frame = dict()
 
-        if frame_num == 0:
-            new_frame[target_info] = frame[target_info].copy()
-
+        if target_info in frame.keys():
+            new_frame[target_info] = frame[target_info]
         else:
-            new_frame[target_info] = get_info(frame_num, target_info, target_script, debugging)
+            new_frame[target_info] = get_info(frame_num, 
+                                              target_info, 
+                                              target_script, 
+                                              debugging)
+        
+        result_dict |= {frame_num: new_frame}
+
+    return result_dict
+
 
 
 def convert_component(target_compo: str, 
