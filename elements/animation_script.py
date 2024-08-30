@@ -25,7 +25,7 @@ from pygame import Rect
 
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface, IAnimationTimelineInterface, IAnimationListInterface, ISpriteAnimationScriptInterface
 from pyganimation.core.animation_file_manager import load
-from pyganimation.elements.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
+from core.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
 from pyganimation._constants import *
 
 import os, types
@@ -370,7 +370,10 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
                  script: list | str,
                  debugging: bool = False
                  ):
-        pass
+        self._script_path = None
+        self._primitive_script = None
+
+        self._final_script = dict()
 
     def __str__(self) -> str:
         pass
@@ -448,7 +451,8 @@ class AnimationTimeline(IAnimationTimelineInterface):
             self._script_path = script
             self._primitive_script = load(script)
         
-        
+        else:
+            pass
         
         
         self._final_script = dict()

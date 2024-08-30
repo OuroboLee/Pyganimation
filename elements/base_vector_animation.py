@@ -28,7 +28,7 @@ from pyganimation.core.interface.animation_script_interface import IAnimationScr
 
 from pyganimation._constants import *
 from pyganimation.core.animation_base import AnimationBase
-from pyganimation.elements.script_converter import scale_anchor_interpret, angle_anchor_interpret
+from core.script_converter import scale_anchor_interpret, angle_anchor_interpret
 
 from typing import Any
 import types
