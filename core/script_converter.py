@@ -209,8 +209,33 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
 def keyframe_vector_to_normal_vector(target_script: dict, debugging: bool = False) -> dict:
     pass
 
+##### Search Relative Functions #####
+    
+def search_most_lately_presented_compo(target_script: dict, 
+                                       script_type: str, 
+                                       target_compo: str, 
+                                       frame_num: int) -> Any:
+    if frame_num == 0:
+        if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO]:
+            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
+        else:
+            if script_type == SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION:
+                return KEYFRAME_NORMAL_ZERO_FRAME_DEFAULT[target_compo]
+            
+            elif script_type == SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION:
+                return KEYFRAME_VECTOR_ZERO_FRAME_DEFAULT[target_compo]
+        
+    else:
+        if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO].keys():
+            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
+            
+        else:
+            frame_num_list = list(target_script.keys())
+            return search_most_lately_presented_compo(
+                target_script, script_type, target_compo, 
+                frame_num_list[frame_num_list.index(frame_num) - 1])
 
-##### Assistant Functions #####
+        
 
 def get_anchor(current_frame_num: int, 
                target_anchor: str, 
@@ -256,7 +281,8 @@ def get_info(current_frame_num: int,
         else:
             return get_info(target_keyframe_number - 1, target_info, target_script, debugging)
             
-def find_most_close_keyframe_after_frame_number(frame_num: int, target_keyframe_list: list[int]):
+def find_most_close_keyframe_after_frame_number(frame_num: int, 
+                                                target_keyframe_list: list[int]):
     for keyframe_number in target_keyframe_list[1:]:
         if keyframe_number >= frame_num: return keyframe_number
 
@@ -264,6 +290,8 @@ def find_most_close_keyframe_before_frame_number(frame_num: int,
                                                  target_keyframe_list: list[int]):
     for keyframe_number in target_keyframe_list[::-1]:
         if keyframe_number <= frame_num: return keyframe_number
+
+##### Component Keyframe -> Normal Functions #####
 
 def image_or_shape_info_keyframe_to_normal(target_info_dict: dict, 
                                            target_info: str, 
@@ -487,28 +515,9 @@ def convert_component(target_compo: str,
         print(f"{target_compo} : {result_dict}")
                   
     return result_dict
-    
-def search_most_lately_presented_compo(target_script: dict, script_type: str, target_compo: str, frame_num: int) -> Any:
-    if frame_num == 0:
-        if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO]:
-            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
-        else:
-            if script_type == SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION:
-                return KEYFRAME_NORMAL_ZERO_FRAME_DEFAULT[target_compo]
+
+
             
-            elif script_type == SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION:
-                return KEYFRAME_VECTOR_ZERO_FRAME_DEFAULT[target_compo]
-        
-    else:
-        if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO].keys():
-            return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
-            
-        else:
-            frame_num_list = list(target_script.keys())
-            return search_most_lately_presented_compo(
-                target_script, script_type, target_compo, 
-                frame_num_list[frame_num_list.index(frame_num) - 1]
-            ) 
 
 if __name__ == "__main__" :
     keyframe_script = {
