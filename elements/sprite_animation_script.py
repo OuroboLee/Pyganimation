@@ -95,7 +95,8 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
             return 
 
         elif type(image_info) == str:
-            _script_pathlike_str_validation_check(image_info, idx)
+            if not os.path.exists(image_info):
+                raise ValueError("Invalid image path.")
 
             return {
                 TARGET: pygame.image.load(image_info),
@@ -127,7 +128,6 @@ __all__ = [
 if __name__ == "__main__":
     sprite_animation_script = [
         pygame.Surface((30, 30)),
-        pygame.Surface((40, 40)),
         pygame.Surface((50, 50)),
         20
     ]

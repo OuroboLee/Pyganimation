@@ -73,7 +73,6 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
         IMAGE_INFO,
         debugging
     )
-    print(image_info_normal_script)
 
     pos_normal_script = component_keyframe_to_normal(
         convert_component(POS, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, target_script, debugging),
