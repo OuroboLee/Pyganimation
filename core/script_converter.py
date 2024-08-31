@@ -94,6 +94,7 @@ from pyganimation._constants import *
 from itertools import pairwise
 
 from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info
+from pyganimation.core.math.bezier_curve import BezierCurve
 import pygame
 
 from typing import Any
@@ -137,19 +138,22 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
                 target_script, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, key, 0
             )
     
-    # POS
+    
 
     image_info_normal_script = image_or_shape_info_keyframe_to_normal(
         convert_image_or_shape_info(IMAGE_INFO, target_script, debugging),
         IMAGE_INFO,
         debugging
     )
+    
+    # POS
 
     pos_normal_script = component_keyframe_to_normal(
         convert_component(POS, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, target_script, debugging),
         POS, 
         debugging
     )
+    print(convert_component(POS, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, target_script, debugging))
 
     # ANGLE
 
@@ -342,40 +346,67 @@ def component_keyframe_to_normal(target_compo_dict: dict,
 
     
 
-def component_interpolate(target_compo: str, start_frame_info: dict, end_frame_info: dict, start_frame_num: int, end_frame_num: int, debugging: bool):
+def component_interpolate(target_compo: str, 
+                          start_frame_info: dict, end_frame_info: dict, 
+                          start_frame_num: int, end_frame_num: int, 
+                          debugging: bool):
+    print(start_frame_info, end_frame_info)
+
     start = start_frame_info[KEYFRAME_NORMAL_INFO]
     end = end_frame_info[KEYFRAME_NORMAL_INFO]
     interpolate_info = end_frame_info[KEYFRAME_INTERPOLATE_INFO]
+    special_info = end_frame_info[KEYFRAME_SPECIAL_INFO]
+    curve_info = end_frame_info[CURVE]
 
     total_frame_num = end_frame_num - start_frame_num
 
     result_dict = dict()
     
     if target_compo in (POS, SCALE):
-        dx = (end[0] - start[0]) / total_frame_num
-        dy = (end[1] - start[1]) / total_frame_num
+        if target_compo == POS and special_info is not None:
+            if special_info == FOLLOW_CURVE:
+                if type(interpolate_info) != str:
+                    pass
 
-        accumulated_duo = start
+                interpolate_function = get_func_from_interpolate_info(interpolate_info)
+                
+                dt = 1 / total_frame_num
+                accumulated_t = 0
 
-        if type(interpolate_info) == str:
-            x_interpolate_function = get_func_from_interpolate_info(interpolate_info)
-            y_interpolate_function = get_func_from_interpolate_info(interpolate_info)
+                for i in range(1, total_frame_num):
+                    accumulated_t += 0.5 * dt * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
 
-        else: # duo : list / tuple
-            x_interpolate_function = get_func_from_interpolate_info(interpolate_info[0])
-            y_interpolate_function = get_func_from_interpolate_info(interpolate_info[1])
+                    result_dict |= {
+                        start_frame_num + i: {
+                            target_compo: curve_info.get_pos(accumulated_t)
+                        }
+                    }
+        
+        else:
+            dx = (end[0] - start[0]) / total_frame_num
+            dy = (end[1] - start[1]) / total_frame_num
 
-        for i in range(1, total_frame_num):
-            accumulated_duo = (
-                accumulated_duo[0] + 0.5 * dx * (x_interpolate_function(total_frame_num, i-1) + x_interpolate_function(total_frame_num, i)),
-                accumulated_duo[1] + 0.5 * dy * (y_interpolate_function(total_frame_num, i-1) + y_interpolate_function(total_frame_num, i)),
-            )
+            accumulated_duo = start
 
-            result_dict |= {
-                start_frame_num + i: {
-                    target_compo: accumulated_duo
+            if type(interpolate_info) == str:
+                x_interpolate_function = get_func_from_interpolate_info(interpolate_info)
+                y_interpolate_function = get_func_from_interpolate_info(interpolate_info)
+
+            else: # duo : list / tuple
+                x_interpolate_function = get_func_from_interpolate_info(interpolate_info[0])
+                y_interpolate_function = get_func_from_interpolate_info(interpolate_info[1])
+
+            for i in range(1, total_frame_num):
+                accumulated_duo = (
+                    accumulated_duo[0] + 0.5 * dx * (x_interpolate_function(total_frame_num, i-1) + x_interpolate_function(total_frame_num, i)),
+                    accumulated_duo[1] + 0.5 * dy * (y_interpolate_function(total_frame_num, i-1) + y_interpolate_function(total_frame_num, i)),
+                )
+
+                result_dict |= {
+                    start_frame_num + i: {
+                        target_compo: accumulated_duo
+                    }
                 }
-            }
     
     elif target_compo == COLOR:
         dr = (end[0] - start[0]) / total_frame_num
@@ -407,20 +438,40 @@ def component_interpolate(target_compo: str, start_frame_info: dict, end_frame_i
             }
 
     else:
-        delta = (end - start) / total_frame_num
+        if target_compo == ANGLE and special_info is not None:
+            if special_info == FOLLOW_CURVE:
+                if type(interpolate_info) != str:
+                    pass
 
-        accumulated = start
+                interpolate_function = get_func_from_interpolate_info(interpolate_info)
+                
+                dt = 1 / total_frame_num
+                accumulated_t = 0
 
-        interpolate_function = get_func_from_interpolate_info(interpolate_info)
+                for i in range(1, total_frame_num):
+                    accumulated_t += 0.5 * dt * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
 
-        for i in range(1, total_frame_num):
-            accumulated += 0.5 * delta * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
+                    result_dict |= {
+                        start_frame_num + i: {
+                            target_compo: curve_info.get_angle(accumulated_t)
+                        }
+                    }
 
-            result_dict |= {
-                start_frame_num + i: {
-                    target_compo: accumulated
+        else:
+            delta = (end - start) / total_frame_num
+
+            accumulated = start
+
+            interpolate_function = get_func_from_interpolate_info(interpolate_info)
+
+            for i in range(1, total_frame_num):
+                accumulated += 0.5 * delta * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
+
+                result_dict |= {
+                    start_frame_num + i: {
+                        target_compo: accumulated
+                    }
                 }
-            }
         
     
     result_dict |= {
@@ -477,9 +528,12 @@ def convert_component(target_compo: str,
         new_frame = dict()
         is_target_compo_in_current_frame_normal_info = KEYFRAME_NORMAL_INFO in frame.keys() and target_compo in frame[KEYFRAME_NORMAL_INFO].keys()
         is_target_compo_in_current_frame_interpolate_info = KEYFRAME_INTERPOLATE_INFO in frame.keys() and target_compo in frame[KEYFRAME_INTERPOLATE_INFO].keys()
+        is_target_compo_in_current_frame_special_info = KEYFRAME_SPECIAL_INFO in frame.keys() and target_compo in frame[KEYFRAME_SPECIAL_INFO].keys()
+        is_curve_in_current_frame_special_info = KEYFRAME_SPECIAL_INFO in frame.keys() and CURVE in frame[KEYFRAME_SPECIAL_INFO].keys()
+        
+        
 
-
-
+        # Interpolate Info
         if frame_num != 0:
             if is_target_compo_in_current_frame_interpolate_info:
                 new_frame |= {
@@ -489,7 +543,50 @@ def convert_component(target_compo: str,
                 new_frame |= {
                     KEYFRAME_INTERPOLATE_INFO: LINEAR
                 }
+
         
+            # Special Info (For only POS, ANGLE now.)
+            if is_target_compo_in_current_frame_special_info:
+                new_frame |= {
+                    KEYFRAME_SPECIAL_INFO: frame[KEYFRAME_SPECIAL_INFO][target_compo]
+                }
+            else:
+                new_frame |= {
+                    KEYFRAME_SPECIAL_INFO: None
+                }
+
+            if is_curve_in_current_frame_special_info:
+                curve = frame[KEYFRAME_SPECIAL_INFO][CURVE]
+                if type(curve) in (BezierCurve, ):
+                    new_frame |= {
+                        CURVE: frame[KEYFRAME_SPECIAL_INFO][CURVE]
+                    }
+
+                elif type(curve) in (list, tuple):
+                    if type(curve[0]) != str:
+                        pass # Error Should be occurred. Will be edited later.
+
+                    if curve[0] == BEZIER:
+                        new_frame |= {
+                            CURVE: BezierCurve(curve[1])
+                        }
+                    
+                    elif curve[0] == ARC:
+                        pass
+
+                    else:
+                        pass # Error Should be occurred. Will be edited later.
+                
+                else:
+                    pass # Error Should be occurred. Will be edited later.
+
+            else: 
+                new_frame |= {
+                    CURVE: None
+                }
+            
+        
+        # Normal Info
         if frame_num in (0, last_frame_num):
             if is_target_compo_in_current_frame_normal_info:
                 new_frame |= {

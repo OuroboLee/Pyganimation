@@ -215,7 +215,8 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             current_pos = (current_relative_pos[0] + self._animation_info[ABS_POS][0], current_relative_pos[1] + self._animation_info[ABS_POS][1])
             current_angle = current_relative_angle + self._animation_info[ABS_ANGLE]
             current_scale = (current_relative_scale[0] * self._animation_info[ABS_SCALE][0], current_relative_scale[1] * self._animation_info[ABS_SCALE][1])
-            current_flip = (is_positive(current_scale[0]), is_positive(current_scale[1]))
+            current_flip = (not is_positive(current_scale[0] * self._animation_info[ABS_SCALE][0]), 
+                            not is_positive(current_scale[1] * self._animation_info[ABS_SCALE][1]))
             current_alpha = int(current_relative_alpha * self._animation_info[ABS_ALPHA])
 
             # ANCHORING
@@ -239,8 +240,8 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             
             self._current_image.set_alpha(current_alpha)
 
-            manipulated_image = pygame.transform.flip(manipulated_image, current_flip[0], current_flip[1])
-            manipulated_image = pygame.transform.scale_by(self._current_image, current_scale)
+            manipulated_image = pygame.transform.flip(self._current_image, current_flip[0], current_flip[1])
+            manipulated_image = pygame.transform.scale_by(manipulated_image, current_scale)
             manipulated_image = pygame.transform.rotate(manipulated_image, current_angle)
             manipulated_image_rect = manipulated_image.get_rect()
             manipulated_image_rect.center = current_pos

@@ -1,5 +1,6 @@
 from pyganimation.core.interface.math_interface import IBezierCurveInterface
-from pyganimation.core.script_validation_check import _coordinate_validation_check
+from pyganimation.core.math.tools import is_positive
+
 from itertools import pairwise
 from math import atan, degrees
 
@@ -40,24 +41,28 @@ class BezierCurve(IBezierCurveInterface):
         
     def get_pos(self, step: float):
         if type(step) != float:
-            raise TypeError("Step must be float type value between 0 and 1.")
-        if step < 0 or step > 1:
-            raise ValueError("Step must be float type value between 0 and 1.")
+            raise TypeError("Step must be float type value.")
         
-        return self._get_final_pos(step, self._points)
+        if step < 0: return self._get_final_pos(0, self._points)
+
+        elif step > 1: return self._get_final_pos(1, self._points)
+        
+        else: return self._get_final_pos(step, self._points)
     
     def get_angle(self, step: float):
         if type(step) != float:
-            raise TypeError("Step must be float type value between 0 and 1.")
-        if step < 0 or step > 1:
-            raise ValueError("Step must be float type value between 0 and 1.")
+            raise TypeError("Step must be float type value.")
         
         pos1 = self._get_final_pos(step - self._delta, self._points)
         pos2 = self._get_final_pos(step + self._delta, self._points)
 
-        slope = (pos2[1] - pos1[1]) / (pos2[0] - pos1[0])
+        slope = -(pos2[1] - pos1[1]) / (pos2[0] - pos1[0])
 
-        return degrees(atan(slope))
+        not_over_half_of_pi = is_positive(pos2[0] - pos1[0])
+
+        # Need to study more about this function.
+
+        return degrees(atan(slope)) if not_over_half_of_pi else degrees(atan(slope)) + 180
 
 
         

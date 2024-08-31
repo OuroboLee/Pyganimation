@@ -5,6 +5,7 @@ import pygame
 
 from pyganimation._constants import *
 from pyganimation import AnimationManager, AnimationScript, BaseAnimation
+from pyganimation.core.math.bezier_curve import BezierCurve
 
 
 def main():
@@ -17,7 +18,7 @@ def main():
 
     current_path = os.path.dirname(__file__)
 
-    example_image_path = os.path.join(current_path, "images\\anchoring.png")
+    example_image_path = os.path.join(current_path, "images\\arrow.png")
     example_image = pygame.image.load(example_image_path)
 
     fps = 30
@@ -35,32 +36,27 @@ def main():
                 RECT: None
             },
             KEYFRAME_NORMAL_INFO: {
-                POS: screen_center
+                POS: (400, 400)
             }
         },
         1: {
             KEYFRAME_NORMAL_INFO: {
-                SCALE: (1, 1)
+                POS: (400, 400)
             }
         },
         60: {
             KEYFRAME_NORMAL_INFO: {
-                POS: (screen_center[0] + 50, screen_center[1]),
-                SCALE: (2, 1)
+                POS: (500, 500),
+                ANGLE: 0
             },
             KEYFRAME_INTERPOLATE_INFO: {
-                POS: INSTANT_OUT,
-                SCALE: BACK_IN_AND_OUT,
-                SCALE_ANCHOR: MIDLEFT
-            }
-        },
-        120: {
-            KEYFRAME_NORMAL_INFO: {
-                SCALE: (1, 1)
+                POS: SIN_IN_AND_OUT,
+                ANGLE: SIN_IN_AND_OUT
             },
-            KEYFRAME_INTERPOLATE_INFO: {
-                SCALE: BACK_IN_AND_OUT,
-                SCALE_ANCHOR: MIDRIGHT
+            KEYFRAME_SPECIAL_INFO: {
+                POS: FOLLOW_CURVE,
+                ANGLE: FOLLOW_CURVE,
+                CURVE: BezierCurve([(400, 400), (450, 400), (450, 500), (500, 500)])
             }
         }
     }

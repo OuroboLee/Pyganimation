@@ -113,8 +113,11 @@ BOTTOMRIGHT_BORDER_RADIUS = "bottomright_border_radius"
 
 # Interpolate Function
 
+SPECIAL = "special"
 POS_SPECIAL = "pos_special"
+SCALE_SPECIAL = "scale_special"
 ANGLE_SPECIAL = "angle_special"
+ALPHA_SPECIAL = "alpha_special"
 
 FOLLOW_CURVE = "follow_curve"
 CURVE = "curve"
@@ -158,6 +161,7 @@ INTERPOLATE_FUNC_LIST = [
 
 KEYFRAME_NORMAL_INFO = "keyframe_normal_info"
 KEYFRAME_INTERPOLATE_INFO = "keyframe_interpolate_info"
+KEYFRAME_SPECIAL_INFO = "keyframe_special_info"
 
 # Scale Anchor & Rect
 
