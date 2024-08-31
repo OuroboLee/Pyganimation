@@ -345,8 +345,6 @@ def component_keyframe_to_normal(target_compo_dict: dict,
 
     return result_dict
 
-    
-
 def component_interpolate(target_compo: str, 
                           start_frame_info: dict, end_frame_info: dict, 
                           start_frame_num: int, end_frame_num: int, 
@@ -584,6 +582,8 @@ def convert_component(target_compo: str,
                       target_script: dict, 
                       debugging: bool = False) -> dict:
     """
+    
+
     :param target_compo: Target script component. Ex) POS, ANGLE, . . . 
     :param script_type: Script Type. SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION or SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION
     :param target_script: Target keyframe script.
