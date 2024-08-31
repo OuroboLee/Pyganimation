@@ -1,4 +1,4 @@
-from math import sin, cos, radians, pi, exp
+from math import sin, cos, radians, pi, exp, erf
 from pyganimation._constants import *
 
 import pygame
@@ -57,9 +57,11 @@ def back_out_func(total_frame: int, frame_number: int) -> float:
 # expo
 
 EXPO_COMP = 5
+EXPO_COMP2 = 30 # b 
+EXPO_COMP3 = 1 / (((pi ** 0.5 * (EXPO_COMP2 ** 2 - 4 * EXPO_COMP2 + 12) * erf(EXPO_COMP2 ** 0.5 / 2)) / (16 * EXPO_COMP2 ** 2.5)) + ((2 * EXPO_COMP2 - 12) / (16 * EXPO_COMP2 ** 2 * exp(EXPO_COMP2 / 4))))   # a
 def expo_in_and_out_func(total_frame: int, frame_number: int) -> float:
     x = frame_number / total_frame
-    """WIP"""
+    return EXPO_COMP3 * x ** 2 * (x - 1) ** 2 * exp(-EXPO_COMP2 * x ** 2)
 
 def expo_in_func(total_frame: int, frame_number: int) -> float:
     x = frame_number / total_frame

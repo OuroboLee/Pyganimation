@@ -63,7 +63,7 @@ def main():
                 POS: (400, 200)
             },
             KEYFRAME_INTERPOLATE_INFO: {
-                POS: EXPO_IN
+                POS: EXPO_IN_AND_OUT
             }
         }
     }
