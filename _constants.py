@@ -113,14 +113,13 @@ BOTTOMRIGHT_BORDER_RADIUS = "bottomright_border_radius"
 
 # Interpolate Function
 
-SPECIAL = "special"
-POS_SPECIAL = "pos_special"
-SCALE_SPECIAL = "scale_special"
-ANGLE_SPECIAL = "angle_special"
-ALPHA_SPECIAL = "alpha_special"
-
 FOLLOW_CURVE = "follow_curve"
 CURVE = "curve"
+
+SPECIAL_LIST = [
+    FOLLOW_CURVE,
+    None
+]
 
 POS_ANCHOR = "pos_anchor"
 SCALE_ANCHOR = "scale_anchor"

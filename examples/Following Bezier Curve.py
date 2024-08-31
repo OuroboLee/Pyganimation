@@ -5,7 +5,7 @@ import pygame
 
 from pyganimation._constants import *
 from pyganimation import AnimationManager, AnimationScript, BaseAnimation
-from pyganimation.core.math.bezier_curve import BezierCurve
+from core.math.followable_shape.bezier_curve import BezierCurve
 
 
 def main():

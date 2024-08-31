@@ -1,3 +1,5 @@
+from pyganimation.core.math.followable_shape import FollowableShape
+
 from math import sin, cos, tan, pi, radians, degrees, asin, acos, atan
 
 def polar_to_orth(r: float, c: float) -> tuple[float, float]:
@@ -18,15 +20,22 @@ def orth_to_polar(x: float, y: float) -> tuple[float, float]:
     """
     return (x ** 2 + y ** 2) ** 0.5, atan(y / x)
 
-class Circle():
+class Circle(FollowableShape):
     pass
 
-class Eillpse():
+class Eillpse(FollowableShape):
     pass
 
-class Parabola():
+class Parabola(FollowableShape):
     pass
 
-class Hyperbola():
+class Hyperbola(FollowableShape):
     pass
+
+__all__ = [
+    "Circle",
+    "Eillpse",
+    "Parabola",
+    "Hyperbola"
+]
 

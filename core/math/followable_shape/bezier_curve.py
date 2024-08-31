@@ -1,10 +1,11 @@
 from pyganimation.core.interface.math_interface import IBezierCurveInterface
+from pyganimation.core.math.followable_shape import FollowableShape
 from pyganimation.core.math.tools import is_positive
 
 from itertools import pairwise
 from math import atan, degrees
 
-class BezierCurve(IBezierCurveInterface):
+class BezierCurve(FollowableShape, IBezierCurveInterface):
     def __init__(self,
                  points: list | tuple):
         if type(points) not in (list, tuple):
@@ -25,6 +26,9 @@ class BezierCurve(IBezierCurveInterface):
         
         self._points = points
         self._delta = 0.001
+
+    def __str__(self) -> str:
+        return f"<BezierCurve Object with {self._points} Points>"
     
     def _get_final_pos(self, t: float, points: list[tuple]) -> list[tuple] | tuple[float, float]:
         new_points = list()

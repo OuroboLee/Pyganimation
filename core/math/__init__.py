@@ -1,4 +1,4 @@
-from pyganimation.core.math.bezier_curve import BezierCurve
+from pyganimation.core.math.followable_shape import *
 from pyganimation.core.math.interpolate_functions import *
 from pyganimation.core.math.tools import is_positive
 

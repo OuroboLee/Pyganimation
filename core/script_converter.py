@@ -330,6 +330,9 @@ def component_keyframe_to_normal(target_compo_dict: dict,
                                  target_compo: str, 
                                  debugging: bool = False) -> dict:
 
+    if debugging:
+        print(f"==================== Starting Component Interpolation Process : {target_compo} ====================")
+
     result_dict = {
         0: {
             target_compo: target_compo_dict[0][KEYFRAME_NORMAL_INFO]
@@ -550,14 +553,21 @@ def component_interpolate(target_compo: str,
 
     return result_dict
 
+##### Script Seperation #####
+
 def convert_image_or_shape_info(target_info: str,
                                 target_script: dict,
                                 debugging: bool = False) -> dict:
     """
+    Seperates Image / Shape info from target script.
+
     :param target_info: Target script info. IMAGE_INFO / SHAPE_INFO
     :param target_script: Target keyframe script.
     :param debugging:
     """
+    if debugging:
+        print()
+
     result_dict = dict()
 
     for frame_num, frame in target_script.items():
@@ -625,6 +635,9 @@ def convert_component(target_compo: str,
                     KEYFRAME_INTERPOLATE_INFO: LINEAR
                 }
 
+            if new_frame[KEYFRAME_INTERPOLATE_INFO] not in INTERPOLATE_FUNC_LIST:
+                raise ValueError(f"Wrong Script: Invalid Interpolation Function in No.{frame_num} Keyframe.")
+
         
             # Special Info (For only POS, ANGLE now.)
             if is_target_compo_in_current_frame_special_info:
@@ -636,6 +649,9 @@ def convert_component(target_compo: str,
                     KEYFRAME_SPECIAL_INFO: None
                 }
 
+            if new_frame[KEYFRAME_SPECIAL_INFO] not in SPECIAL_LIST:
+                raise ValueError(f"Wrong Script: Invalid Special Operation Info in No.{frame_num} Keyframe.")
+
             if is_curve_in_current_frame_special_info:
                 curve = frame[KEYFRAME_SPECIAL_INFO][CURVE]
                 if type(curve) in (BezierCurve, ):
@@ -645,7 +661,7 @@ def convert_component(target_compo: str,
 
                 elif type(curve) in (list, tuple):
                     if type(curve[0]) != str:
-                        pass # Error Should be occurred. Will be edited later.
+                        raise ValueError(f"Wrong Script: If type of curve is list or tuple, the object in the first index should be str representing supported followable shapes, like 'bezier', in No.{frame_num} Keyframe.")
 
                     if curve[0] == BEZIER:
                         new_frame |= {
@@ -656,15 +672,18 @@ def convert_component(target_compo: str,
                         pass
 
                     else:
-                        pass # Error Should be occurred. Will be edited later.
+                        raise ValueError(f"Wrong Script: If type of curve is list or tuple, the object in the first index should be str representing supported followable shapes, like 'bezier', in No.{frame_num} Keyframe.")
                 
                 else:
-                    pass # Error Should be occurred. Will be edited later.
+                    raise ValueError(f"Wrong Script: The type of curve should be FollowableShape, list or tuple.")
 
             else: 
                 new_frame |= {
                     CURVE: None
                 }
+
+            if new_frame[KEYFRAME_SPECIAL_INFO] == None and new_frame[CURVE] != None:
+                raise ValueError(f"Wrong Script: There is no special info while curve is given in No.{frame_num} Keyframe.")
             
         
         # Normal Info
@@ -685,6 +704,9 @@ def convert_component(target_compo: str,
                 new_frame |= {
                     KEYFRAME_NORMAL_INFO: frame[KEYFRAME_NORMAL_INFO][target_compo]
                 }
+
+            if not is_target_compo_in_current_frame_normal_info and is_target_compo_in_current_frame_interpolate_info:
+                raise ValueError(f"Wrong Script: Detected Interpolate Info in frame that does not have Normal Info in No.{frame_num} Keyframe.")
 
         if frame_num in (0, last_frame_num) or is_target_compo_in_current_frame_normal_info:
             result_dict |= {frame_num: new_frame}
