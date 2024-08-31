@@ -1,2 +1,4 @@
 # pyganimation
-Pygame Animation Library for Making In-game Cut Scenes and Realtime Animations.
+Pygame animation library for making in-game cut scenes and realtime animations.
+
+
