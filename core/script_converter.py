@@ -110,7 +110,7 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
     Converts keyframe_normal animation script to normal_normal animation script.
 
     ::param target_script:: Target keyframe script.
-    ::param debugging:: 
+    ::param debugging:: If print debugging information in conversion process at stdout or not.
     """
 
     result_script = dict()
@@ -218,7 +218,8 @@ def keyframe_vector_to_normal_vector(target_script: dict, debugging: bool = Fals
 def search_most_lately_presented_compo(target_script: dict, 
                                        script_type: str, 
                                        target_compo: str, 
-                                       frame_num: int) -> Any:
+                                       frame_num: int,
+                                       debugging: bool = False) -> Any:
     if frame_num == 0:
         if KEYFRAME_NORMAL_INFO in target_script[frame_num].keys() and target_compo in target_script[frame_num][KEYFRAME_NORMAL_INFO]:
             return target_script[frame_num][KEYFRAME_NORMAL_INFO][target_compo]
@@ -350,7 +351,11 @@ def component_interpolate(target_compo: str,
                           start_frame_info: dict, end_frame_info: dict, 
                           start_frame_num: int, end_frame_num: int, 
                           debugging: bool):
-    print(start_frame_info, end_frame_info)
+    if debugging:
+        print(f"-------------------- Starting Component Interpolation Process : {target_compo}, {start_frame_num}~{end_frame_num} --------------------")
+        print(f"Start Frame Info: {start_frame_info}")
+        print(f"End Frame Info: {end_frame_info}")
+        print()
 
     start = start_frame_info[KEYFRAME_NORMAL_INFO]
     end = end_frame_info[KEYFRAME_NORMAL_INFO]
@@ -359,6 +364,14 @@ def component_interpolate(target_compo: str,
     curve_info = end_frame_info[CURVE]
 
     total_frame_num = end_frame_num - start_frame_num
+
+    if debugging:
+        print(f"Start Value: {start}")
+        print(f"End Value: {end}")
+        print(f"Interpolation Function: {interpolate_info}")
+        print(f"Special Information: {special_info}")
+        print(f"Curve Information: {curve_info}")
+        print()
 
     result_dict = dict()
     
@@ -373,6 +386,12 @@ def component_interpolate(target_compo: str,
                 dt = 1 / total_frame_num
                 accumulated_t = 0
 
+                if debugging:
+                    print(f"Delta - t : {dt}")
+                    print(f"Current Accumulated Sum: {accumulated_t}")
+                    print()
+
+
                 for i in range(1, total_frame_num):
                     accumulated_t += 0.5 * dt * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
 
@@ -381,12 +400,25 @@ def component_interpolate(target_compo: str,
                             target_compo: curve_info.get_pos(accumulated_t)
                         }
                     }
+
+                    if debugging:
+                        print(f"Current Working Frame: {start_frame_num + i}")
+                        print(f"Current Accumulated Sum: {accumulated_t}")
+                        print(f"Current Frame {target_compo}: {curve_info.get_pos(accumulated_t)}")
+                        print()
+
         
         else:
             dx = (end[0] - start[0]) / total_frame_num
             dy = (end[1] - start[1]) / total_frame_num
 
             accumulated_duo = start
+
+            if debugging:
+                    print(f"Delta - x : {dx}")
+                    print(f"Delta - y : {dy}")
+                    print(f"Current Accumulated Sum: {accumulated_t}")
+                    print()
 
             if type(interpolate_info) == str:
                 x_interpolate_function = get_func_from_interpolate_info(interpolate_info)
@@ -407,6 +439,13 @@ def component_interpolate(target_compo: str,
                         target_compo: accumulated_duo
                     }
                 }
+
+                if debugging:
+                    print(f"Current Working Frame: {start_frame_num + i}")
+                    print(f"Current Accumulated Sum: {accumulated_duo}")
+                    print(f"Current Frame {target_compo}: {accumulated_duo}")
+                    print()
+
     
     elif target_compo == COLOR:
         dr = (end[0] - start[0]) / total_frame_num
@@ -414,6 +453,13 @@ def component_interpolate(target_compo: str,
         db = (end[2] - start[2]) / total_frame_num
 
         accumulated_trio = start
+
+        if debugging:
+            print(f"Delta - red : {dr}")
+            print(f"Delta - green : {dg}")
+            print(f"Delta - blue : {db}")
+            print(f"Current Accumulated Sum: {accumulated_trio}")
+            print()
 
         if type(interpolate_info) == str: 
             r_interpolate_function = get_func_from_interpolate_info(interpolate_info)
@@ -436,6 +482,11 @@ def component_interpolate(target_compo: str,
                     target_compo: accumulated_trio
                 }
             }
+            if debugging:
+                print(f"Current Working Frame: {start_frame_num + i}")
+                print(f"Current Accumulated Sum: {accumulated_trio}")
+                print(f"Current Frame {target_compo}: {accumulated_trio}")
+                print()
 
     else:
         if target_compo == ANGLE and special_info is not None:
@@ -448,6 +499,11 @@ def component_interpolate(target_compo: str,
                 dt = 1 / total_frame_num
                 accumulated_t = 0
 
+                if debugging:
+                    print(f"Delta - t : {dt}")
+                    print(f"Current Accumulated Sum: {accumulated_t}")
+                    print()
+
                 for i in range(1, total_frame_num):
                     accumulated_t += 0.5 * dt * (interpolate_function(total_frame_num, i-1) + interpolate_function(total_frame_num, i))
 
@@ -456,11 +512,20 @@ def component_interpolate(target_compo: str,
                             target_compo: curve_info.get_angle(accumulated_t)
                         }
                     }
+                    if debugging:
+                        print(f"Current Working Frame: {start_frame_num + i}")
+                        print(f"Current Accumulated Sum: {accumulated_t}")
+                        print(f"Current Frame {target_compo}: {curve_info.get_angle(accumulated_t)}")
+                        print()
 
         else:
             delta = (end - start) / total_frame_num
-
             accumulated = start
+
+            if debugging:
+                print(f"Delta : {delta}")
+                print(f"Current Accumulated Sum: {accumulated_t}")
+                print()
 
             interpolate_function = get_func_from_interpolate_info(interpolate_info)
 
@@ -472,6 +537,11 @@ def component_interpolate(target_compo: str,
                         target_compo: accumulated
                     }
                 }
+                if debugging:
+                    print(f"Current Working Frame: {start_frame_num + i}")
+                    print(f"Current Accumulated Sum: {accumulated}")
+                    print(f"Current Frame {target_compo}: {accumulated}")
+                    print()
         
     
     result_dict |= {
@@ -520,18 +590,29 @@ def convert_component(target_compo: str,
     :param debugging:
     """
 
+    if debugging:
+        print(f"-------------------- Starting Component Conversion Process : {target_compo} --------------------")
+
     result_dict = dict()
 
     last_frame_num = list(target_script.keys())[-1]
 
     for frame_num, frame in target_script.items():
         new_frame = dict()
-        is_target_compo_in_current_frame_normal_info = KEYFRAME_NORMAL_INFO in frame.keys() and target_compo in frame[KEYFRAME_NORMAL_INFO].keys()
-        is_target_compo_in_current_frame_interpolate_info = KEYFRAME_INTERPOLATE_INFO in frame.keys() and target_compo in frame[KEYFRAME_INTERPOLATE_INFO].keys()
-        is_target_compo_in_current_frame_special_info = KEYFRAME_SPECIAL_INFO in frame.keys() and target_compo in frame[KEYFRAME_SPECIAL_INFO].keys()
-        is_curve_in_current_frame_special_info = KEYFRAME_SPECIAL_INFO in frame.keys() and CURVE in frame[KEYFRAME_SPECIAL_INFO].keys()
         
         
+        is_target_compo_in_current_frame_normal_info = _is_target_in_current_frame(
+            target_compo, KEYFRAME_NORMAL_INFO, frame, frame_num
+        )
+        is_target_compo_in_current_frame_interpolate_info = _is_target_in_current_frame(
+            target_compo, KEYFRAME_INTERPOLATE_INFO, frame, frame_num
+        )
+        is_target_compo_in_current_frame_special_info = _is_target_in_current_frame(
+            target_compo, KEYFRAME_SPECIAL_INFO, frame, frame_num
+        )
+        is_curve_in_current_frame_special_info = _is_target_in_current_frame(
+            CURVE, KEYFRAME_SPECIAL_INFO, frame, frame_num
+        )
 
         # Interpolate Info
         if frame_num != 0:
@@ -612,6 +693,15 @@ def convert_component(target_compo: str,
         print(f"{target_compo} : {result_dict}")
                   
     return result_dict
+
+def _is_target_in_current_frame(target: str, target_keyframe_info: str, frame: dict, frame_num: int) -> bool:
+    if target_keyframe_info not in frame.keys():
+        return False
+    else:
+        if target not in frame[target_keyframe_info].keys():
+            return False
+        else:
+            return True
 
 
             
