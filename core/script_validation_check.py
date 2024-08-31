@@ -1,4 +1,6 @@
-import os, types
+import os, types, pygame
+
+from pyganimation._constants import *
 
 JSON = ".json"
 
@@ -57,9 +59,44 @@ def _color_validation_check(value: list | tuple, frame_num: int, is_keyframe: bo
         for i in range(3):
             if type(value[i]) not in (int, float):
                 raise ValueError(f"Invalid color-style object in 'color' in No.{frame_num} frame.")
+            
+##### Normal Animation Check Functions #####
+
+def _image_info_validation_check(image_info: dict, frame_num: int):
+    if TARGET not in image_info.keys():
+        raise KeyError(f"'target' key is missing in 'image_info' key in No.{frame_num} frame.")
+    
+    if type(image_info[TARGET]) not in (pygame.Surface, str):
+        raise TypeError(f"Type of value in 'target' key must be pygame.Surface or path-like str in No.{frame_num} frame.")
+    if type(image_info[TARGET]) == str:
+        if not os.path.exists(image_info[TARGET]):
+            raise ValueError(f"Invalid image path in No.{frame_num} frame.")
+
+    if RECT not in image_info.keys():
+        raise KeyError(f"'rect' key is missing in 'image_info' key in No.{frame_num} frame.")
+    if type(image_info[RECT]) not in (pygame.Rect, list, tuple, types.NoneType, int):
+        raise TypeError(f"Type of value in 'rect' key must be pygame.Rect, list, tuple, NoneType, or int in in No.{frame_num} frame.")
+
+    if type(image_info[RECT]) == int:
+        if image_info[RECT] != 0:
+            raise ValueError(f"If the type of value in 'rect' key in 'image_info' is int, the value must be 0 in No.{frame_num} frame.")
+
+    elif type(image_info[RECT]) in (list, tuple):
+        if len(image_info[RECT]) != 4:
+            raise ValueError(f"Invaild rect-style object in No.{frame_num} frame.")
+        for i in image_info[RECT]:
+            if type(image_info[RECT][i]) not in (int, float):
+                raise ValueError(f"Invaild rect-style object in No.{frame_num} frame.")
+
+##### Vector Animation Check Functions #####
+
+def _shape_info_validation_check(shape_info: dict, frame_num: int):
+    pass
 
 __all__ = [
     "_script_pathlike_str_validation_check",
     "_coordinate_validation_check",
-    "_color_validation_check"
+    "_color_validation_check",
+    "_image_info_validation_check",
+    "_shape_info_validation_check"
 ]

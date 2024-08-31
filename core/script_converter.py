@@ -94,7 +94,9 @@ from pyganimation._constants import *
 from itertools import pairwise
 
 from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info
-from pyganimation.core.math.bezier_curve import BezierCurve
+from pyganimation.core.math.followable_shape import BezierCurve
+from pyganimation.core.script_validation_check import _image_info_validation_check, _shape_info_validation_check
+
 import pygame
 
 from typing import Any
@@ -580,6 +582,15 @@ def convert_image_or_shape_info(target_info: str,
                                               target_info, 
                                               target_script, 
                                               debugging)
+            
+        if debugging:
+            pass
+
+        if target_info == IMAGE_INFO:
+            _image_info_validation_check(new_frame[target_info])
+        elif target_info == SHAPE_INFO:
+            _shape_info_validation_check(new_frame[target_info])
+
         
         result_dict |= {frame_num: new_frame}
 
