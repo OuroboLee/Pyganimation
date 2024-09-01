@@ -110,7 +110,8 @@ class AnimationScript(IAnimationScriptInterface):
 
         for frame_num, frame in new_script.items():
             assert IMAGE_INFO in frame.keys(), f"'image_information' key is missing in No.{frame_num} frame."
-            self._image_info_validation_check(frame[IMAGE_INFO], frame_num)
+            if not _image_info_validation_check(frame[IMAGE_INFO], frame_num):
+                pass
 
             normal_info = frame.copy()
             normal_info.pop(IMAGE_INFO)
@@ -122,7 +123,8 @@ class AnimationScript(IAnimationScriptInterface):
         for frame_num, frame in script.items():
             if frame_num == 0:
                 assert IMAGE_INFO in frame.keys(), f"'image_information' key is missing in No.{frame_num} frame."
-                self._image_info_validation_check(frame[IMAGE_INFO], frame_num)
+                if not _image_info_validation_check(frame[IMAGE_INFO]):
+                    raise ValueError(f"Invalid Image Info in No.{frame_num}.")
 
                 assert KEYFRAME_NORMAL_INFO in frame.keys(), f"'keyframe_normal_info' key is missing in No.{frame_num} frame."
                 self._keyframe_normal_info_validation_check(frame[KEYFRAME_NORMAL_INFO], frame_num)
@@ -146,7 +148,7 @@ class AnimationScript(IAnimationScriptInterface):
 
         for frame_num, frame in new_script.items():
             assert SHAPE_INFO in frame.keys(), f"'shape_information' key is missing in No.{frame_num} frame."
-            self._shape_info_validation_check(frame[SHAPE_INFO], frame_num)
+            self._shape_info_validation_check(frame[SHAPE_INFO])
 
     def _keyframe_vector_script_validation_check(self, script: dict): # For dict-style keyframe vector script
         for frame_num, frame in script.items():
@@ -156,24 +158,6 @@ class AnimationScript(IAnimationScriptInterface):
             
             else:
                 pass
-
-    @staticmethod
-    def _image_info_validation_check(image_info: dict, frame_num: int) -> None:
-        assert TARGET in image_info.keys(), f"'target' key is missing in 'image_info' key in No.{frame_num} frame."
-        assert type(image_info[TARGET]) in (pygame.Surface, str), f"Type of value in 'target' key must be pygame.Surface or path-like str in No.{frame_num} frame."
-        if type(image_info[TARGET]) == str:
-            assert os.path.exists(image_info[TARGET]), f"Invalid image path in No.{frame_num} frame."
-
-        assert RECT in image_info.keys(), f"'rect' key is missing in 'image_info' key in No.{frame_num} frame."
-        assert type(image_info[RECT]) in (pygame.Rect, list, tuple, types.NoneType, int), f"Type of value in 'rect' key must be pygame.Rect, list, tuple, NoneType, or int in in No.{frame_num} frame."
-
-        if type(image_info[RECT]) == int:
-            assert image_info[RECT] == 0, f"If the type of value in 'rect' key in 'image_info' is int, the value must be 0 in No.{frame_num} frame."
-
-        elif type(image_info[RECT]) in (list, tuple):
-            assert len(image_info[RECT]) == 4, f"Invaild rect-style object in No.{frame_num} frame."
-            for i in image_info[RECT]:
-                assert type(image_info[RECT][i]) in (int, float), f"Invaild rect-style object in No.{frame_num} frame."
 
     @staticmethod
     def _shape_info_validation_check(shape_info: dict, frame_num: int) -> None:
@@ -220,7 +204,8 @@ class AnimationScript(IAnimationScriptInterface):
     def _normal_normal_info_validation_check(normal_info: dict, frame_num: int) -> None:
         # POS
         assert POS in normal_info.keys(), f"'pos' key is missing in No.{frame_num} frame."
-        _coordinate_validation_check(normal_info[POS], POS, frame_num, False)
+        if not _coordinate_validation_check(normal_info[POS]):
+            raise ValueError(f"Invalid pos value in 'pos' in No.{frame_num} frame.")
 
         # ANGLE
         assert ANGLE in normal_info.keys(), f"'angle' key is missing in No.{frame_num} frame."
@@ -228,12 +213,12 @@ class AnimationScript(IAnimationScriptInterface):
 
         # SCALE
         assert SCALE in normal_info.keys(), f"'scale' key is missing in No.{frame_num} frame."
-        _coordinate_validation_check(normal_info[SCALE], SCALE, frame_num, False)
+        if not _coordinate_validation_check(normal_info[SCALE]):
+            raise ValueError(f"Invalid pos value in 'pos' in No.{frame_num} frame.")
 
         # ALPHA
         assert ALPHA in normal_info.keys(), f"'alpha' key is missing in No.{frame_num} frame."
         assert type(normal_info[ALPHA]) in (int, float), f"Invalid alpha value in 'alpha' in No.{frame_num} frame."
-        assert normal_info[ALPHA] >= 0 and normal_info[ALPHA] <= 255, f"Invalid alpha value in 'alpha' in No.{frame_num} frame."
     
     @staticmethod
     def _keyframe_normal_info_validation_check( normal_info: dict, frame_num: int) -> None:

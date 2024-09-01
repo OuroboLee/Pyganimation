@@ -2,6 +2,7 @@ from pyganimation.core.interface.animation_interface import IAnimationBaseInterf
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
 from pyganimation.elements import BaseAnimation, BaseVectorAnimation, Animation
 from pyganimation._constants import *
+from pyganimation.core.script_validation_check import *
 
 import types
 
@@ -58,53 +59,31 @@ def dict_to_default(script: dict) -> dict:
         
 def _process_animation_param_info(name: str, param_info: dict, script: IAnimationScriptInterface) -> dict:
     result_param_info = dict()
-    # Start Frame
+
+    # Start Frame & End Frame
     if START_FRAME not in param_info.keys():
         result_param_info |= {
             START_FRAME: 1
         }
-                
     else: 
-        number = param_info[START_FRAME]
-        if type(number) == int:
-            if number <= 0 or number >= script.get_total_frame() - 1:
-                raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
-
-            result_param_info |= {
-                START_FRAME: number
-            }
-                    
-        elif type(number) == types.NoneType:
-            result_param_info |= {
-                START_FRAME: 1
-            }
-
-        else:
+        if not _frame_number_validation_check(param_info[START_FRAME]):
             raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
 
-    # End Frame
+        result_param_info |= {
+            START_FRAME: param_info[START_FRAME]
+        }
+
     if END_FRAME not in param_info.keys():
         result_param_info |= {
              END_FRAME: None
-        }
-                
+        }  
     else:
-        number = param_info[END_FRAME]
-        if type(number) == int:
-            if number <= 0 or number >= script.get_total_frame() - 1:
-                raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
-
-            result_param_info |= {
-                END_FRAME: number
-            }
-                    
-        elif type(number) == types.NoneType:
-            result_param_info |= {
-                END_FRAME: None
-            }
-
-        else:
+        if not _frame_number_validation_check(param_info[END_FRAME]):
             raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
+
+        result_param_info |= {
+            END_FRAME: param_info[END_FRAME]
+        }
                     
     if param_info[START_FRAME] == param_info[END_FRAME]:
         raise ValueError(f"Start frame must be different from End frame in {name}.")
@@ -114,11 +93,8 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
         result_param_info |= {
             SPEED: 1
         }
-    
     else:
-        if type(param_info[SPEED]) not in (int, float):
-            raise ValueError(f"Speed must be int | float larger than 0 in {name}.")
-        if param_info[SPEED] <= 0: 
+        if not _speed_validation_check(param_info[SPEED]): 
             raise ValueError(f"Speed must be int | float larger than 0 in {name}.")
         
         result_param_info |= {
@@ -130,9 +106,8 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
         result_param_info |= {
             LOOP: 1
         }
-    
     else:
-        if type(param_info[LOOP]) != int:
+        if not _loop_validation_check(param_info[LOOP]):
             raise ValueError(f"Loop must be int in {name}.")
         
         result_param_info |= {
@@ -145,9 +120,8 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
         result_param_info |= {
             IS_VISIBLE: True
         }
-    
     else:
-        if type(param_info[IS_VISIBLE]) != bool:
+        if not _boolean_validation_check(param_info[IS_VISIBLE]):
             raise ValueError(f"Is_visible must be bool in {name}.")
         
         result_param_info |= {
@@ -160,9 +134,8 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
         result_param_info |= {
             IS_REVERSED: True
         }
-    
     else:
-        if type(param_info[IS_REVERSED]) != bool:
+        if not _boolean_validation_check(param_info[IS_REVERSED]):
             raise ValueError(f"is_reversed must be bool in {name}.")
         
         result_param_info |= {
@@ -171,4 +144,3 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
 
     # Animation Info
 
-    

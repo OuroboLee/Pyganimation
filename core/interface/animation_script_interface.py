@@ -28,66 +28,6 @@ class IAnimationScriptStyleBaseInterface(metaclass=ABCMeta):
 
 class IAnimationScriptInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCMeta):
     @abstractmethod
-    def _normal_vector_script_validation_check(self, script: dict) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _keyframe_vector_script_validation_check(self, script: dict) -> None:
-        """
-        """
-        pass
-    
-    @abstractmethod
-    def _normal_normal_script_validation_check(self, script: dict) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _keyframe_normal_script_validation_check(self, script: dict) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _image_info_validation_check(image_info: dict, frame_num: int) -> None:
-        """
-        """
-        pass
-    
-    @abstractmethod
-    def _shape_info_validation_check(shape_info: dict, frame_num: int) -> None:
-        """
-        """
-        pass
-    
-    @abstractmethod
-    def _normal_normal_info_validation_check(normal_info: dict, frame_num: int) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _keyframe_normal_info_validation_check(normal_info: dict, frame_num: int) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _normal_vector_info_validation_check(normal_info: dict, shape_target: str, frame_num: int) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
-    def _keyframe_vector_info_validation_check(keyframe_info: dict, shape_target: str, frame_num: int) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
     def get_total_frame(self):
         """
         """

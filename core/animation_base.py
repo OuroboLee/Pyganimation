@@ -22,6 +22,7 @@
 
 from pyganimation.core.interface import IAnimationManagerInterface, IAnimationBaseInterface, IAnimationInterface
 from pyganimation import INF
+from pyganimation.core.script_validation_check import *
 
 import types
 from typing import Any
@@ -251,9 +252,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._speed
     
     def _set_speed(self, speed: int | float) -> None:
-        if type(speed) not in (int, float): 
-            raise ValueError("Speed must be int | float larger than 0.")
-        if speed <= 0:
+        if not _speed_validation_check(speed):
             raise ValueError("Speed must be int | float larger than 0.")
         self._speed = speed
 
@@ -273,7 +272,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._loop if self._loop is not INF else -1
     
     def _set_loop(self, loop: int) -> None:
-        if type(loop) != int: 
+        if not _loop_validation_check(loop):
             raise ValueError("Loop must be int.")
         self._loop = loop if loop >= 0 else INF
 
@@ -283,7 +282,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._is_visible
     
     def _set_is_visible(self, value: bool) -> None:
-        if type(value) != bool: 
+        if not _boolean_validation_check(value): 
             raise ValueError("Is_visible must be bool.")
         self._is_visible = value
 
@@ -293,7 +292,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._is_reversed
     
     def _set_is_reversed(self, value: bool) -> None:
-        if type(value) != bool:
+        if not _boolean_validation_check(value):
             raise ValueError("Is_reversed must be bool.")
         self._is_reversed = value
 
@@ -303,7 +302,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._is_playing
     
     def _set_is_playing(self, value: bool) -> None:
-        if type(value) != bool:
+        if not _boolean_validation_check(value):
             raise ValueError("Is_playing must be bool.")
         self._is_playing = value
 
@@ -313,20 +312,13 @@ class AnimationBase(IAnimationBaseInterface):
         return self._animation_start_frame_number
     
     def _set_start_frame(self, number: int | types.NoneType) -> None:
-        if type(number) == int:
-            if number <= 0 or number >= self._total_frame - 1:
-                raise ValueError("Start frame must be integer type between 1 and self.total_frame - 1, or None.")
-
-            if number == self._animation_end_frame_number:
-                raise ValueError("Start frame must be different from end frame.")
-
-            self._animation_start_frame_number = number
-        
-        elif type(number) == types.NoneType:
-            self._animation_start_frame_number = 1
-
-        else:
+        if not _frame_number_validation_check(number):
             raise ValueError("Start frame must be integer type between 1 and self.total_frame - 1, or None.")
+
+        if number == self._animation_end_frame_number:
+            raise ValueError("Start frame must be different from end frame.")
+
+        self._animation_start_frame_number = number if number is not None else 1
         
     start_frame = property(_get_start_frame, _set_start_frame)
 
@@ -334,20 +326,13 @@ class AnimationBase(IAnimationBaseInterface):
         return self._animation_end_frame_number
     
     def _set_end_frame(self, number: int | types.NoneType) -> None:
-        if type(number) == int:
-            if number <= 0 or number >= self._total_frame - 1:
-                raise ValueError("End frame must be integer between 1 and self.total_frame - 1, or None.")
-
-            if number == self._animation_end_frame_number:
-                raise ValueError("End frame must be different from start frame.")
-
-            self._animation_end_frame_number = number
-        
-        elif type(number) == types.NoneType:
-            self._animation_end_frame_number = self._total_frame - 1
-
-        else:
+        if not _frame_number_validation_check(number):
             raise ValueError("End frame must be integer between 1 and self.total_frame - 1, or None.")
+
+        if number == self._animation_start_frame_number:
+            raise ValueError("End frame must be different from start frame.")
+
+        self._animation_end_frame_number = number if number is not None else self._total_frame - 1
         
     end_frame = property(_get_end_frame, _set_end_frame)
 
@@ -357,10 +342,8 @@ class AnimationBase(IAnimationBaseInterface):
     def _set_abs_start_frame(self, number: int) -> None:
         if type(number) != int:
             raise ValueError("Abs start frame must be integer equal or larger than 0.")
-
-        else:
-            if number < 0:
-                raise ValueError("Abs start frame must be integer equal or larger than 0.")
+        if number < 0:
+            raise ValueError("Abs start frame must be integer equal or larger than 0.")
         
         self._animation_abs_start_frame_number = number
     
@@ -370,7 +353,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._added_to_animation_queue
     
     def _set_added_to_animation_queue(self, value: bool) -> None:
-        if type(value) != bool:
+        if not _boolean_validation_check(value):
             raise ValueError("The value must be boolean.")
         
         self._added_to_animation_queue = value

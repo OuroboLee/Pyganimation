@@ -1,111 +1,150 @@
 import os, types, pygame
 
 from pyganimation._constants import *
+from pyganimation.core.interface import IAnimationScriptInterface
 
 JSON = ".json"
 
 ##### Check Functions #####
 
-def _script_pathlike_str_validation_check(script: str, idx: int | types.NoneType = None) -> None:
-    if idx is not None:
-        if not os.path.exists(script):
-            raise ValueError("Invalid path.")
-        if os.path.splitext(script)[1] != JSON:
-            raise ValueError("Target file must be json file.")
-    else:
-        if not os.path.exists(script):
-            raise ValueError(f"Invalid path in index {idx}.")
-        if os.path.splitext(script)[1] != JSON:
-            raise ValueError(f"Target file must be json file in index {idx}.")
+def _script_pathlike_str_validation_check(script: str) -> bool:
+    if not os.path.exists(script):
+        return False
+    if os.path.splitext(script)[1] != JSON:
+        return False
+    return True
 
-def _coordinate_validation_check(value: list | tuple, key: str, frame_num: int, is_keyframe: bool) -> None:
-    if is_keyframe:
-        if type(value) not in (list, tuple):
-            raise TypeError(f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame.")
-        if len(value) != 2: 
-            raise ValueError(f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame.")
+def _coordinate_validation_check(value: list | tuple) -> bool:
+    if type(value) not in (list, tuple):
+        return False
+    if len(value) != 2: 
+        return False
 
-        for i in range(2):
-            if type(value[i]) not in (int, float):
-                raise ValueError(f"Invaild coordinate-style object in 'keyframe_normal_info' -> '{key}' in No.{frame_num} frame.")
+    for i in range(2):
+        if type(value[i]) not in (int, float):
+            return False
             
-    else:
-        if type(value) not in (list, tuple):
-            raise TypeError(f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame.")
-        if len(value) != 2:
-            raise ValueError(f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame.")
+    return True
 
-        for i in range(2):
-            if type(value[i]) not in (int, float):
-                raise ValueError(f"Invaild coordinate-style object in '{key}' in No.{frame_num} frame.")
+def _color_validation_check(value: list | tuple) -> bool:
+    if type(value) not in (list, tuple):
+        return False
+    if len(value) != 3:
+        return False
 
-def _color_validation_check(value: list | tuple, frame_num: int, is_keyframe: bool) -> None:
-    if is_keyframe:
-        if type(value) not in (list, tuple):
-            raise TypeError(f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame.")
-        if len(value) != 3:
-            raise ValueError(f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame.")
-
-        for i in range(3):
-            if type(value[i]) not in (int, float):
-                raise ValueError(f"Invalid color-style object in 'keyframe_normal_info' -> 'color' in No.{frame_num} frame.")
-
-    else:
-        if type(value) not in (list, tuple):
-            raise TypeError(f"Invalid color-style object in 'color' in No.{frame_num} frame.")
-        if len(value) != 3:
-            raise ValueError(f"Invalid color-style object in 'color' in No.{frame_num} frame.")
-
-        for i in range(3):
-            if type(value[i]) not in (int, float):
-                raise ValueError(f"Invalid color-style object in 'color' in No.{frame_num} frame.")
+    for i in range(3):
+        if type(value[i]) not in (int, float):
+            return False
+    
+    return True
             
 ##### Normal Animation Check Functions #####
 
-def _image_info_validation_check(image_info: dict, frame_num: int):
+def _image_info_validation_check(image_info: dict) -> bool:
     if TARGET not in image_info.keys():
-        raise KeyError(f"'target' key is missing in 'image_info' key in No.{frame_num} frame.")
+        return False
     
     if type(image_info[TARGET]) not in (pygame.Surface, str):
-        raise TypeError(f"Type of value in 'target' key must be pygame.Surface or path-like str in No.{frame_num} frame.")
+        return False
     if type(image_info[TARGET]) == str:
         if not os.path.exists(image_info[TARGET]):
-            raise ValueError(f"Invalid image path in No.{frame_num} frame.")
+            return False
 
     if RECT not in image_info.keys():
-        raise KeyError(f"'rect' key is missing in 'image_info' key in No.{frame_num} frame.")
+        return False
     if type(image_info[RECT]) not in (pygame.Rect, list, tuple, types.NoneType, int):
-        raise TypeError(f"Type of value in 'rect' key must be pygame.Rect, list, tuple, NoneType, or int in in No.{frame_num} frame.")
+        return False
 
     if type(image_info[RECT]) == int:
         if image_info[RECT] != 0:
-            raise ValueError(f"If the type of value in 'rect' key in 'image_info' is int, the value must be 0 in No.{frame_num} frame.")
+            return False
 
     elif type(image_info[RECT]) in (list, tuple):
         if len(image_info[RECT]) != 4:
-            raise ValueError(f"Invaild rect-style object in No.{frame_num} frame.")
+            raise False
         for i in image_info[RECT]:
             if type(image_info[RECT][i]) not in (int, float):
-                raise ValueError(f"Invaild rect-style object in No.{frame_num} frame.")
+                raise False
 
 ##### Vector Animation Check Functions #####
 
-def _shape_info_validation_check(shape_info: dict, frame_num: int):
+def _shape_info_validation_check(shape_info: dict) -> bool:
     pass
 
 ##### Parameter Check Functions #####
 
-def _normal_animation_info_validation_check(animation_info: dict):
-    if type(animation_info) != dict: return False
+def _frame_number_validation_check(number: int, script: IAnimationScriptInterface) -> bool:
+    if type(number) not in (int, types.NoneType):
+        return False
+
+    if number <= 0 or number > script.get_total_frame() - 1:
+        return False
+    
+    return True
+    
+def _speed_validation_check(number: int | float) -> bool:
+    if type(number) not in (int, float):
+        return False
+    if number <= 0:
+        return False
+    return True
+    
+def _loop_validation_check(number: int) -> bool:
+    if type(number) != int:
+        return False
+    return True
+
+def _boolean_validation_check(value: bool) -> bool:
+    if type(value) != bool:
+        return False
+    return True
+
+def _normal_animation_info_validation_check(animation_info: dict) -> bool:
+    if type(animation_info) != dict: 
+        return False
+    
     if ABS_POS not in animation_info.keys():
         return False
-    pass
+    
+    if not _coordinate_validation_check(animation_info[ABS_POS]):
+        return False
+    
+    if ABS_ANGLE not in animation_info.keys():
+        return False
+    
+    if type(animation_info[ABS_ANGLE]) not in (int, float):
+        return False
+    
+    if ABS_SCALE not in animation_info.keys():
+        return False
+    
+    if not _coordinate_validation_check(animation_info[ABS_SCALE]):
+        return False
+    
+    if ABS_ALPHA not in animation_info.keys():
+        return False
+    
+    if type(animation_info[ABS_ANGLE]) not in (int, float):
+        return False
+    
+    return True
 
+def _vector_animation_info_validation_check(animation_info: dict) -> bool:
+    if not _normal_animation_info_validation_check(animation_info):
+        return False
+    
+    return True
 
 __all__ = [
     "_script_pathlike_str_validation_check",
     "_coordinate_validation_check",
     "_color_validation_check",
     "_image_info_validation_check",
-    "_shape_info_validation_check"
+    "_shape_info_validation_check",
+    "_frame_number_validation_check",
+    "_speed_validation_check",
+    "_loop_validation_check",
+    "_boolean_validation_check",
+    "_normal_animation_info_validation_check",
+    "_vector_animation_info_validation_check"
 ]
