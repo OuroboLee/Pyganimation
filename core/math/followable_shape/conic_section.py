@@ -2,14 +2,14 @@ from pyganimation.core.math.followable_shape import FollowableShape
 
 from math import sin, cos, tan, pi, radians, degrees, asin, acos, atan
 
-def polar_to_orth(r: float, c: float) -> tuple[float, float]:
+def polar_to_orth(r: float, theta: float) -> tuple[float, float]:
     """
     Converts polar coordinate to orthology coordinate.
 
     :param r: Radius.
     :param c: Degree in radian.
     """
-    return r * cos(c), r * sin(c)
+    return r * cos(theta), r * sin(theta)
 
 def orth_to_polar(x: float, y: float) -> tuple[float, float]:
     """
