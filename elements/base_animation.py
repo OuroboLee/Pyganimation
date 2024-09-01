@@ -257,10 +257,10 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
     ##### Getter & Setter #####
 
-    def get_animation_script(self) -> AnimationScript:
+    def get_animation_script(self) -> IAnimationScriptInterface:
         return self._animation_script
     
-    
+
 
 if __name__ == "__main__":
     from pyganimation.elements.animation_script import AnimationScript

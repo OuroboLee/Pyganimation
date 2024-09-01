@@ -93,6 +93,15 @@ def _image_info_validation_check(image_info: dict, frame_num: int):
 def _shape_info_validation_check(shape_info: dict, frame_num: int):
     pass
 
+##### Parameter Check Functions #####
+
+def _normal_animation_info_validation_check(animation_info: dict):
+    if type(animation_info) != dict: return False
+    if ABS_POS not in animation_info.keys():
+        return False
+    pass
+
+
 __all__ = [
     "_script_pathlike_str_validation_check",
     "_coordinate_validation_check",

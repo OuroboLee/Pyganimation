@@ -201,5 +201,10 @@ class BaseVectorAnimation(AnimationBase, IBaseVectorAnimationInterface):
             elif self.image == CIRCLE:
                 pass
 
+    ##### Getter & Setter #####
+
+    def get_animation_script(self) -> IAnimationScriptInterface:
+        return self._animation_script
+
     
         

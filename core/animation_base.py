@@ -403,6 +403,15 @@ class AnimationBase(IAnimationBaseInterface):
 
     children = property(_get_children, _set_children)
 
+    def _get_animation_info(self) -> dict:
+        return self._animation_info
+    
+    def _set_aniamtion_info(self, info: dict):
+
+        self._animation_info = info
+
+    animation_info = property(_get_animation_info, _set_aniamtion_info)
+
     def _get_current_frame(self):
         return self._animation_current_frame_number
     

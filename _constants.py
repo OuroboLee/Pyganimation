@@ -45,6 +45,8 @@ INF = "infinity"
 
 ANIMATION_TYPE = "animation_type"
 ANIMATION_SCRIPT = "animation_script"
+ANIMATION_LIST = "animation_list"
+ANIMATION_TIMELINE = "animation_timeline"
 ANIMATION_PARAM_INFO = "animation_param_info"
 
 START_FRAME = "start_frame"
@@ -55,18 +57,13 @@ IS_VISIBLE = "is_visible"
 IS_REVERSED = "is_reversed"
 ANIMATION_INFO = "animation_info"
 
-ANIMATION_LIST_NORMAL_PARAM_INFO_DEFAULT = {
+ANIMATION_LIST_PARAM_INFO_DEFAULT = {
     START_FRAME: 1,
-    END_FRAME : None,
+    END_FRAME: None,
     SPEED: 1,
     LOOP: 1,
     IS_VISIBLE: True,
-    IS_REVERSED: False,
-    ANIMATION_INFO: NORMAL_ANIMATION_INFO_DEFAULT
-}
-
-ANIMATION_LIST_VECTOR_PARAM_INFO = {
-
+    IS_REVERSED: False
 }
 
 # Shape / Vector

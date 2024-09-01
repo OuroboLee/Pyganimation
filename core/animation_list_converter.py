@@ -1,7 +1,11 @@
 from pyganimation.core.interface.animation_interface import IAnimationBaseInterface
+from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
 from pyganimation.elements import BaseAnimation, BaseVectorAnimation, Animation
+from pyganimation._constants import *
 
-def list_mutant_1_to_default(script: list):
+import types
+
+def list_to_default(script: list) -> dict:
     result_dict = dict()
 
     for animation in script:
@@ -10,12 +14,161 @@ def list_mutant_1_to_default(script: list):
         
         anim_dict = dict()
 
-        if type(animation) == BaseAnimation:
-            pass
-
-        elif type(animation) == BaseVectorAnimation:
-            pass
+        if type(animation) in (BaseAnimation, BaseVectorAnimation):
+            anim_dict[animation.animation_name] = {
+                ANIMATION_SCRIPT: animation.get_animation_script(),
+                ANIMATION_PARAM_INFO: {
+                    START_FRAME: animation.start_frame,
+                    END_FRAME: animation.end_frame,
+                    SPEED: animation.speed,
+                    LOOP: animation.loop,
+                    IS_VISIBLE: animation.is_visible,
+                    IS_REVERSED: animation.is_reversed,
+                    ANIMATION_INFO: animation.animation_info
+                }
+            }
 
         elif type(animation) == Animation:
             pass
 
+def dict_to_default(script: dict) -> dict:
+    result_dict = dict()
+
+    for name, info in script.items():
+        result_dict[name] = dict()
+
+        if ANIMATION_SCRIPT in info.keys(): # BaseAnimation / BaseVectorAnimation
+            if ANIMATION_PARAM_INFO not in info.keys():
+                result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
+
+                if info[ANIMATION_SCRIPT].get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
+                    result_dict[name]
+
+            else:
+                pass
+
+        elif ANIMATION_LIST in info.keys() and ANIMATION_TIMELINE in info.keys(): # Animation
+            # result_dict[name] = {
+
+            # }
+            pass
+
+        else:
+            raise ValueError("Invaild dict-style animation_list: At least one AnimationScript / one AnimationList and one AnimationScript instance should be given.")
+        
+def _process_animation_param_info(name: str, param_info: dict, script: IAnimationScriptInterface) -> dict:
+    result_param_info = dict()
+    # Start Frame
+    if START_FRAME not in param_info.keys():
+        result_param_info |= {
+            START_FRAME: 1
+        }
+                
+    else: 
+        number = param_info[START_FRAME]
+        if type(number) == int:
+            if number <= 0 or number >= script.get_total_frame() - 1:
+                raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
+
+            result_param_info |= {
+                START_FRAME: number
+            }
+                    
+        elif type(number) == types.NoneType:
+            result_param_info |= {
+                START_FRAME: 1
+            }
+
+        else:
+            raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
+
+    # End Frame
+    if END_FRAME not in param_info.keys():
+        result_param_info |= {
+             END_FRAME: None
+        }
+                
+    else:
+        number = param_info[END_FRAME]
+        if type(number) == int:
+            if number <= 0 or number >= script.get_total_frame() - 1:
+                raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
+
+            result_param_info |= {
+                END_FRAME: number
+            }
+                    
+        elif type(number) == types.NoneType:
+            result_param_info |= {
+                END_FRAME: None
+            }
+
+        else:
+            raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
+                    
+    if param_info[START_FRAME] == param_info[END_FRAME]:
+        raise ValueError(f"Start frame must be different from End frame in {name}.")
+
+    # Speed
+    if SPEED not in param_info.keys():
+        result_param_info |= {
+            SPEED: 1
+        }
+    
+    else:
+        if type(param_info[SPEED]) not in (int, float):
+            raise ValueError(f"Speed must be int | float larger than 0 in {name}.")
+        if param_info[SPEED] <= 0: 
+            raise ValueError(f"Speed must be int | float larger than 0 in {name}.")
+        
+        result_param_info |= {
+            SPEED: param_info[SPEED]
+        }
+
+    # Loop
+    if LOOP not in param_info.keys():
+        result_param_info |= {
+            LOOP: 1
+        }
+    
+    else:
+        if type(param_info[LOOP]) != int:
+            raise ValueError(f"Loop must be int in {name}.")
+        
+        result_param_info |= {
+            LOOP: param_info[LOOP]
+        }
+
+    # Is_visible
+
+    if IS_VISIBLE not in param_info.keys():
+        result_param_info |= {
+            IS_VISIBLE: True
+        }
+    
+    else:
+        if type(param_info[IS_VISIBLE]) != bool:
+            raise ValueError(f"Is_visible must be bool in {name}.")
+        
+        result_param_info |= {
+            IS_VISIBLE: param_info[IS_VISIBLE]
+        }
+
+    # Is_Reversed
+
+    if IS_REVERSED not in param_info.keys():
+        result_param_info |= {
+            IS_REVERSED: True
+        }
+    
+    else:
+        if type(param_info[IS_REVERSED]) != bool:
+            raise ValueError(f"is_reversed must be bool in {name}.")
+        
+        result_param_info |= {
+            IS_REVERSED: param_info[IS_REVERSED]
+        }
+
+    # Animation Info
+
+    
