@@ -29,7 +29,25 @@ class IBezierCurveInterface(metaclass = ABCMeta):
         pass
 
 class ICircleInterface(metaclass=ABCMeta):
-    pass
+    @abstractmethod
+    def __init__(self, center: list[float, float] | tuple[float, float]):
+        pass
+    
+    @abstractmethod
+    def _get_angle_from_pos(self, pos: list | tuple) -> float:
+        pass
+
+    @abstractmethod
+    def _get_pos_from_angle(self, angle: float) -> tuple[float, float]:
+        pass
+
+    @abstractmethod
+    def get_pos(self, start_angle: float, total_angle: float, step: float) -> tuple[float, float]:
+        pass
+
+    @abstractmethod
+    def get_angle(self, start_angle: float, total_angle: float, step: float) -> float:
+        pass
 
 class IEillpseInterface(metaclass=ABCMeta):
     pass
