@@ -32,6 +32,10 @@ def list_to_default(script: list) -> dict:
         elif type(animation) == Animation:
             pass
 
+        result_dict |= anim_dict
+
+    return result_dict
+
 def dict_to_default(script: dict) -> dict:
     result_dict = dict()
 
@@ -70,6 +74,8 @@ def dict_to_default(script: dict) -> dict:
         else:
             raise ValueError("Invaild dict-style animation_list: At least one AnimationScript / one AnimationList and one AnimationScript instance should be given.")
         
+    return result_dict
+        
 def _process_animation_param_info(name: str, param_info: dict, script: IAnimationScriptInterface) -> dict:
     result_param_info = dict()
 
@@ -98,7 +104,7 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
             END_FRAME: param_info[END_FRAME]
         }
                     
-    if param_info[START_FRAME] == param_info[END_FRAME]:
+    if result_param_info[START_FRAME] == result_param_info[END_FRAME]:
         raise ValueError(f"Start frame must be different from End frame in {name}.")
 
     # Speed

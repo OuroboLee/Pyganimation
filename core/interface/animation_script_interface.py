@@ -66,12 +66,6 @@ class IAnimationTimelineInterface(IAnimationScriptStyleBaseInterface, metaclass=
 
 class IAnimationListInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCMeta):
     @abstractmethod
-    def _script_validation_check(self):
-        """
-        """
-        pass
-
-    @abstractmethod
     def get_name_list(self):
         """
         """

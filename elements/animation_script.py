@@ -73,7 +73,6 @@ class AnimationScript(IAnimationScriptInterface):
             if KEYFRAME_NORMAL_INFO in script[0].keys(): # Keyframe
                 if IMAGE_INFO in script[0].keys(): # Normal
                     self._script_type = SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION
-                    self._keyframe_normal_script_validation_check(script)
                     self._final_script = keyframe_normal_to_normal_normal(script, self.debugging)
 
 

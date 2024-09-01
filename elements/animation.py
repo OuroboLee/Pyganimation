@@ -22,7 +22,7 @@
 from pyganimation.core.animation_base import AnimationBase
 from pyganimation.core.interface.animation_interface import IAnimationInterface
 from pyganimation.core.interface.animation_script_interface import IAnimationTimelineInterface, IAnimationListInterface
-from animation_manager import AnimationManager
+from pyganimation.animation_manager import AnimationManager
 from pyganimation._constants import *
 
 import types
