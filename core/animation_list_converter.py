@@ -39,20 +39,33 @@ def dict_to_default(script: dict) -> dict:
         result_dict[name] = dict()
 
         if ANIMATION_SCRIPT in info.keys(): # BaseAnimation / BaseVectorAnimation
+            result_dict[name][ANIMATION_SCRIPT] = info[ANIMATION_SCRIPT]
+
             if ANIMATION_PARAM_INFO not in info.keys():
                 result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
 
                 if info[ANIMATION_SCRIPT].get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
-                    result_dict[name]
+                    result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = NORMAL_ANIMATION_INFO_DEFAULT
+                elif info[ANIMATION_SCRIPT].get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
+                    result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = VECTOR_ANIMATION_INFO_DEFAULT
 
             else:
-                pass
+                result_dict[name][ANIMATION_PARAM_INFO] = _process_animation_param_info(
+                    name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
+                )
 
         elif ANIMATION_LIST in info.keys() and ANIMATION_TIMELINE in info.keys(): # Animation
-            # result_dict[name] = {
+            result_dict[name][ANIMATION_LIST] = info[ANIMATION_LIST]
+            result_dict[name][ANIMATION_TIMELINE] = info[ANIMATION_LIST]
 
-            # }
-            pass
+            if ANIMATION_PARAM_INFO not in info.keys():
+                result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
+                result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = NORMAL_ANIMATION_INFO_DEFAULT
+
+            else:
+                result_dict[name][ANIMATION_PARAM_INFO] = _process_animation_param_info(
+                    name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
+                )
 
         else:
             raise ValueError("Invaild dict-style animation_list: At least one AnimationScript / one AnimationList and one AnimationScript instance should be given.")
@@ -143,4 +156,28 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
         }
 
     # Animation Info
+    if ANIMATION_INFO not in param_info.keys():
+        if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
+            result_param_info |= {
+                ANIMATION_INFO: NORMAL_ANIMATION_INFO_DEFAULT.copy()
+            }
+        elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
+            result_param_info |= {
+                ANIMATION_INFO: VECTOR_ANIMATION_INFO_DEFAULT.copy()
+            }
+
+    else:
+        if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
+            if not _normal_animation_info_validation_check(param_info[ANIMATION_INFO]):
+                raise ValueError(f"Invalid Animation Info in {name}.")
+        
+        elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
+            if not _vector_animation_info_validation_check(param_info[ANIMATION_INFO]):
+                raise ValueError(f"Invalid Animation Info in {name}.")
+
+        result_param_info |= {
+            ANIMATION_INFO: param_info[ANIMATION_INFO].copy()
+        }
+
+    return result_param_info
 
