@@ -256,7 +256,12 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                 # print(f"{self._animation_current_frame_number} : {manipulated_image_rect}")
 
     ##### Getter & Setter #####
+
+    def get_animation_script(self) -> AnimationScript:
+        return self._animation_script
     
+    
+
 if __name__ == "__main__":
     from pyganimation.elements.animation_script import AnimationScript
     from core.script_converter import keyframe_normal_to_normal_normal

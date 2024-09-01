@@ -17,7 +17,7 @@ class AnimaitionList(IAnimationListInterface):
 
         self._debugging = debugging
 
-        self._final_script = list()
+        self._final_script = dict()
 
         if type(script) == str:
             _script_pathlike_str_validation_check(script)
@@ -39,8 +39,10 @@ class AnimaitionList(IAnimationListInterface):
 
     def get_name_list(self) -> list[str]:
         result_list = list()
-        for anim in self._final_script:
-            result_list.append(anim.animation_name)
+        for name in self._final_script.keys():
+            result_list.append(name)
+
+        return result_list
 
     def __str__(self) -> str:
         pass

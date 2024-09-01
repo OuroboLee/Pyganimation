@@ -19,26 +19,26 @@
 # TODO: 
 #
 
-
-from core.interface.animation_interface import IAnimationInterface, IBaseAnimationInterface, IBaseVectorAnimationInterface
-from core.interface.animation_script_interface import IAnimationTimelineInterface
+from pyganimation.core.animation_base import AnimationBase
+from pyganimation.core.interface.animation_interface import IAnimationInterface
+from pyganimation.core.interface.animation_script_interface import IAnimationTimelineInterface, IAnimationListInterface
 from animation_manager import AnimationManager
 from pyganimation._constants import *
 
 import types
 import pygame
 
-class Animation(IAnimationInterface):
+class Animation(AnimationBase, IAnimationInterface):
     def __init__(self, 
                  animation_name: str, 
                  animation_manager: AnimationManager,
                  animation_timeline: IAnimationTimelineInterface,
-                 animation_list: list,
+                 animation_list: IAnimationListInterface,
                  speed: int = 1,
                  loop: bool = False,
                  is_visible: bool = True,
                  is_reversed: bool = False,
-                 is_instant_added_to_animaiton_queue: bool = False,
+                 is_instant_added_to_animation_queue: bool = False,
                  is_instant_removed_from_animation_queue_after_animation_ends: bool = False,
                  animation_info: dict = {
                      ABS_POS: (0, 0),
@@ -47,56 +47,42 @@ class Animation(IAnimationInterface):
                      ABS_ALPHA: 1
                  }
                 ):
-        assert len(animation_list) > 0, "Must contain at least one BaseAnimation / BaseVectorAnimation / Animation object."
-        for a in animation_list:
-            assert type(a) == str, "Invaild argument. Arguments must contain at least one BaseAnimation / BaseVectorAnimation / Animation object."
+        
+        super().__init__(
+            animation_name, 
+            animation_manager,
+            animation_info,
+            speed,
+            loop,
+            is_visible,
+            is_reversed,
+            is_instant_added_to_animation_queue,
+            is_instant_removed_from_animation_queue_after_animation_ends
+        )
 
-        self._animation_name = animation_name
-        self._animation_manager = animation_manager
         self._animation_timeline = animation_timeline
         self._animation_list = animation_list
 
-        self._speed = speed
-        self._loop = loop
-        self._is_visible = is_visible
-        self._is_reversed = is_reversed
-        self._is_instant_added_to_animation_queue = is_instant_added_to_animaiton_queue
-        self._animation_info = animation_info
-
         self._total_frame = self._animation_timeline.get_total_frame()
 
-        self._parent = None
-        self._children = None
-    
-    def play(self, start_frame: int | types.NoneType = None, end_frame: int | types.NoneType = None) -> None:
-        pass
-
-    def pause(self) -> None:
-        pass
-
-    def stop(self) -> None:
-        pass
-
-    def replay(self, start_frame: int | types.NoneType = None, end_frame: int | types.NoneType = None) -> None:
-        pass
-
-    def reverse(self):
-        pass
-
-    def add(self):
-        pass
-
-    def remove(self):
-        pass
-
-    def show(self):
-        pass
-
-    def hide(self):
-        pass
+        self._animation_current_frame_number = 1
+        self._animation_current_internal_frame_number = 1
+        self._animation_start_frame_number = 1
+        self._animation_end_frame_number = self._total_frame - 1
 
     def copy(self):
-        pass
+        return Animation(
+            self._animation_name,
+            self._animation_manager,
+            self._animation_timeline,
+            self._animation_list,
+            self._speed,
+            self._loop,
+            self.is_visible,
+            self._is_reversed,
+            self._is_instant_added_to_animation_queue,
+            self._is_instant_removed_from_animation_queue_after_animation_ends
+        )
 
     def update(self):
         pass

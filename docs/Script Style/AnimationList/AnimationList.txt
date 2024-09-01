@@ -1,30 +1,44 @@
 AnimationList Script
 
-Mutant 1:
+Default:
+
+About "animation_param_info":
+
+WIP.
 
 {
     "<Animation Name1 string>": {
-        "animation_type": <Animation type>
-        "animation_script": <AnimationScript value>,
-        "animation_param_info": {
-            "start_frame": <start_frame value>,
-            "end_frame: <end_frame value>,
-            "speed": <speed value>,
-            "loop": <loop value>,
-            "is_visible": <is_visible value>,
-            "is_reversed": <is_reversed value>
+        # BaseAnimation / BaseVectorAnimation
+        "animation_script"(Necessary): <AnimationScript value>,
+        "animation_param_info"(Not necessary, Default: Read Upper Description.): {
+            "start_frame"(Not necessary. Default = 1): <start_frame value>,
+            "end_frame"(Not necessary. Default = None): <end_frame value>,
+            "speed"(Not necessary. Default = 1): <speed value>,
+            "loop"(Not necessary, Default = 1): <loop value>,
+            "is_visible"(Not necessary, Default = True): <is_visible value>,
+            "is_reversed"(Not necessary, Default = False): <is_reversed value>,
+            "animation_info"(Not necessary, Default = NORMAL_ANIMATION_INFO_DEFAULT / VECTOR_ANIMATION_INFO_DEFAULT): <animation_info value>
         }
     },
-    "<Animation Name1 string>":{
-        .
-        .
-        .
+    "<Animation Name2 string>":{
+        # Animation
+        "animation_list"(Necessary): <AnimationList value>,
+        "animation_timeline"(Necessary): <AnimationTimeline value>,
+        "animation_param_info"(Not necessary, Default: Read Upper Description.): {
+            "start_frame"(Not necessary. Default = 1): <start_frame value>,
+            "end_frame"(Not necessary. Default = None): <end_frame value>,
+            "speed"(Not necessary. Default = 1): <speed value>,
+            "loop"(Not necessary, Default = 1): <loop value>,
+            "is_visible"(Not necessary, Default = True): <is_visible value>,
+            "is_reversed"(Not necessary, Default = False): <is_reversed value>,
+            "animation_info"(Not necessary, Default = NORMAL_ANIMATION_INFO_DEFAULT): <animation_info value>
+        }
     },
     .
     .
     .
 }
 
-Default:
+Mutant 1:
 
 [BaseAnimation | BaseVectorAnimation | Animation Object(s)]

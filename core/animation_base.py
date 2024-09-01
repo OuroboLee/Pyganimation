@@ -344,7 +344,7 @@ class AnimationBase(IAnimationBaseInterface):
             self._animation_end_frame_number = number
         
         elif type(number) == types.NoneType:
-            self._animation_end_frame_number = 1
+            self._animation_end_frame_number = self._total_frame - 1
 
         else:
             raise ValueError("End frame must be integer between 1 and self.total_frame - 1, or None.")
@@ -408,7 +408,7 @@ class AnimationBase(IAnimationBaseInterface):
     
     def _set_current_frame(self, number: int):
         if type(number) != int:
-            raise ValueError("Number must be interger between 0 and total_frame.")
+            raise ValueError("Number must be integer between 0 and total_frame.")
         else:
             if number <= 0 or number < self._total_frame:
                 raise ValueError("Number must be interger between 0 and total_frame.")
@@ -417,6 +417,17 @@ class AnimationBase(IAnimationBaseInterface):
         self._animation_current_internal_frame_number = number
         
     current_frame = property(_get_current_frame, _set_current_frame)
+    
+    def _get_manager(self):
+        return self._animation_manager
+    
+    def _set_manager(self, manager):
+        if type(manager) != IAnimationManagerInterface:
+            raise ValueError("manager must be AnimatonManager Instance.")
+        
+        self._animation_manager = manager
+
+    animation_manager = property(_get_manager, _set_manager)
         
     def get_total_frame(self) -> int:
         return self._total_frame

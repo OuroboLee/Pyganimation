@@ -1,10 +1,10 @@
 Mutant 1:
 
-[<image_info1>, <image_info2>, . . . , <frame_number between image_infos>]
+[<image_info1>, <image_info2>, . . . , <frame number allocated to each image>]
 
 Mutant 2:
 
-[<image_info1>, <image_info2>, <image_info3>. . . , [<frame_number between image_info1 and image_info2>, <frame_number between image_info2 and image_info3>, . . .]]
+[<image_info1>, <image_info2>, <image_info3>. . . , [<frame numbers allocated to image_info1>, <frame numbers allocated to image_info2>, . . .]]
 
 image_info Composition:
 
