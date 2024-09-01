@@ -1,6 +1,6 @@
 AnimationList Script
 
-Default:
+Mutant 1:
 
 About "animation_param_info":
 
@@ -39,6 +39,6 @@ WIP.
     .
 }
 
-Mutant 1:
+Default:
 
 [BaseAnimation | BaseVectorAnimation | Animation Object(s)]

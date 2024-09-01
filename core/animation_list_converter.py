@@ -1,82 +1,89 @@
 from pyganimation.core.interface.animation_interface import IAnimationBaseInterface
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
-from pyganimation.elements import BaseAnimation, BaseVectorAnimation, Animation
+from pyganimation.core.interface import IAnimationManagerInterface
+from pyganimation.elements import BaseAnimation, BaseVectorAnimation, Animation, AnimationScript
 from pyganimation._constants import *
 from pyganimation.core.script_validation_check import *
 
 import types
 
-def list_to_default(script: list) -> dict:
-    result_dict = dict()
+def list_to_default(script: list, debugging: bool = False) -> list:
+    result_list = list()
 
     for animation in script:
         if not isinstance(animation, IAnimationBaseInterface):
             raise ValueError("Invalid animation list: the objects in list must be Animation / BaseAnimation / BaseVectorAnimation instance.")
-        
-        anim_dict = dict()
 
-        if type(animation) in (BaseAnimation, BaseVectorAnimation):
-            anim_dict[animation.animation_name] = {
-                ANIMATION_SCRIPT: animation.get_animation_script(),
-                ANIMATION_PARAM_INFO: {
-                    START_FRAME: animation.start_frame,
-                    END_FRAME: animation.end_frame,
-                    SPEED: animation.speed,
-                    LOOP: animation.loop,
-                    IS_VISIBLE: animation.is_visible,
-                    IS_REVERSED: animation.is_reversed,
-                    ANIMATION_INFO: animation.animation_info
-                }
-            }
+        result_list.append(animation.copy())
 
-        elif type(animation) == Animation:
-            pass
+    return result_list
 
-        result_dict |= anim_dict
-
-    return result_dict
-
-def dict_to_default(script: dict) -> dict:
-    result_dict = dict()
+def dict_to_default(script: dict, manager: IAnimationManagerInterface, debugging: bool = False) -> list:
+    result_list = list()
 
     for name, info in script.items():
-        result_dict[name] = dict()
-
         if ANIMATION_SCRIPT in info.keys(): # BaseAnimation / BaseVectorAnimation
-            result_dict[name][ANIMATION_SCRIPT] = info[ANIMATION_SCRIPT]
+            if type(info[ANIMATION_SCRIPT]) == dict:
+                script = AnimationScript(info[ANIMATION_SCRIPT])
+            elif isinstance(info[ANIMATION_SCRIPT], IAnimationScriptInterface):
+                script = info[ANIMATION_SCRIPT]
+            else:
+                raise ValueError(f"Invalid dict-style animation_list: Invalid animation_script in {name}")
 
             if ANIMATION_PARAM_INFO not in info.keys():
-                result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
-
-                if info[ANIMATION_SCRIPT].get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
-                    result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = NORMAL_ANIMATION_INFO_DEFAULT
-                elif info[ANIMATION_SCRIPT].get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
-                    result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = VECTOR_ANIMATION_INFO_DEFAULT
+                if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
+                    anim = BaseAnimation(name, script, manager)
+                elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
+                    anim = BaseVectorAnimation(name, script, manager)
 
             else:
-                result_dict[name][ANIMATION_PARAM_INFO] = _process_animation_param_info(
+                param_info = _process_animation_param_info(
                     name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
                 )
+
+                if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
+                    anim = BaseAnimation(name, script, manager,
+                                         param_info[SPEED],
+                                         param_info[LOOP],
+                                         param_info[IS_VISIBLE],
+                                         param_info[IS_REVERSED],
+                                         animation_info=param_info[ANIMATION_INFO]
+                                         )
+                    anim.start_frame = param_info[START_FRAME]
+                    anim.end_frame = param_info[END_FRAME]
+                elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
+                    anim = BaseVectorAnimation(name, script, manager,
+                                               param_info[SPEED],
+                                               param_info[LOOP],
+                                               param_info[IS_VISIBLE],
+                                               param_info[IS_REVERSED],
+                                               animation_info=param_info[ANIMATION_INFO]
+                                               )
+                    anim.start_frame = param_info[START_FRAME]
+                    anim.end_frame = param_info[END_FRAME]
 
         elif ANIMATION_LIST in info.keys() and ANIMATION_TIMELINE in info.keys(): # Animation
-            result_dict[name][ANIMATION_LIST] = info[ANIMATION_LIST]
-            result_dict[name][ANIMATION_TIMELINE] = info[ANIMATION_LIST]
+            # result_dict[name][ANIMATION_LIST] = info[ANIMATION_LIST]
+            # result_dict[name][ANIMATION_TIMELINE] = info[ANIMATION_LIST]
 
-            if ANIMATION_PARAM_INFO not in info.keys():
-                result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
-                result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = NORMAL_ANIMATION_INFO_DEFAULT
+            # if ANIMATION_PARAM_INFO not in info.keys():
+            #     result_dict[name][ANIMATION_PARAM_INFO] = ANIMATION_LIST_PARAM_INFO_DEFAULT.copy()
+            #     result_dict[name][ANIMATION_PARAM_INFO][ANIMATION_INFO] = NORMAL_ANIMATION_INFO_DEFAULT
 
-            else:
-                result_dict[name][ANIMATION_PARAM_INFO] = _process_animation_param_info(
-                    name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
-                )
+            # else:
+            #     result_dict[name][ANIMATION_PARAM_INFO] = _process_animation_param_info(
+            #         name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
+            #     )
+            pass
 
         else:
             raise ValueError("Invaild dict-style animation_list: At least one AnimationScript / one AnimationList and one AnimationScript instance should be given.")
         
-    return result_dict
+        result_list.append(anim)
         
-def _process_animation_param_info(name: str, param_info: dict, script: IAnimationScriptInterface) -> dict:
+    return result_list
+        
+def _process_animation_param_info(name: str, param_info: dict, script: IAnimationScriptInterface) -> IAnimationBaseInterface:
     result_param_info = dict()
 
     # Start Frame & End Frame
@@ -85,7 +92,7 @@ def _process_animation_param_info(name: str, param_info: dict, script: IAnimatio
             START_FRAME: 1
         }
     else: 
-        if not _frame_number_validation_check(param_info[START_FRAME]):
+        if not _frame_number_validation_check(param_info[START_FRAME], script.get_total_frame()):
             raise ValueError(f"Start frame must be integer type between 1 and (animation_script's total_frame) - 1, or None in {name}.")
 
         result_param_info |= {

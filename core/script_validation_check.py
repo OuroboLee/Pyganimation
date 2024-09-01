@@ -73,12 +73,13 @@ def _shape_info_validation_check(shape_info: dict) -> bool:
 
 ##### Parameter Check Functions #####
 
-def _frame_number_validation_check(number: int, script: IAnimationScriptInterface) -> bool:
+def _frame_number_validation_check(number: int, total_frame: int) -> bool:
     if type(number) not in (int, types.NoneType):
         return False
 
-    if number <= 0 or number > script.get_total_frame() - 1:
-        return False
+    if type(number) == int:
+        if number <= 0 or number > total_frame - 1:
+            return False
     
     return True
     

@@ -1,5 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Any
+import types
+
 
 class IAnimationScriptStyleBaseInterface(metaclass=ABCMeta):
     @abstractmethod
@@ -65,6 +67,13 @@ class IAnimationTimelineInterface(IAnimationScriptStyleBaseInterface, metaclass=
         pass
 
 class IAnimationListInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCMeta):
+    @abstractmethod
+    def __init__(self,
+                 script: list | dict | str,
+                 manager: Any = None,
+                 debugging: bool = False):
+        pass
+    
     @abstractmethod
     def get_name_list(self):
         """

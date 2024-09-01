@@ -264,7 +264,7 @@ class AnimationBase(IAnimationBaseInterface):
     def _set_name(self, name: str) -> None:
         if type(name) != str: 
             raise ValueError("Name must be str.")
-        self._name = name
+        self._animation_name = name
 
     animation_name = property(_get_name, _set_name)
 
@@ -312,7 +312,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._animation_start_frame_number
     
     def _set_start_frame(self, number: int | types.NoneType) -> None:
-        if not _frame_number_validation_check(number):
+        if not _frame_number_validation_check(number, self._total_frame):
             raise ValueError("Start frame must be integer type between 1 and self.total_frame - 1, or None.")
 
         if number == self._animation_end_frame_number:
@@ -326,7 +326,7 @@ class AnimationBase(IAnimationBaseInterface):
         return self._animation_end_frame_number
     
     def _set_end_frame(self, number: int | types.NoneType) -> None:
-        if not _frame_number_validation_check(number):
+        if not _frame_number_validation_check(number, self._total_frame):
             raise ValueError("End frame must be integer between 1 and self.total_frame - 1, or None.")
 
         if number == self._animation_start_frame_number:
