@@ -103,6 +103,7 @@ class AnimationBase(IAnimationBaseInterface):
         """
         self.start_frame = start_frame
         self.end_frame = end_frame
+        self._substantial_total_frame = (self.end_frame - self.start_frame + 1) * self.speed * self.loop if self.loop != INF else INF
 
         self._is_playing = True
 
@@ -139,6 +140,7 @@ class AnimationBase(IAnimationBaseInterface):
         """
         self._animation_start_frame_number = 1
         self._animation_end_frame_number = self._total_frame - 1
+        self._substantial_total_frame = (self.end_frame - self.start_frame + 1) * self.speed * self.loop if self.loop != INF else INF
 
         self._loop = 1
         self._start_loop = 1

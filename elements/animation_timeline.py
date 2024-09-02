@@ -1,3 +1,25 @@
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# TODO: 애니메이션 타임라임 구현 -> 애니메이션 리스트 인자로 받아 스크립트 구성할 것.
+#
+
+
 from pyganimation.core.script_validation_check import *
 from pyganimation.core.interface.animation_script_interface import IAnimationTimelineInterface, IAnimationListInterface
 from pyganimation.core.animation_file_manager import load

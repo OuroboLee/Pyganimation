@@ -1,3 +1,25 @@
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+# TODO: 애니메이션 리스트 이름 중복 체크 추가
+#
+
+
 from pyganimation.core.script_validation_check import *
 from pyganimation.core.animation_list_converter import list_to_default, dict_to_default
 from pyganimation.core.interface.animation_script_interface import IAnimationListInterface

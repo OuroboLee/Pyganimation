@@ -83,7 +83,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
         self._total_frame = animation_script.get_total_frame()
         self._animation_end_frame_number = self._total_frame - 1
-        self._substantial_total_frame = self._total_frame * (1 / self._speed) * self._loop if self._loop is not INF else INF
+        self._substantial_total_frame = (self._animation_end_frame_number - self._animation_start_frame_number + 1) * (1 / self._speed) * self._loop if self._loop is not INF else INF
 
     def __str__(self) -> str:
         return f"<BaseAnimation Object - Total Frame: {self._total_frame}, Current Frame: {self._animation_current_frame_number}>"
