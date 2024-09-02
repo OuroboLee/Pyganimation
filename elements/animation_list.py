@@ -47,6 +47,13 @@ class AnimaitionList(IAnimationListInterface):
             result_list.append(anim.animation_name)
 
         return result_list
+    
+    def get_animation_from_name(self, name: str):
+        for anim in self._final_script:
+            if anim.animation_name == name:
+                return anim
+        
+        return None
 
     def __str__(self) -> str:
         return f"AnimationList object with {len(self._final_script)} contents."

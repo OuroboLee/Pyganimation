@@ -80,6 +80,10 @@ class IAnimationListInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCM
         """
         pass
 
+    @abstractmethod
+    def get_animation_from_name(self, name: str):
+        pass
+
 class ISpriteAnimationScriptInterface(IAnimationScriptStyleBaseInterface, metaclass=ABCMeta):
     @abstractmethod
     def get_total_frame(self):
