@@ -66,6 +66,9 @@ class AnimationTimeline(IAnimationTimelineInterface):
         if self._total_frame == 0:
             self._total_frame = value
 
+    def _dict_or_list_style_script_process(self, script: dict | list) -> None:
+        pass
+
     def _script_validation_check(self):
         pass
 
