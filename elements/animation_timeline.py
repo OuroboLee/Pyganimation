@@ -29,6 +29,7 @@ import pprint
 class AnimationTimeline(IAnimationTimelineInterface):
     def __init__(self,
                  script: list | dict | str,
+                 animation_list = IAnimationListInterface,
                  debugging: bool = False
                 ):
         """
@@ -36,7 +37,8 @@ class AnimationTimeline(IAnimationTimelineInterface):
         assert type(script) in (list, dict, str), "Script Parameter must be among path-like str that represents json format file, Python dict, or Python list."
 
         self._primitive_script = None
-        self._script_path = None
+        self._script = script
+        self._animation_list = animation_list
         self._debugging = debugging
 
         if type(script) == str:
