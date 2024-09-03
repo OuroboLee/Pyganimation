@@ -69,9 +69,6 @@ class AnimationTimeline(IAnimationTimelineInterface):
     def _script_validation_check(self):
         pass
 
-    def timeline_validation_check(self, animation_list: IAnimationListInterface):
-        pass
-
     def __str__(self) -> str:
         return f"<AnimationTimeline Object (Total Frame: {self._total_frame}))>"
     
