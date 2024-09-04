@@ -26,7 +26,7 @@ from pygame import Rect
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
 from pyganimation.core.script_validation_check import *
 from pyganimation.core.animation_file_manager import load
-from pyganimation.core.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
+from pyganimation.core.converter.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
 from pyganimation._constants import *
 
 import os, types
