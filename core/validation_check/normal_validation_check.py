@@ -77,5 +77,6 @@ def _normal_normal_frame_validation_check(frame: dict) -> tuple[bool, str]:
 
 
 __all__ = [
-    "_image_info_validation_check"
+    "_image_info_validation_check",
+    "_normal_normal_validation_check"
 ]
