@@ -9,7 +9,7 @@ __all__ = [
     "IAnimationManagerInterface",
     "IAnimationScriptInterface",
     "IAnimationListInterface",
-    "IAnimationTImeline",
+    "IAnimationTImelineInterface",
 
     "load",
     "save",

@@ -95,7 +95,7 @@ from itertools import pairwise
 
 from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info
 from pyganimation.core.math.followable_shape import BezierCurve
-from pyganimation.core.script_validation_check import _image_info_validation_check, _shape_info_validation_check
+from pyganimation.core.validation_check import *
 
 import pygame
 

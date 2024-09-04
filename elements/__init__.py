@@ -7,6 +7,8 @@ from pyganimation.elements.base_vector_animation import BaseVectorAnimation
 __all__ = [
     "AnimationScript",
     "SpriteAnimationScript",
+    "AnimationList",
+
     "BaseAnimation",
     "BaseVectorAnimation",
     "Animation"

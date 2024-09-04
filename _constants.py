@@ -7,6 +7,8 @@ SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION = "keyframe_vector"
 
 # Animation Script
 
+JSON = ".json"
+
 IMAGE_INFO = "image_information"
 SHAPE_INFO = "shape_information"
 TARGET = "target"

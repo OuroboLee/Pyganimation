@@ -1,10 +1,11 @@
 from pyganimation.core.math.followable_shape import FollowableShape
+from pyganimation.core.interface.math_interface import ICircleInterface, IEillpseInterface, IParabolaInterface, IHyperbolaInterface
 
 from math import sin, cos, tan, pi, radians, degrees, asin, acos, atan
 
 def polar_to_orth(r: float, theta: float) -> tuple[float, float]:
     """
-    Converts polar coordinate to orthology coordinate.
+    Converts polar coordinate to orthology coordinate. (R, Theta) -> (X, Y)
 
     :param r: Radius.
     :param c: Degree in radian.
@@ -13,7 +14,7 @@ def polar_to_orth(r: float, theta: float) -> tuple[float, float]:
 
 def orth_to_polar(x: float, y: float) -> tuple[float, float]:
     """
-    Converts orthology coordinate to polar coordinate.
+    Converts orthology coordinate to polar coordinate. (X, Y) -> (R, Theta)
 
     :param x: X Coordinate.
     :param y: Y Coordinate.

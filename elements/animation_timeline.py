@@ -20,7 +20,7 @@
 #
 
 
-from pyganimation.core.script_validation_check import *
+from pyganimation.core.validation_check import *
 from pyganimation.core.interface.animation_script_interface import IAnimationTimelineInterface, IAnimationListInterface
 from pyganimation.core.animation_file_manager import load
 
@@ -80,3 +80,10 @@ class AnimationTimeline(IAnimationTimelineInterface):
     
     def __getitem__(self, key: int) -> dict:
         return self._final_script[key]
+    
+__all__ = [
+    "AnimationTimeline"
+]
+
+if __name__ == "__main__":
+    pass

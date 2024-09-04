@@ -1,4 +1,4 @@
-from pyganimation.core.script_validation_check import *
+from pyganimation.core.validation_check import *
 from pyganimation.core.interface.animation_script_interface import ISpriteAnimationScriptInterface
 from pyganimation.core.animation_file_manager import load
 from pyganimation.core.converter.script_converter import keyframe_normal_to_normal_normal
