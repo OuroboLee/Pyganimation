@@ -173,7 +173,7 @@ BOTTOMLEFT = "bottomleft"
 BOTTOMMID = "bottommid"
 BOTTOMRIGHT = "bottomright"
 
-SCALE_ANCHOR_LIST = [
+ANCHOR_LIST = [
     TOPLEFT,
     TOPMID,
     TOPRIGHT,
