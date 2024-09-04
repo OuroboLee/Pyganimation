@@ -264,7 +264,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
 if __name__ == "__main__":
     from pyganimation.elements.animation_script import AnimationScript
-    from core.script_converter import keyframe_normal_to_normal_normal
+    from core.converter.script_converter import keyframe_normal_to_normal_normal
 
     keyframe_script = {
         0: {

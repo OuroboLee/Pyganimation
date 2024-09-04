@@ -21,7 +21,7 @@
 
 
 from pyganimation.core.script_validation_check import *
-from pyganimation.core.animation_list_converter import list_to_default, dict_to_default
+from pyganimation.core.converter.animation_list_converter import list_to_default, dict_to_default
 from pyganimation.core.interface.animation_script_interface import IAnimationListInterface
 from pyganimation.core.interface.animation_manager_interface import IAnimationManagerInterface
 from pyganimation.core.animation_file_manager import load
