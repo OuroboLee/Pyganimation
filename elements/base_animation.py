@@ -119,10 +119,11 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             self._animation_script,
             self._animation_manager,
             self._speed,
-            self._loop,
+            self._start_loop,
             self._is_visible,
             self._is_reversed,
             self._is_instant_added_to_animation_queue,
+            self._is_instant_removed_from_animation_queue_after_animation_ends,
             self._animation_info
         )
 
@@ -233,10 +234,10 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                 current_pos, current_scale, current_angle
             )
 
-            if current_alpha > 255: 
-                current_alpha = 255
-            elif current_alpha < 0: 
-                current_alpha = 0
+            # Correction in alpha
+
+            if current_alpha > 255: current_alpha = 255
+            elif current_alpha < 0: current_alpha = 0
             
             self._current_image.set_alpha(current_alpha)
 

@@ -22,7 +22,7 @@
 
 from pyganimation.core.interface import IAnimationManagerInterface, IAnimationBaseInterface, IAnimationInterface
 from pyganimation import INF
-from pyganimation.core.script_validation_check import *
+from pyganimation.core.validation_check import *
 
 import types
 from typing import Any

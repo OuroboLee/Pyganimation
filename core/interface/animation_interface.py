@@ -101,12 +101,6 @@ class IAnimationBaseInterface(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def _update_current_image_info(self, debugging: bool = False) -> None:
-        """
-        """
-        pass
-
-    @abstractmethod
     def draw(self, target_screen):
         """
         """
@@ -127,11 +121,19 @@ class IAnimationBaseInterface(metaclass=ABCMeta):
         pass
 
 class IBaseAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
-    pass
+    @abstractmethod
+    def _update_current_image_info(self, debugging: bool = False) -> None:
+        """
+        """
+        pass
 
 
 class IBaseVectorAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
-    pass
+    @abstractmethod
+    def _update_current_shape_info(self, debugging: bool = False) -> None:
+        """
+        """
+        pass
     
 
 class IAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
