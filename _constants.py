@@ -37,7 +37,12 @@ NORMAL_ANIMATION_INFO_DEFAULT = {
 }
 
 VECTOR_ANIMATION_INFO_DEFAULT = {
-
+    ABS_POS: (0, 0),
+    ABS_ANGLE: 0,
+    ABS_SCALE: (1, 1),
+    ABS_ALPHA: 1,
+    ABS_COLOR: (0, 0, 0, 255),
+    COLORKEY: None
 }
 
 INF = "infinity"

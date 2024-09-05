@@ -203,6 +203,7 @@ class BaseVectorAnimation(AnimationBase, IBaseVectorAnimationInterface):
                 int(current_relative_color[0] * self.animation_info[ABS_COLOR][0]),
                 int(current_relative_color[1] * self.animation_info[ABS_COLOR][1]),
                 int(current_relative_color[2] * self.animation_info[ABS_COLOR][2]),
+                int(current_relative_color[3] * self.animation_info[ABS_COLOR][3])
             ]
 
             # Correction in alpha & color
@@ -216,9 +217,8 @@ class BaseVectorAnimation(AnimationBase, IBaseVectorAnimationInterface):
             elif current_color[1] < 0: current_color[1] = 0
             if current_color[2] > 255: current_color[2] = 255
             elif current_color[2] < 0: current_color[2] = 0
-
-            
-
+            if current_color[3] > 255: current_color[3] = 255
+            elif current_color[3] < 0: current_color[3] = 0
             
             
             if self._current_shape == ELLIPSE:
@@ -227,7 +227,7 @@ class BaseVectorAnimation(AnimationBase, IBaseVectorAnimationInterface):
             elif self._current_shape == RECTANGLE:
                 target_rect = self._animation_script[0][SHAPE_INFO][INFO]
                 target_colorkey = self._animation_info[COLORKEY]
-                target_surface = pygame.Surface((target_rect.width * current_scale[0], target_rect.height * current_scale[1]), pygame.SRCALPHA)
+                target_surface = pygame.Surface((target_rect.width, target_rect.height), pygame.SRCALPHA)
 
                 target_surface.set_colorkey(target_colorkey)
                 target_surface.set_alpha(current_alpha)
