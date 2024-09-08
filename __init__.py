@@ -75,7 +75,6 @@ __all__ = [
     ##### Elements #####
 
     "BaseAnimation",
-    "BaseVetorAnimation",
     "AnimationScript",
     "SpriteAnimationScript",
     "AnimationList",

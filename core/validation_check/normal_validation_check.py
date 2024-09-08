@@ -75,6 +75,9 @@ def _normal_normal_frame_validation_check(frame: dict) -> tuple[bool, str]:
     
     return True
 
+def _normal_normal_validation_check(script: dict) -> bool:
+    pass
+
 
 __all__ = [
     "_image_info_validation_check",

@@ -93,7 +93,7 @@
 from pyganimation._constants import *
 from itertools import pairwise
 
-from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info
+from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info, scale_anchor_interpret, angle_anchor_interpret
 from pyganimation.core.math.followable_shape import BezierCurve
 from pyganimation.core.validation_check import *
 
@@ -105,7 +105,24 @@ from typing import Any
 
 ##############################################################
 
-##### Main functions #####
+##### Core Functions #####
+
+def keyframe_normal_to_final_script(target_script: dict, debugging: bool = False) -> dict:
+    return normal_normal_to_final_script(
+        keyframe_normal_to_normal_normal(target_script, debugging), debugging
+    )
+
+def keyframe_vector_to_final_script(target_script: dict, debugging: bool = False) -> dict:
+    return normal_vector_to_final_script(
+        keyframe_vector_to_normal_vector(target_script, debugging), debugging
+    )
+
+__all__ = ["keyframe_normal_to_final_script",
+           "keyframe_normal_to_final_script",
+           "normal_normal_to_final_script",
+           "normal_vector_to_final_script"]
+
+##### Segment functions #####
 
 def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = False) -> dict:
     """
@@ -213,6 +230,44 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
     return result_script
 
 def keyframe_vector_to_normal_vector(target_script: dict, debugging: bool = False) -> dict:
+    pass
+
+def normal_normal_to_final_script(target_script: dict, debugging: bool = False) -> tuple[list[pygame.Surface], dict]:
+    total_frame = list(target_script.keys())[-1] + 1
+
+    surfaces = list()
+    info = list()
+
+    for i in range(total_frame):
+        current_image = target_script[i][IMAGE_INFO][TARGET]
+        current_image_rect = target_script[i][IMAGE_INFO][RECT]
+
+        current_pos = target_script[i][POS]
+        current_angle = target_script[i][ANGLE]
+        current_scale = target_script[i][SCALE]
+        current_alpha = target_script[i][ALPHA]
+
+        if current_alpha > 255: current_alpha = 255
+        elif current_alpha < 0: current_alpha = 0
+
+        manipulated_image = pygame.transform.chop(current_image, current_image_rect)
+        manipulated_image = pygame.transform.scale_by(manipulated_image, current_scale)
+        manipulated_image = pygame.transform.rotate(manipulated_image, current_angle)
+        manipulated_image.set_alpha(current_alpha)
+
+        surfaces.append(manipulated_image)
+
+        info.append(
+            {
+                POS: current_pos,
+                ANGLE_ANCHOR: target_script[i][ANGLE_ANCHOR],
+                SCALE_ANCHOR: target_script[i][SCALE_ANCHOR]
+            }
+        )
+
+    return surfaces, info
+
+def normal_vector_to_final_script(target_script: dict, debugging: bool = False) -> tuple[list[pygame.Surface], dict]:
     pass
 
 ##### Search Relative Functions #####

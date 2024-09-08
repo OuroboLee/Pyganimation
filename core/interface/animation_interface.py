@@ -121,16 +121,7 @@ class IAnimationBaseInterface(metaclass=ABCMeta):
         pass
 
 class IBaseAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
-    @abstractmethod
-    def _update_current_image_info(self, debugging: bool = False) -> None:
-        """
-        """
-        pass
-
-
-class IBaseVectorAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
     pass
-    
 
 class IAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
     pass

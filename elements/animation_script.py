@@ -24,9 +24,10 @@ import pygame
 from pygame import Rect
 
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
-from pyganimation.core.script_validation_check import *
+from pyganimation.core.validation_check import *
 from pyganimation.core.animation_file_manager import load
-from pyganimation.core.converter.script_converter import keyframe_normal_to_normal_normal, keyframe_vector_to_normal_vector
+from pyganimation.core.converter.script_converter import keyframe_normal_to_final_script, keyframe_vector_to_final_script
+from pyganimation.core.converter.script_converter import normal_normal_to_final_script, normal_vector_to_final_script
 from pyganimation._constants import *
 
 import os, types
@@ -68,7 +69,7 @@ class AnimationScript(IAnimationScriptInterface):
             if KEYFRAME_NORMAL_INFO in script[0].keys(): # Keyframe
                 if IMAGE_INFO in script[0].keys(): # Normal
                     self._script_type = SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION
-                    self._final_script = keyframe_normal_to_normal_normal(script, self.debugging)
+                    self._final_script = keyframe_normal_to_final_script(script, self.debugging)
 
 
                 elif SHAPE_INFO in script[0].keys(): # Vector
@@ -145,7 +146,7 @@ if __name__ == "__main__":
             }
         }
     }
-    normal_script = keyframe_normal_to_normal_normal(keyframe_script)
+    normal_script = keyframe_normal_to_final_script(keyframe_script)
     print(normal_script)
 
     script = AnimationScript(normal_script)

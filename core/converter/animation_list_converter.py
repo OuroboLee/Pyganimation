@@ -1,7 +1,7 @@
 from pyganimation.core.interface.animation_interface import IAnimationBaseInterface
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
 from pyganimation.core.interface import IAnimationManagerInterface
-from pyganimation.elements import BaseAnimation, BaseVectorAnimation, Animation, AnimationScript
+from pyganimation.elements import BaseAnimation, Animation, AnimationScript
 from pyganimation._constants import *
 from pyganimation.core.validation_check import *
 
@@ -31,36 +31,23 @@ def dict_to_default(script: dict, manager: IAnimationManagerInterface, debugging
                 raise ValueError(f"Invalid dict-style animation_list: Invalid animation_script in {name}")
 
             if ANIMATION_PARAM_INFO not in info.keys():
-                if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
-                    anim = BaseAnimation(name, script, manager)
-                elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
-                    anim = BaseVectorAnimation(name, script, manager)
+                anim = BaseAnimation(name, script, manager)
 
             else:
                 param_info = _process_animation_param_info(
                     name, info[ANIMATION_PARAM_INFO], info[ANIMATION_SCRIPT]
                 )
 
-                if script.get_script_type() in (SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, SCRIPTTYPE_NORMAL_NORMAL_ANIMATION):
-                    anim = BaseAnimation(name, script, manager,
-                                         param_info[SPEED],
-                                         param_info[LOOP],
-                                         param_info[IS_VISIBLE],
-                                         param_info[IS_REVERSED],
-                                         animation_info=param_info[ANIMATION_INFO]
-                                         )
-                    anim.start_frame = param_info[START_FRAME]
-                    anim.end_frame = param_info[END_FRAME]
-                elif script.get_script_type() in (SCRIPTTYPE_KEYFRAME_VECTOR_ANIMATION, SCRIPTTYPE_NORMAL_VECTOR_ANIMATION):
-                    anim = BaseVectorAnimation(name, script, manager,
-                                               param_info[SPEED],
-                                               param_info[LOOP],
-                                               param_info[IS_VISIBLE],
-                                               param_info[IS_REVERSED],
-                                               animation_info=param_info[ANIMATION_INFO]
-                                               )
-                    anim.start_frame = param_info[START_FRAME]
-                    anim.end_frame = param_info[END_FRAME]
+                
+                anim = BaseAnimation(name, script, manager,
+                                     param_info[SPEED],
+                                     param_info[LOOP],
+                                     param_info[IS_VISIBLE],
+                                     param_info[IS_REVERSED],
+                                     animation_info=param_info[ANIMATION_INFO]
+                                    )
+                anim.start_frame = param_info[START_FRAME]
+                anim.end_frame = param_info[END_FRAME]
 
         elif ANIMATION_LIST in info.keys() and ANIMATION_TIMELINE in info.keys(): # Animation
             # result_dict[name][ANIMATION_LIST] = info[ANIMATION_LIST]
