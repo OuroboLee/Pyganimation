@@ -129,11 +129,7 @@ class IBaseAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
 
 
 class IBaseVectorAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
-    @abstractmethod
-    def _update_current_shape_info(self, debugging: bool = False) -> None:
-        """
-        """
-        pass
+    pass
     
 
 class IAnimationInterface(IAnimationBaseInterface, metaclass=ABCMeta):
