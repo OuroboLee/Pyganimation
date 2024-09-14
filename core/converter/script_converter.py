@@ -95,6 +95,7 @@ from itertools import pairwise
 
 from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info, scale_anchor_interpret, angle_anchor_interpret
 from pyganimation.core.math.followable_shape import BezierCurve
+from pyganimation.core.math.tools import is_negative
 from pyganimation.core.validation_check import *
 
 import pygame
@@ -244,7 +245,12 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
 
         current_pos = target_script[i][POS]
         current_angle = target_script[i][ANGLE]
-        current_scale = target_script[i][SCALE]
+        current_scale = (
+            abs(target_script[i][SCALE][0]), abs(target_script[i][SCALE][1])                   
+        )
+        current_filp = (
+            is_negative(target_script[i][SCALE][0]), is_negative(target_script[i][SCALE][1])
+        )
         current_alpha = target_script[i][ALPHA]
 
         if current_alpha > 255: current_alpha = 255
@@ -255,13 +261,25 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
         manipulated_image = pygame.transform.rotate(manipulated_image, current_angle)
         manipulated_image.set_alpha(current_alpha)
 
+        # ANCHORING
+        current_scale_anchor = target_script[i][SCALE_ANCHOR]
+        current_pos = scale_anchor_interpret(
+            current_scale_anchor, current_image.get_rect(),
+            current_pos, current_scale
+        )
+
+        current_angle_anchor = target_script[i][ANGLE_ANCHOR]
+        current_pos = angle_anchor_interpret(
+            current_angle_anchor, current_image.get_rect(),
+            current_pos, current_scale, current_angle
+        )
+
         surfaces.append(manipulated_image)
 
         info.append(
             {
                 POS: current_pos,
-                ANGLE_ANCHOR: target_script[i][ANGLE_ANCHOR],
-                SCALE_ANCHOR: target_script[i][SCALE_ANCHOR]
+                FLIP: current_filp
             }
         )
 

@@ -21,7 +21,7 @@
 
 
 from pyganimation.core.interface import IAnimationManagerInterface, IAnimationBaseInterface, IAnimationInterface
-from pyganimation import INF
+from pyganimation import INF, ANIMATION_INFO_DEFAULT
 from pyganimation.core.validation_check import *
 
 import types
@@ -32,7 +32,7 @@ class AnimationBase(IAnimationBaseInterface):
     def __init__(self,
                  animation_name: str,
                  animation_manager: IAnimationManagerInterface,
-                 animation_info: dict,
+                 animation_info: dict | types.NoneType = None,
                  speed: int | float = 1,
                  loop: int = 1,
                  is_visible: bool = True,
@@ -56,7 +56,8 @@ class AnimationBase(IAnimationBaseInterface):
 
         self._animation_name = animation_name
         self._animation_manager = animation_manager
-        self._animation_info = animation_info
+
+        self._animation_info = animation_info if animation_info is not None else ANIMATION_INFO_DEFAULT.copy()
 
         self._speed = speed
         self._loop = loop if loop >= 0 else INF

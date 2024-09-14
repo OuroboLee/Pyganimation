@@ -16,6 +16,7 @@ RECT = "rect"
 INFO = "info"
 
 POS = "pos"
+FLIP = "flip"
 ANGLE = "angle"
 SCALE = "scale"
 ALPHA = "alpha"
@@ -23,27 +24,20 @@ COLOR = "color"
 COLORKEY = "colorkey"
 
 ABS_POS = "abs_pos"
-ABS_ANGLE = "abs_angle"
-ABS_SCALE = "abs_scale"
+ABS_FLIP = "abs_flip"
 ABS_ALPHA = "abs_alpha"
 ABS_COLOR = "abs_color"
 
-NORMAL_ANIMATION_INFO_DEFAULT = {
+ANIMATION_INFO_DEFAULT = {
     ABS_POS: (0, 0),
-    ABS_ANGLE: 0,
-    ABS_SCALE: (1, 1),
-    ABS_ALPHA: 1,
-    COLORKEY: None
-}
-
-VECTOR_ANIMATION_INFO_DEFAULT = {
-    ABS_POS: (0, 0),
-    ABS_ANGLE: 0,
-    ABS_SCALE: (1, 1),
+    ABS_FLIP: (False, False),
     ABS_ALPHA: 1,
     ABS_COLOR: (0, 0, 0, 255),
     COLORKEY: None
 }
+
+
+
 
 INF = "infinity"
 

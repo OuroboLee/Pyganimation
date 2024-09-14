@@ -108,7 +108,7 @@ class AnimationScript(IAnimationScriptInterface):
         return pprint.pformat(self._final_script, 4, 300)
     
     def __getitem__(self, key: int) -> dict:
-        return self._final_script[key]
+        return self._final_script[0][key], self._final_script[1][key] # (Surface, Info)
     
 __all__ = [
     "AnimationScript"

@@ -4,7 +4,6 @@ from pyganimation.core.animation_file_manager import load, save, reset
 __all__ = [
     "IAnimationBaseInterface",
     "IBaseAnimationInterface",
-    "IBaseVectorAnimationInterface",
     "IAnimationInterface",
     "IAnimationManagerInterface",
     "IAnimationScriptInterface",

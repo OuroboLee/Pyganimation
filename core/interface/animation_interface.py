@@ -11,18 +11,14 @@ class IAnimationBaseInterface(metaclass=ABCMeta):
                  animation_name: str,
                  animation_script: IAnimationScriptInterface,
                  animation_manager,
+                 animation_info: dict | types.NoneType = None,
                  speed: int | float = 0,
                  loop: bool = False,
                  is_visible: bool = True,
                  is_reversed: bool = False,
                  is_instant_added_to_animation_queue: bool = False,
                  is_removed_from_animation_queue_after_animation_ends: bool = False,
-                 animation_info: dict = {
-                     ABS_POS: (0, 0),
-                     ABS_ANGLE: 0,
-                     ABS_SCALE: (1, 1),
-                     ABS_ALPHA: 1
-                 }
+                 
                 ):
         """
         """
