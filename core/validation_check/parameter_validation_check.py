@@ -1,7 +1,7 @@
 import types
 
 from pyganimation.core.validation_check.component_validation_check import *
-from pyganimation._constants import ABS_POS, ABS_ANGLE, ABS_SCALE, ABS_ALPHA
+from pyganimation._constants import ABS_POS, ABS_FLIP, ABS_ALPHA
 
 def _frame_number_validation_check(number: int, total_frame: int) -> bool:
     if type(number) not in (int, types.NoneType):
@@ -42,22 +42,17 @@ def _normal_animation_info_validation_check(animation_info: dict) -> bool:
     if not _coordinate_validation_check(animation_info[ABS_POS]):
         return False
     
-    if ABS_ANGLE not in animation_info.keys():
+    if ABS_FLIP not in animation_info.keys():
         return False
     
-    if type(animation_info[ABS_ANGLE]) not in (int, float):
-        return False
-    
-    if ABS_SCALE not in animation_info.keys():
-        return False
-    
-    if not _coordinate_validation_check(animation_info[ABS_SCALE]):
-        return False
+    for i in range(2):
+        if type(animation_info[ABS_FLIP][i]) != bool:
+            return False
     
     if ABS_ALPHA not in animation_info.keys():
         return False
     
-    if type(animation_info[ABS_ANGLE]) not in (int, float):
+    if type(animation_info[ABS_ALPHA]) not in (int, float):
         return False
     
     return True

@@ -1,7 +1,7 @@
-from component_validation_check import *
-from normal_validation_check import *
-from vector_validation_check import *
-from parameter_validation_check import *
+from pyganimation.core.validation_check.component_validation_check import *
+from pyganimation.core.validation_check.normal_validation_check import *
+from pyganimation.core.validation_check.vector_validation_check import *
+from pyganimation.core.validation_check.parameter_validation_check import *
 
 __all__ = [
     "_script_pathlike_str_validation_check",
