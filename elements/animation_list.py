@@ -30,7 +30,7 @@ import pprint
 import types
 
 
-class AnimaitionList(IAnimationListInterface):
+class AnimationList(IAnimationListInterface):
     def __init__(self,
                  script: list | dict | str,
                  manager: IAnimationManagerInterface | types.NoneType = None,
@@ -134,11 +134,9 @@ if __name__ == "__main__":
                 LOOP: -1,
                 ANIMATION_INFO: {
                     ABS_POS:(500, 0),
-                    ABS_ANGLE: 0,
-                    ABS_SCALE: (1, 1),
                     ABS_ALPHA: 1
                 }
             }
         }
     }
-    test = AnimaitionList(test_script, manager)
+    test = AnimationList(test_script, manager)

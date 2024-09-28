@@ -34,18 +34,13 @@ class Animation(AnimationBase, IAnimationInterface):
                  animation_manager: AnimationManager,
                  animation_timeline: IAnimationTimelineInterface,
                  animation_list: IAnimationListInterface,
+                 animation_info: dict | types.NoneType = None,
                  speed: int = 1,
                  loop: bool = False,
                  is_visible: bool = True,
                  is_reversed: bool = False,
                  is_instant_added_to_animation_queue: bool = False,
-                 is_instant_removed_from_animation_queue_after_animation_ends: bool = False,
-                 animation_info: dict = {
-                     ABS_POS: (0, 0),
-                     ABS_ANGLE: 0,
-                     ABS_SCALE: (1, 1),
-                     ABS_ALPHA: 1
-                 }
+                 is_instant_removed_from_animation_queue_after_animation_ends: bool = False
                 ):
         
         super().__init__(

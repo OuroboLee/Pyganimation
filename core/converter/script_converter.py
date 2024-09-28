@@ -256,7 +256,7 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
         if current_alpha > 255: current_alpha = 255
         elif current_alpha < 0: current_alpha = 0
 
-        manipulated_image = pygame.transform.chop(current_image, current_image_rect)
+        manipulated_image = pygame.transform.flip(current_image, current_filp[0] , current_filp[1])
         manipulated_image = pygame.transform.scale_by(manipulated_image, current_scale)
         manipulated_image = pygame.transform.rotate(manipulated_image, current_angle)
         manipulated_image.set_alpha(current_alpha)
@@ -278,12 +278,21 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
 
         info.append(
             {
+                RECT: current_image_rect,
                 POS: current_pos,
                 FLIP: current_filp
             }
         )
 
-    return surfaces, info
+    # Rearrange to Final Script
+
+    final_script = list()
+    for i in range(total_frame):
+        final_script.append(
+            (surfaces[i], info[i])
+        )
+
+    return final_script
 
 def normal_vector_to_final_script(target_script: dict, debugging: bool = False) -> tuple[list[pygame.Surface], dict]:
     pass
@@ -493,7 +502,7 @@ def component_interpolate(target_compo: str,
             if debugging:
                     print(f"Delta - x : {dx}")
                     print(f"Delta - y : {dy}")
-                    print(f"Current Accumulated Sum: {accumulated_t}")
+                    print(f"Current Accumulated Sum: {accumulated_duo}")
                     print()
 
             if type(interpolate_info) == str:
@@ -600,7 +609,7 @@ def component_interpolate(target_compo: str,
 
             if debugging:
                 print(f"Delta : {delta}")
-                print(f"Current Accumulated Sum: {accumulated_t}")
+                print(f"Current Accumulated Sum: {accumulated}")
                 print()
 
             interpolate_function = get_func_from_interpolate_info(interpolate_info)

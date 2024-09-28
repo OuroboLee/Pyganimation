@@ -77,6 +77,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         self._animation_script = animation_script
 
         self._current_image = None
+        self._current_image_rect = None
 
         self._total_frame = animation_script.get_total_frame()
         self._animation_end_frame_number = self._total_frame - 1
@@ -138,6 +139,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                     self._animation_current_frame_number = round(self._animation_current_internal_frame_number)
                     if self._animation_current_frame_number <= self._animation_end_frame_number:
                         self._update_current_image_info()
+
                     else:
                         if self._loop is INF or self._loop > 0: 
                             self._reset_frame_number(self._is_reversed)
@@ -167,6 +169,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
     def _update_current_image_info(self) -> None:
         self._current_image = self._animation_script[self._animation_current_frame_number][0]
+        self._current_image_rect = self._animation_script[self._animation_current_frame_number][1][RECT]
         if self._animation_info[COLORKEY] is not None:
             self._current_image.set_colorkey(self._animation_info[COLORKEY])
 
@@ -180,7 +183,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         print(f"speed: {self._speed}")
         print()
         print(f"Current Internal Frame Number: {self._animation_current_internal_frame_number}")
-        print(f"Current Image Info: {self._current_image}, {self._current_image_rect}")
+        print(f"Current Image Info: {self._animation_script[self._animation_current_frame_number][0]}, {self._current_image_rect}")
         print(f"Current Frame Info: {self._animation_script[self._animation_current_frame_number]}")
         print()
         
@@ -217,7 +220,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             manipulated_image.set_alpha(current_alpha)
                 
             target_screen.blit(
-                manipulated_image, current_pos
+                manipulated_image, current_pos, self._current_image_rect
             )
                 # print(f"{self._animation_current_frame_number} : {manipulated_image_rect}")
 

@@ -2,13 +2,13 @@
 #
 # Adding Instructions...
 #
-# AnimationList class.
+# 
 #
-# Adding Instructions...
+# 
 #
-# AnimationTimeline class.
+# 
 #
-# Adding Instructions...
+# 
 #
 #
 #
@@ -95,8 +95,11 @@ class AnimationScript(IAnimationScriptInterface):
             elif SHAPE_INFO in script[0].keys():
                 pass
 
+        if self.debugging:
+            print(self._final_script)
+
     def get_total_frame(self):
-        return list(self._final_script.keys())[-1] + 1
+        return len(self._final_script)
     
     def get_script_type(self):
         return self._script_type
@@ -108,7 +111,7 @@ class AnimationScript(IAnimationScriptInterface):
         return pprint.pformat(self._final_script, 4, 300)
     
     def __getitem__(self, key: int) -> dict:
-        return self._final_script[0][key], self._final_script[1][key] # (Surface, Info)
+        return self._final_script[key] # (Surface, Info)
     
 __all__ = [
     "AnimationScript"
@@ -138,7 +141,7 @@ if __name__ == "__main__":
         },
         40: {
             KEYFRAME_NORMAL_INFO: {
-                SCALE: (1, 1),
+                SCALE: (1, 1)
             },
             KEYFRAME_INTERPOLATE_INFO: {
                 SCALE: SIN_IN,

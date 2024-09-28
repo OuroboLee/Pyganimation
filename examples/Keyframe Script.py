@@ -68,7 +68,7 @@ def main():
         }
     }
 
-    example_script = AnimationScript(example_keyframe_script)
+    example_script = AnimationScript(example_keyframe_script, True)
     example_animation = BaseAnimation(
         animation_name = "Example 1",
         animation_script = example_script,
