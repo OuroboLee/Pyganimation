@@ -76,9 +76,6 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
         self._animation_script = animation_script
 
-        self._current_image = None
-        self._current_image_rect = None
-
         self._total_frame = animation_script.get_total_frame()
         self._animation_end_frame_number = self._total_frame - 1
         self._substantial_total_frame = (self._animation_end_frame_number - self._animation_start_frame_number + 1) * (1 / self._speed) * self._loop if self._loop is not INF else INF
@@ -88,15 +85,6 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
     
     def __repr__(self) -> str:
         return ""
-
-    def stop(self) -> None:
-        """
-        Stops animation.
-        """
-        super().stop()
-
-        self._current_image = self._animation_script[0][IMAGE_INFO][TARGET]
-        self._current_image_rect = None
 
     def reset(self, stops_animation: bool = False) -> None:
         """
@@ -138,7 +126,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                     self._animation_current_internal_frame_number += 1 * self._speed
                     self._animation_current_frame_number = round(self._animation_current_internal_frame_number)
                     if self._animation_current_frame_number <= self._animation_end_frame_number:
-                        self._update_current_image_info()
+                        pass
 
                     else:
                         if self._loop is INF or self._loop > 0: 
@@ -150,7 +138,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                     self._animation_current_internal_frame_number -= 1 * self._speed
                     self._animation_current_frame_number = round(self._animation_current_internal_frame_number)
                     if self._animation_current_frame_number >= self._animation_start_frame_number:
-                        self._update_current_image_info()
+                        pass
                             
                     else:
                         if self._loop is INF or self._loop > 0: 
@@ -167,13 +155,12 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         if debugging:
             self._update_debugging()
 
-    def _update_current_image_info(self) -> None:
-        self._current_image = self._animation_script[self._animation_current_frame_number][0]
-        self._current_image_rect = self._animation_script[self._animation_current_frame_number][1][RECT]
-        if self._animation_info[COLORKEY] is not None:
-            self._current_image.set_colorkey(self._animation_info[COLORKEY])
+    def _load_current_image_info(self) -> tuple:
+        return (self._animation_script[self._animation_current_frame_number][0], 
+                self._animation_script[self._animation_current_frame_number][1][RECT])
 
     def _update_debugging(self):
+        current_image, current_image_rect = self._load_current_image_info()
         print(f"-------------------- {self._animation_name}, No.{self._animation_current_frame_number} Frame --------------------")
         print(f"\tFrom {self._animation_start_frame_number} to {self._animation_end_frame_number}")
         print(f"is_playing: {self._is_playing}")
@@ -183,7 +170,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         print(f"speed: {self._speed}")
         print()
         print(f"Current Internal Frame Number: {self._animation_current_internal_frame_number}")
-        print(f"Current Image Info: {self._animation_script[self._animation_current_frame_number][0]}, {self._current_image_rect}")
+        print(f"Current Image Info: {current_image}, {current_image_rect}")
         print(f"Current Frame Info: {self._animation_script[self._animation_current_frame_number]}")
         print()
         
@@ -195,11 +182,16 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         :param target_screen: The screen surface which this animation is drawn on.
         """
         if self._animation_current_frame_number <= self._total_frame and self._is_visible:
+            current_image, current_image_rect = self._load_current_image_info()
+
             current_info = self._animation_script[self._animation_current_frame_number][1]
+
+            if self._animation_info[COLORKEY] is not None:
+                current_image.set_colorkey(self._animation_info[COLORKEY])
 
             current_relative_pos = current_info[POS]
             current_relative_flip = current_info[FLIP]
-            current_relative_alpha = self._current_image.get_alpha()
+            current_relative_alpha = current_image.get_alpha()
 
             current_pos = (
                 current_relative_pos[0] + self._animation_info[ABS_POS][0],
@@ -216,11 +208,11 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             if current_alpha > 255: current_alpha = 255
             elif current_alpha < 0: current_alpha = 0
             
-            manipulated_image = pygame.transform.flip(self._current_image, current_flip[0], current_flip[1])
+            manipulated_image = pygame.transform.flip(current_image, current_flip[0], current_flip[1])
             manipulated_image.set_alpha(current_alpha)
                 
             target_screen.blit(
-                manipulated_image, current_pos, self._current_image_rect
+                manipulated_image, current_pos, current_image_rect
             )
                 # print(f"{self._animation_current_frame_number} : {manipulated_image_rect}")
 
