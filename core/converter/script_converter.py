@@ -279,8 +279,7 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
         info.append(
             {
                 RECT: current_image_rect,
-                POS: current_pos,
-                FLIP: current_filp
+                POS: current_pos
             }
         )
 

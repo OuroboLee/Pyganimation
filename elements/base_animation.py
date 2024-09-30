@@ -190,7 +190,6 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                 current_image.set_colorkey(self._animation_info[COLORKEY])
 
             current_relative_pos = current_info[POS]
-            current_relative_flip = current_info[FLIP]
             current_relative_alpha = current_image.get_alpha()
 
             current_pos = (
@@ -198,8 +197,8 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                 current_relative_pos[1] + self._animation_info[ABS_POS][1]
             )
             current_flip = (
-                current_relative_flip[0] and self._animation_info[ABS_FLIP][0],
-                current_relative_flip[1] and self._animation_info[ABS_FLIP][1]
+                self._animation_info[ABS_FLIP][0],
+                self._animation_info[ABS_FLIP][1]
             )
             current_alpha = current_relative_alpha * self._animation_info[ABS_ALPHA]
 
