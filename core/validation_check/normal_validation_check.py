@@ -2,6 +2,7 @@ import os, pygame, types
 
 from pyganimation._constants import *
 from pyganimation.core.validation_check.component_validation_check import *
+from pyganimation.core.validation_check.component_validation_check import _image_pathlike_str_validation_check
 
 def _image_info_validation_check(image_info: dict) -> bool:
     if TARGET not in image_info.keys():
@@ -10,7 +11,7 @@ def _image_info_validation_check(image_info: dict) -> bool:
     if type(image_info[TARGET]) not in (pygame.Surface, str):
         return False
     if type(image_info[TARGET]) == str:
-        if not os.path.exists(image_info[TARGET]):
+        if not _image_pathlike_str_validation_check(image_info[TARGET]):
             return False
 
     if RECT not in image_info.keys():

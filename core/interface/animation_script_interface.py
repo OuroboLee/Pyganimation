@@ -89,10 +89,6 @@ class ISpriteAnimationScriptInterface(IAnimationScriptStyleBaseInterface, metacl
     def get_total_frame(self):
         pass
 
-    @abstractmethod
-    def _image_info_process(self):
-        pass
-
 __all__ = [
     "IAnimationScriptInterface",
     "IAnimationListInterface",

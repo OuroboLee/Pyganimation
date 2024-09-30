@@ -1,7 +1,7 @@
 from pyganimation.core.validation_check import *
 from pyganimation.core.interface.animation_script_interface import ISpriteAnimationScriptInterface
 from pyganimation.core.animation_file_manager import load
-from pyganimation.core.converter.script_converter import keyframe_normal_to_normal_normal
+from pyganimation.core.converter.sprite_animation_script_converter import mutant1_to_final_script, mutant2_to_final_script
 from pyganimation._constants import *
 
 import pygame
@@ -35,109 +35,18 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
         elif type(script) == list:
             self._dict_or_list_style_script_process(script)
 
+        else:
+            raise ValueError("Invalid script.")
+
     def _dict_or_list_style_script_process(self, script: dict | list) -> None:
-        if type(script[-1]) not in (int, list, tuple):
-            raise ValueError("Frame Information is not given.")
-
-        middle_script = dict()
-
         if type(script[-1]) == int:  # Mutant 1
-            middle_script[0] = {
-                IMAGE_INFO: self._image_info_process(script[0], 0)
-            }
-            
-            for idx, image in enumerate(script[:-1]):
-                middle_script[script[-1] * idx + 1] = {
-                    IMAGE_INFO: self._image_info_process(image, idx)
-                }
-
-            middle_script[script[-1] * (len(script) - 1)] = {
-                IMAGE_INFO: self._image_info_process(script[-2], len(script) - 1)
-            }
+            self._final_script = mutant1_to_final_script(script, self._debugging)
 
         elif type(script[-1]) in (list, tuple): # Mutant 2
-            frame_length_info = script[-1]
+            self._final_script = mutant2_to_final_script(script, self._debugging)
 
-            if type(frame_length_info) not in (list, tuple):
-                raise TypeError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positive int values.")
-            if len(frame_length_info) != len(script) - 1:
-                raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positive int values.")
-            for frame_length in frame_length_info:
-                if type(frame_length) != int:
-                    raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positiveint values.")
-                if frame_length <= 0:
-                    raise ValueError("frame length info must be list or tuple type containing the numbers, which is equal to the number of image, of positiveint values.")
-            
-            middle_script[0] = {
-                IMAGE_INFO: self._image_info_process(script[0], 0)
-            }
-            acc_sum = 0
-
-            for idx, image in enumerate(script[:-1]):
-                middle_script[acc_sum + 1] = {
-                    IMAGE_INFO: self._image_info_process(image, idx)
-                }
-
-                acc_sum += frame_length_info[idx]
-
-            middle_script[acc_sum] = {
-                IMAGE_INFO: self._image_info_process(script[-2], len(script) - 1)
-            }
-
-        print(middle_script)
-
-        self._final_script = keyframe_normal_to_normal_normal(middle_script, self._debugging)
-        self._total_frame = len(self._final_script)
-
-    def _image_info_process(self, image_info: dict | str | pygame.Surface, idx: int) -> dict:
-        if type(image_info) not in (dict, str, pygame.Surface):
-            raise TypeError(f"Image info must be Python dict, path-like str, or pygame.Surface in index {idx}.")
-        
-        if type(image_info) == dict:
-            # Checking TARGET . . .
-            if TARGET not in image_info.keys():
-                raise KeyError(f"'target' key is missing in 'image_info' key in in index {idx}.")
-            if type(image_info[TARGET]) not in (pygame.Surface, str):
-                raise TypeError(f"Type of value in 'target' key must be pygame.Surface or path-like str in index {idx}.")
-            
-            if type(image_info[TARGET]) == str:
-                if not os.path.exists(image_info[TARGET]): 
-                    raise ValueError(f"Invalid image path in index {idx}.")
-                
-            # Checking RECT . . .
-            if RECT not in image_info.keys():
-                raise KeyError(f"'rect' key is missing in 'image_info' key in index {idx}.")
-            if type(image_info[RECT]) not in (pygame.Rect, list, tuple, types.NoneType, int):
-                raise TypeError(f"Type of value in 'rect' key must be pygame.Rect, list, tuple, NoneType, or int in index {idx}.")
-            
-            if type(image_info[RECT]) == int:
-                if image_info[RECT] != 0:
-                    raise ValueError(f"If the type of value in 'rect' key in 'image_info' is int, the value must be 0 in index {idx}.")
-
-            elif type(image_info[RECT]) in (list, tuple):
-                if len(image_info[RECT]) != 4:
-                    raise ValueError(f"Invaild rect-style object in index {idx} -> 'rect' key.")
-                
-                for i in image_info[RECT]:
-                    if type(image_info[RECT][i]) not in (int, float):
-                        raise TypeError(f"Invaild rect-style object in index {idx} -> 'rect' key.")
-
-            return 
-
-        elif type(image_info) == str:
-            if not os.path.exists(image_info):
-                raise ValueError("Invalid image path.")
-
-            return {
-                TARGET: pygame.image.load(image_info),
-                RECT: None
-            }
-
-        elif type(image_info) == pygame.Surface:
-            return {
-                TARGET: image_info,
-                RECT: None
-            }
+        else:
+            raise ValueError("Invalid script.")
         
     def get_total_frame(self):
         return self._total_frame
@@ -159,7 +68,7 @@ if __name__ == "__main__":
     sprite_animation_script = [
         pygame.Surface((30, 30)),
         pygame.Surface((50, 50)),
-        (10, 20)
+        3
     ]
-    final_script = SpriteAnimationScript(sprite_animation_script)
+    final_script = SpriteAnimationScript(sprite_animation_script, True)
     print(final_script)
