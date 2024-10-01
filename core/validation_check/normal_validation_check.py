@@ -25,10 +25,12 @@ def _image_info_validation_check(image_info: dict) -> bool:
 
     elif type(image_info[RECT]) in (list, tuple):
         if len(image_info[RECT]) != 4:
-            raise False
+            return False
         for i in image_info[RECT]:
-            if type(image_info[RECT][i]) not in (int, float):
-                raise False
+            if type(i) not in (int, float):
+                return False
+            
+    return True
             
 def _normal_normal_frame_validation_check(frame: dict) -> tuple[bool, str]:
     keys = frame.keys()

@@ -88,6 +88,8 @@ def construct_surface_tuple(idx: int, image: typing.Any) -> tuple:
     else:
         raise ValueError(f"Invalid image in idx {idx}")
     
+    surface.set_alpha(255)
+    print(surface.get_alpha())
 
     return (surface, rect)
 

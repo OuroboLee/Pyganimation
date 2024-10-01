@@ -58,9 +58,6 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         :param is_instant_removed_from_animation_queue_after_animation_ends: If this animation removed instantly after the animation ended. 
         :param animation_info: The information of animation. The writing rule is work in process.
         """
-        
-        if animation_script.get_script_type() not in (SCRIPTTYPE_NORMAL_NORMAL_ANIMATION, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION):
-            raise ValueError("Invaild animation script.")
 
         super().__init__(
             animation_name,
@@ -191,6 +188,8 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
             current_relative_pos = current_info[POS]
             current_relative_alpha = current_image.get_alpha()
+
+            print(current_relative_alpha)
 
             current_pos = (
                 current_relative_pos[0] + self._animation_info[ABS_POS][0],

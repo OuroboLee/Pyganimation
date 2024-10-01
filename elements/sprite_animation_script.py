@@ -41,9 +41,11 @@ class SpriteAnimationScript(ISpriteAnimationScriptInterface):
     def _dict_or_list_style_script_process(self, script: dict | list) -> None:
         if type(script[-1]) == int:  # Mutant 1
             self._final_script = mutant1_to_final_script(script, self._debugging)
+            self._total_frame = len(self._final_script)
 
         elif type(script[-1]) in (list, tuple): # Mutant 2
             self._final_script = mutant2_to_final_script(script, self._debugging)
+            self._total_frame = len(self._final_script)
 
         else:
             raise ValueError("Invalid script.")
