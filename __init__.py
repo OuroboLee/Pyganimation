@@ -42,6 +42,7 @@ __all__ = [
     # Shape / Vector
 
     # Interpolate Function
+    "ANCHOR",
     "SCALE_ANCHOR",
     "ANGLE_ANCHOR",
 

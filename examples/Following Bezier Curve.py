@@ -5,7 +5,7 @@ import pygame
 
 from pyganimation._constants import *
 from pyganimation import AnimationManager, AnimationScript, BaseAnimation
-from core.math.followable_shape.bezier_curve import BezierCurve
+from pyganimation.core.math.followable_shape.bezier_curve import BezierCurve
 
 
 def main():
@@ -55,13 +55,12 @@ def main():
             },
             KEYFRAME_SPECIAL_INFO: {
                 POS: FOLLOW_CURVE,
-                ANGLE: FOLLOW_CURVE,
                 CURVE: BezierCurve([(400, 400), (450, 400), (450, 500), (500, 500)])
             }
         }
     }
 
-    example_script = AnimationScript(example_keyframe_script)
+    example_script = AnimationScript(example_keyframe_script, True)
     example_animation = BaseAnimation(
         animation_name = "Example 1",
         animation_script = example_script,

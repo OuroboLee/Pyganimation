@@ -93,7 +93,8 @@
 from pyganimation._constants import *
 from itertools import pairwise
 
-from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info, scale_anchor_interpret, angle_anchor_interpret
+from pyganimation.core.math.interpolate_functions import get_func_from_interpolate_info
+from pyganimation.core.math import Anchor
 from pyganimation.core.math.followable_shape import BezierCurve
 from pyganimation.core.math.tools import is_negative
 from pyganimation.core.validation_check import *
@@ -146,19 +147,23 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
         IMAGE_INFO: image_info,
         POS: None,
         ANGLE: None,
-        ANGLE_ANCHOR: None,
         SCALE: None,
-        SCALE_ANCHOR: None,
-        ALPHA: None
+        ALPHA: None,
+        ANCHOR: None,
     }
     
     for key in list(result_script[0].keys()):
-        if key not in (IMAGE_INFO, SCALE_ANCHOR, ANGLE_ANCHOR):
+        if key not in (IMAGE_INFO, ANCHOR):
             result_script[0][key] = search_most_lately_presented_compo(
                 target_script, SCRIPTTYPE_KEYFRAME_NORMAL_ANIMATION, key, 0
             )
     
-    
+    result_script[0][ANCHOR] = Anchor(
+        CENTER, CENTER,
+        image_info[TARGET].get_rect(),
+        result_script[0][SCALE],
+        result_script[0][ANGLE]
+    )
 
     image_info_normal_script = image_or_shape_info_keyframe_to_normal(
         convert_image_or_shape_info(IMAGE_INFO, target_script, debugging),
@@ -216,15 +221,20 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
         if debugging:
             print(f"Current Angle Anchor in No.{i} frame : {current_angle_anchor}")
 
-    for i in range(1, list(target_script.keys())[-1] + 1):
+    for i in range(0, list(target_script.keys())[-1] + 1):
         result_script |= {
             i : {IMAGE_INFO: image_info_normal_script[i][IMAGE_INFO],
                  POS: pos_normal_script[i][POS],
                  ANGLE: angle_normal_script[i][ANGLE],
-                 ANGLE_ANCHOR: angle_anchor_normal_script[i],
                  SCALE: scale_normal_script[i][SCALE],
-                 SCALE_ANCHOR: scale_anchor_normal_script[i],
-                 ALPHA: alpha_normal_script[i][ALPHA]
+                 ALPHA: alpha_normal_script[i][ALPHA],
+                 ANCHOR: Anchor(
+                     scale_anchor=scale_anchor_normal_script[i],
+                     angle_anchor=angle_anchor_normal_script[i],
+                     rect=image_info_normal_script[i][IMAGE_INFO][TARGET].get_rect(),
+                     scale=scale_normal_script[i][SCALE],
+                     angle=angle_normal_script[i][ANGLE]
+                 )
             }
         }
 
@@ -256,30 +266,20 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
         if current_alpha > 255: current_alpha = 255
         elif current_alpha < 0: current_alpha = 0
 
+        current_anchor = target_script[i][ANCHOR]
+
         manipulated_image = pygame.transform.flip(current_image, current_filp[0] , current_filp[1])
         manipulated_image = pygame.transform.scale_by(manipulated_image, current_scale)
         manipulated_image = pygame.transform.rotate(manipulated_image, current_angle)
         manipulated_image.set_alpha(current_alpha)
-
-        # ANCHORING
-        current_scale_anchor = target_script[i][SCALE_ANCHOR]
-        current_pos = scale_anchor_interpret(
-            current_scale_anchor, current_image.get_rect(),
-            current_pos, current_scale
-        )
-
-        current_angle_anchor = target_script[i][ANGLE_ANCHOR]
-        current_pos = angle_anchor_interpret(
-            current_angle_anchor, current_image.get_rect(),
-            current_pos, current_scale, current_angle
-        )
 
         surfaces.append(manipulated_image)
 
         info.append(
             {
                 RECT: current_image_rect,
-                POS: current_pos
+                POS: current_pos,
+                ANCHOR: current_anchor
             }
         )
 
@@ -716,8 +716,9 @@ def convert_component(target_compo: str,
             CURVE, KEYFRAME_SPECIAL_INFO, frame, frame_num
         )
 
-        # Interpolate Info
+        # Interpolate Info & Special Info
         if frame_num != 0:
+            # Interpolate Info
             if is_target_compo_in_current_frame_interpolate_info:
                 new_frame |= {
                     KEYFRAME_INTERPOLATE_INFO: frame[KEYFRAME_INTERPOLATE_INFO][target_compo]
@@ -774,8 +775,8 @@ def convert_component(target_compo: str,
                     CURVE: None
                 }
 
-            if new_frame[KEYFRAME_SPECIAL_INFO] == None and new_frame[CURVE] != None:
-                raise ValueError(f"Wrong Script: There is no special info while curve is given in No.{frame_num} Keyframe.")
+            # if new_frame[KEYFRAME_SPECIAL_INFO] == None and new_frame[CURVE] != None:
+            #     raise ValueError(f"Wrong Script: There is no special info while curve is given in No.{frame_num} Keyframe.")
             
         
         # Normal Info

@@ -35,7 +35,7 @@ def main():
                 RECT: None
             },
             KEYFRAME_NORMAL_INFO: {
-                POS: screen_center
+                POS: (600, 400)
             }
         },
         1: {
@@ -43,17 +43,9 @@ def main():
                 ANGLE: 0
             }
         },
-        60: {
-            KEYFRAME_NORMAL_INFO: {
-                ANGLE: 180
-            },
-            KEYFRAME_INTERPOLATE_INFO: {
-                ANGLE: BACK_IN_AND_OUT
-            }
-        },
         120: {
             KEYFRAME_NORMAL_INFO: {
-                ANGLE: 0
+                ANGLE: 360
             },
             KEYFRAME_INTERPOLATE_INFO: {
                 ANGLE: BACK_IN_AND_OUT,

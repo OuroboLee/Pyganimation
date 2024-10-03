@@ -3,6 +3,16 @@ from abc import ABCMeta, abstractmethod
 from pyganimation.core.interface.animation_script_interface import IAnimationScriptInterface
 
 from pyganimation._constants import *
+import pygame
+
+class IAnchorInterface(metaclass = ABCMeta):
+    @abstractmethod
+    def __init__(self, scale_anchor, angle_anchor, rect: pygame.Rect, scale: tuple, angle: int | float):
+        pass
+
+    @abstractmethod
+    def modify_pos(self, pos: tuple) -> tuple:
+        pass
 
 class IBezierCurveInterface(metaclass = ABCMeta):
     @abstractmethod

@@ -119,6 +119,7 @@ SPECIAL_LIST = [
     None
 ]
 
+ANCHOR = "anchor"
 POS_ANCHOR = "pos_anchor"
 SCALE_ANCHOR = "scale_anchor"
 ANGLE_ANCHOR = "angle_anchor"

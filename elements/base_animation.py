@@ -188,6 +188,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
             current_relative_pos = current_info[POS]
             current_relative_alpha = current_image.get_alpha()
+            current_anchor = current_info[ANCHOR]
 
             print(current_relative_alpha)
 
@@ -195,6 +196,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
                 current_relative_pos[0] + self._animation_info[ABS_POS][0],
                 current_relative_pos[1] + self._animation_info[ABS_POS][1]
             )
+            print(current_pos)
             current_flip = (
                 self._animation_info[ABS_FLIP][0],
                 self._animation_info[ABS_FLIP][1]
@@ -205,12 +207,17 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
             if current_alpha > 255: current_alpha = 255
             elif current_alpha < 0: current_alpha = 0
+
+            current_pos = current_anchor.modify_pos(current_pos)
             
             manipulated_image = pygame.transform.flip(current_image, current_flip[0], current_flip[1])
             manipulated_image.set_alpha(current_alpha)
+
+            manipulated_image_rect = manipulated_image.get_rect()
+            manipulated_image_rect.center = current_pos
                 
             target_screen.blit(
-                manipulated_image, current_pos, current_image_rect
+                manipulated_image, manipulated_image_rect, current_image_rect
             )
                 # print(f"{self._animation_current_frame_number} : {manipulated_image_rect}")
 
