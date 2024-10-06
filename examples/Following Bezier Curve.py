@@ -46,8 +46,8 @@ def main():
         },
         60: {
             KEYFRAME_NORMAL_INFO: {
-                POS: (500, 500),
-                ANGLE: 0
+                POS: (600, 100),
+                ANGLE: 75
             },
             KEYFRAME_INTERPOLATE_INFO: {
                 POS: SIN_IN_AND_OUT,
@@ -55,7 +55,8 @@ def main():
             },
             KEYFRAME_SPECIAL_INFO: {
                 POS: FOLLOW_CURVE,
-                CURVE: BezierCurve([(400, 400), (450, 400), (450, 500), (500, 500)])
+                ANGLE: FOLLOW_CURVE,
+                CURVE: BezierCurve([(400, 400), (450, 400), (450, 500), (500, 500), (600, 100)])
             }
         }
     }

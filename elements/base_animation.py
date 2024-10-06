@@ -217,9 +217,11 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             manipulated_image.set_alpha(current_alpha)
 
             manipulated_image_rect = manipulated_image.get_rect()
-            manipulated_image_rect.width = current_image_rect.width
-            manipulated_image_rect.height = current_image_rect.height
             manipulated_image_rect.center = current_pos
+            
+            if current_image_rect is not None:
+                manipulated_image_rect.width = current_image_rect.width
+                manipulated_image_rect.height = current_image_rect.height
 
             print(manipulated_image_rect)
                 

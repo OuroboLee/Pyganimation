@@ -52,14 +52,20 @@ def construct_final_script(surfaces: list, total_frame: int) -> list:
     infos = list()
 
     for i in range(total_frame): # info
-        infos.append(
-            {
-                RECT: pygame.Rect(surfaces[i][1]),
-                POS: (0, 0),
-                ANCHOR: Anchor(
-                    CENTER, CENTER, pygame.Rect(surfaces[i][1]),
+        current_anchor = Anchor(
+                    CENTER, CENTER, None,
                     scale=(1,1), angle=0
                 )
+        if surfaces[i][1] is None:
+            current_anchor.rect = surfaces[i][0].get_rect()
+        else:
+            current_anchor.rect = pygame.Rect(surfaces[i][1])
+
+        infos.append(
+            {
+                RECT: None if surfaces[i][1] is None else pygame.Rect(surfaces[i][1]),
+                POS: (0, 0),
+                ANCHOR: current_anchor
             }
         )
     
