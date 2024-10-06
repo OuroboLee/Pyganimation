@@ -158,6 +158,7 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
 
     def _update_debugging(self):
         current_image, current_image_rect = self._load_current_image_info()
+        current_anchor = self._animation_script[self._animation_current_frame_number][1][ANCHOR]
         print(f"-------------------- {self._animation_name}, No.{self._animation_current_frame_number} Frame --------------------")
         print(f"\tFrom {self._animation_start_frame_number} to {self._animation_end_frame_number}")
         print(f"is_playing: {self._is_playing}")
@@ -169,6 +170,8 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
         print(f"Current Internal Frame Number: {self._animation_current_internal_frame_number}")
         print(f"Current Image Info: {current_image}, {current_image_rect}")
         print(f"Current Frame Info: {self._animation_script[self._animation_current_frame_number]}")
+        print(f"Current Animaiton Info: {self._animation_info}")
+        print(f"Current Anchor Info: {current_anchor}")
         print()
         
 
@@ -214,7 +217,11 @@ class BaseAnimation(AnimationBase, IBaseAnimationInterface):
             manipulated_image.set_alpha(current_alpha)
 
             manipulated_image_rect = manipulated_image.get_rect()
+            manipulated_image_rect.width = current_image_rect.width
+            manipulated_image_rect.height = current_image_rect.height
             manipulated_image_rect.center = current_pos
+
+            print(manipulated_image_rect)
                 
             target_screen.blit(
                 manipulated_image, manipulated_image_rect, current_image_rect

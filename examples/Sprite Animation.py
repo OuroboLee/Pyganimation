@@ -57,6 +57,7 @@ def main():
         is_visible = True,
         is_reversed = False
     )
+    example_animation.update_animation_info(ABS_POS, (screen_width // 2, screen_height // 2))
 
     font_path = os.path.join(current_path, "GodoB.ttf")
     font = pygame.font.Font(font_path)

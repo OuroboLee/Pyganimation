@@ -26,5 +26,18 @@ class Anchor(IAnchorInterface):
         )
 
         return modified_pos
+
+    def __str__(self) -> str:
+        return f"rect={self.rect}, scale={self.scale} - {self.scale_anchor}, angle={self.angle} - {self.angle_anchor}"
     
 __all__ = ["Anchor"]
+
+if __name__ == "__main__":
+    from pyganimation import CENTER
+    anchor = Anchor(
+        CENTER, CENTER, pygame.Rect(0, 0, 32, 48),
+        scale=(1, 1), angle=0
+    )
+
+    current_pos = (512, 288)
+    print(current_pos, anchor.modify_pos(current_pos))

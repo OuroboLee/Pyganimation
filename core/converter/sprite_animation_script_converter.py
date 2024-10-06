@@ -1,6 +1,7 @@
 from pyganimation.core.validation_check.component_validation_check import _image_pathlike_str_validation_check, _frame_number_validation_check
 from pyganimation.core.validation_check.normal_validation_check import _image_info_validation_check
 from pyganimation._constants import *
+from pyganimation.core.math.anchor import Anchor
 import pygame, typing
 
 def mutant1_to_final_script(script: list, debugging: bool = False) -> list:
@@ -53,8 +54,12 @@ def construct_final_script(surfaces: list, total_frame: int) -> list:
     for i in range(total_frame): # info
         infos.append(
             {
-                RECT: surfaces[i][1],
-                POS: (0, 0)
+                RECT: pygame.Rect(surfaces[i][1]),
+                POS: (0, 0),
+                ANCHOR: Anchor(
+                    CENTER, CENTER, pygame.Rect(surfaces[i][1]),
+                    scale=(1,1), angle=0
+                )
             }
         )
     
@@ -63,6 +68,7 @@ def construct_final_script(surfaces: list, total_frame: int) -> list:
         final_script.append(
             (surfaces[i][0], infos[i])
         )
+    print(final_script)
 
     return final_script
 

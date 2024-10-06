@@ -231,7 +231,7 @@ def keyframe_normal_to_normal_normal(target_script: dict, debugging: bool = Fals
                  ANCHOR: Anchor(
                      scale_anchor=scale_anchor_normal_script[i],
                      angle_anchor=angle_anchor_normal_script[i],
-                     rect=image_info_normal_script[i][IMAGE_INFO][TARGET].get_rect(),
+                     rect=image_info_normal_script[i][IMAGE_INFO][RECT],
                      scale=scale_normal_script[i][SCALE],
                      angle=angle_normal_script[i][ANGLE]
                  )
@@ -277,7 +277,7 @@ def normal_normal_to_final_script(target_script: dict, debugging: bool = False) 
 
         info.append(
             {
-                RECT: current_image_rect,
+                RECT: pygame.Rect(current_image_rect),
                 POS: current_pos,
                 ANCHOR: current_anchor
             }
@@ -395,7 +395,7 @@ def image_or_shape_info_keyframe_to_normal(target_info_dict: dict,
                 result_dict[i] = {
                     target_info: {
                         TARGET: target if type(target) == pygame.Surface else pygame.image.load(target),
-                        RECT: target_info_dict[pair[0]][target_info][RECT]
+                        RECT: pygame.Rect(target_info_dict[pair[0]][target_info][RECT])
                     }   
                 }
 
